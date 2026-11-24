@@ -191,7 +191,7 @@ if (file_exists($header_path)) include $header_path;
                 </div>
 
                 <!-- Account Verified Details Box -->
-                <div id="accountDetailsBox" class="bg-[#0b0f19] border border-teal-500/30 rounded-sm p-3.5 text-xs font-mono space-y-2 hidden">
+                <div id="accountDetailsBox" class="bg-teal-50 border border-teal-200 rounded-sm p-3.5 text-xs font-mono space-y-2 hidden">
                     <div class="flex justify-between items-center text-slate-500">
                         <span>Merchant Name:</span>
                         <strong id="resMerchantName" class="text-slate-900">-</strong>
