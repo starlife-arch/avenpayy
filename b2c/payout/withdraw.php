@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../../lib/ledger.php';
 require_once __DIR__ . '/../../lib/callback_auth.php';
 require_once __DIR__ . '/../../database_config/env.php';
+require_once __DIR__ . '/../../lib/daraja_environment.php';
 // b2c/payout/withdraw.php
 session_start(); // <-- Added session_start() to allow session authentication from fetch requests
 
@@ -355,16 +356,16 @@ $domainName = $_SERVER['HTTP_HOST'] ?? 'yourdomain.com';
 $baseUrl = $protocol . $domainName;
 
 $config = [
-    'env' => 'production',
+    'env' => av_daraja_environment(),
     'consumer_key' => $consumerKey,
     'consumer_secret' => $consumerSecret,
     'short_code' => $shortcode,
     'initiator_name' => $initiatorName,
     'initiator_password' => $plainInitiatorPassword,
-    'cert_path' => __DIR__ . '/ProductionCertificate.cer',
-    'base_url' => 'https://api.safaricom.co.ke',
-    'token_url' => 'https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials',
-    'b2c_url' => 'https://api.safaricom.co.ke/mpesa/b2c/v1/paymentrequest',
+    'cert_path' => av_env('DARAJA_B2C_CERT_PATH', __DIR__ . '/ProductionCertificate.cer'),
+    'base_url' => av_daraja_base_url(),
+    'token_url' => av_daraja_oauth_url(),
+    'b2c_url' => av_daraja_endpoint('mpesa/b2c/v1/paymentrequest'),
     'result_url' => av_callback_url('/b2c/payout/result.php', 'b2c_result'),
     'timeout_url' => av_callback_url('/b2c/payout/timeout.php', 'b2c_timeout'),
 ];
