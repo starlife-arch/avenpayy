@@ -91,7 +91,7 @@ if (file_exists($header_path)) {
   -H "X-Security-Credential: your_security_credential" \
   -H "Idempotency-Key: inv-2026-0042" \
   -H "Content-Type: application/json" \
-  -d '{"command_id":"BusinessPayBill","party_b":"247247","account_reference":"INV-0042","amount":2500}'</code></pre></div><div class="space-y-1.5"><div class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Node.js</div><pre class="bg-[#05080f] border border-slate-200 rounded-sm p-3 text-[11px] text-slate-700 overflow-x-auto"><code>const res = await fetch("https://avenpay.co.ke/b2c/payout/b2b_pay", {
+  -d '{"command_id":"BusinessPayBill","party_b":"247247","account_reference":"INV-0042","amount":2500}'</code></pre></div><div class="space-y-1.5"><div class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Node.js</div><pre class="bg-[#05080f] border border-slate-200 rounded-sm p-3 text-[11px] text-slate-700 overflow-x-auto"><code>const res = await fetch("https://api.avenpay.co.ke/b2c/payout/b2b_pay", {
   method: "POST",
   headers: {
     "X-Wallet-ID": process.env.AVENPAY_WALLET_ID,
@@ -102,7 +102,7 @@ if (file_exists($header_path)) {
   body: JSON.stringify({ command_id: "BusinessBuyGoods", party_b: "5123456", amount: 1200 })
 });
 console.log(await res.json());</code></pre></div><div class="space-y-1.5"><div class="text-[10px] font-bold uppercase tracking-wider text-slate-500">PHP</div><pre class="bg-[#05080f] border border-slate-200 rounded-sm p-3 text-[11px] text-slate-700 overflow-x-auto"><code>&lt;?php
-$ch = curl_init("https://avenpay.co.ke/b2c/payout/b2b_pay");
+$ch = curl_init("https://api.avenpay.co.ke/b2c/payout/b2b_pay");
 curl_setopt_array($ch, [
   CURLOPT_POST =&gt; true, CURLOPT_RETURNTRANSFER =&gt; true,
   CURLOPT_HTTPHEADER =&gt; ["X-Wallet-ID: WALLET_XYZ123", "X-Security-Credential: your_security_credential", "Idempotency-Key: inv-2026-0042", "Content-Type: application/json"],
