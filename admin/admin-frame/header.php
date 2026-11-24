@@ -131,6 +131,28 @@ function renderNavLink($href, $icon, $label, $showIcon = true)
             }
         })();
     </script>
+<style id="avenpay-admin-light-only">
+    html:not(.dark) body :is(
+      [class*="bg-slate-900"], [class*="bg-slate-800"],
+      [class*="bg-gray-900"], [class*="bg-gray-800"],
+      [class*="bg-zinc-900"], [class*="bg-zinc-800"],
+      [class*="bg-neutral-900"], [class*="bg-neutral-800"],
+      [class*="bg-[#0f172a]"], [class*="bg-[#080b11]"]
+    ) {
+      background-color: #ffffff !important;
+      border-color: #dbe3ed !important;
+      color: #334155 !important;
+    }
+    html:not(.dark) body :is(
+      [class*="bg-slate-900"], [class*="bg-slate-800"],
+      [class*="bg-gray-900"], [class*="bg-gray-800"],
+      [class*="bg-zinc-900"], [class*="bg-zinc-800"],
+      [class*="bg-neutral-900"], [class*="bg-neutral-800"],
+      [class*="bg-[#0f172a]"], [class*="bg-[#080b11]"]
+    ) :is([class*="text-white"], [class*="text-slate-100"], [class*="text-slate-200"], [class*="text-gray-100"], [class*="text-gray-200"]) {
+      color: #334155 !important;
+    }
+  </style>
 </head>
 
 <body class="min-h-screen flex flex-col md:flex-row">
