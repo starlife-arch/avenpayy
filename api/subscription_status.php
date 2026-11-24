@@ -33,8 +33,13 @@ class SecureVault {
     }
 }
 
-// Force user_id to 1
-$user_id = 1;
+// A user may only inspect transactions belonging to their own account.
+if (empty($_SESSION['user_id']) || (int) $_SESSION['user_id'] < 1) {
+    http_response_code(401);
+    echo json_encode(['status' => 'error', 'message' => 'Please sign in to check this transaction.']);
+    exit();
+}
+$user_id = (int) $_SESSION['user_id'];
 $checkoutID = trim($_GET['check_status'] ?? $_GET['checkout_id'] ?? '');
 
 if (empty($checkoutID)) {
@@ -51,7 +56,7 @@ $stmt->close();
 
 if (!$tx) {
     http_response_code(404);
-    echo json_encode(['status' => 'error', 'message' => 'Transaction not found for user ID 1']);
+    echo json_encode(['status' => 'error', 'message' => 'Transaction not found for your account.']);
     exit();
 }
 
