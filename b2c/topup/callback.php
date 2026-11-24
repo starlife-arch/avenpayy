@@ -112,15 +112,30 @@ if ($resultCode === 0) {
 
         // 2. CREDIT USER B2C WALLET (ledger-backed, idempotent per top-up)
         if ($netCreditAmount > 0) {
-            av_wallet_apply($conn, (int)$userId, (float)$netCreditAmount, 'topup_credit', 'topup', (string)$txId, 'M-Pesa top-up ' . $receiptNumber, false);
+            $creditReason = null;
+            $credited = av_wallet_apply(
+                $conn,
+                (int) $userId,
+                (float) $netCreditAmount,
+                'topup_credit',
+                'topup',
+                (string) $txId,
+                'M-Pesa top-up ' . $receiptNumber,
+                false,
+                $creditReason
+            );
+            if (!$credited && $creditReason !== 'duplicate') {
+                throw new RuntimeException('Wallet credit was not applied (' . (string) $creditReason . ').');
+            }
         }
 
         $conn->commit();
         echo json_encode(['status' => 'success', 'message' => 'Wallet successfully credited']);
-    } catch (Exception $e) {
+    } catch (Throwable $e) {
         $conn->rollback();
         http_response_code(500);
-        echo json_encode(['status' => 'error', 'message' => 'Database error during wallet update']);
+        error_log('AvenPay wallet top-up callback failed for transaction ' . (string) $txId . ': ' . $e->getMessage());
+        echo json_encode(['status' => 'error', 'message' => 'Wallet credit could not be completed. Safaricom may retry the callback.']);
     }
 
 } else {
