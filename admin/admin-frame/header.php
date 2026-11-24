@@ -528,25 +528,16 @@ function toggleMobileSidebar() {
 }
 
 function toggleTheme() {
-    const html = document.documentElement;
+    // AvenPay admin is intentionally light-only for consistent readability.
+    document.documentElement.classList.remove('dark');
     const icon = document.getElementById('themeIcon');
     const meta = document.getElementById('metaThemeColor');
-    const isDark = html.classList.toggle('dark');
-
-    try {
-        localStorage.setItem('avenpay_admin_theme_v2', isDark ? 'dark' : 'light');
-    } catch (error) {
-        // Theme still changes for the current page if storage is unavailable.
-    }
-
     if (icon) {
-        icon.classList.toggle('fa-moon', isDark);
-        icon.classList.toggle('fa-sun', !isDark);
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
     }
-
-    if (meta) {
-        meta.setAttribute('content', isDark ? '#080b11' : '#f1f5f9');
-    }
+    if (meta) meta.setAttribute('content', '#f1f5f9');
+    try { localStorage.setItem('avenpay_admin_theme_v2', 'light'); } catch (error) {}
 }
 
 function expandMenu(menuId, chevronId) {
@@ -576,11 +567,11 @@ document.addEventListener('DOMContentLoaded', function () {
         // Use the default dark theme if storage is unavailable.
     }
 
-    const isDark = theme === 'dark';
+    const isDark = false;
     const icon = document.getElementById('themeIcon');
     const meta = document.getElementById('metaThemeColor');
 
-    document.documentElement.classList.toggle('dark', isDark);
+    document.documentElement.classList.remove('dark');
 
     if (icon) {
         icon.classList.toggle('fa-moon', isDark);
