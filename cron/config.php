@@ -26,7 +26,7 @@ class SecureVault {
     private static function vaultKey(): string {
         $key = trim((string) av_env('VAULT_KEY'));
         if (!preg_match('/^[a-fA-F0-9]{64}$/', $key)) throw new RuntimeException('A valid AvenPay VAULT_KEY is not configured.');
-        return $key;
+        return hex2bin($key);
     }
     private const METHOD = 'aes-256-cbc';
 
