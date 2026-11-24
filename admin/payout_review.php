@@ -4,7 +4,7 @@ require_once __DIR__ . '/../lib/require_admin.php';
 require_once __DIR__ . '/../database_config/db.php';
 require_once __DIR__ . '/../lib/ledger.php';
 
-const AV_STUCK_MINUTES = 15;
+if (!defined('AV_STUCK_MINUTES')) define('AV_STUCK_MINUTES', 15);
 
 if (!function_exists('av_payout_table_exists')) {
 function av_payout_table_exists(mysqli $conn, string $table): bool
