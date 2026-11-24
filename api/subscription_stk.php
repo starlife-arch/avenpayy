@@ -124,7 +124,10 @@ $discountForMonths = static function (float $durationMonths): float {
     return 0.0;
 };
 
-if ($plan === '3 months') {
+if ($plan === 'monthly') {
+    $months = 1;
+    $amount = 200;
+} elseif ($plan === 'quarterly' || $plan === '3 months') {
     $months = 3;
     $amount = 570;
 } elseif ($plan === 'yearly' || $plan === '1 year') {

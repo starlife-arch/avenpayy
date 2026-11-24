@@ -182,7 +182,7 @@ if (file_exists($header_path)) include$header_path;
                                     <?php endif; ?>
                                 </td>
                                 <td class="p-3">
-                                    <div class="font-mono text-slate-700"><?= htmlspecialchars($tx['phone'] ?? 'N/A') ?></div>
+                                    <div class="font-mono text-slate-800"><?= htmlspecialchars($tx['phone'] ?? 'N/A') ?></div>
                                     <?php if (!empty($tx['recipient'])): ?>
                                         <div class="text-[10px] text-slate-500"><?= htmlspecialchars($tx['recipient']) ?></div>
                                     <?php endif; ?>

@@ -89,11 +89,11 @@ if (file_exists($header_path)) include $header_path;
                         <div class="grid grid-cols-3 divide-x divide-slate-200/80 text-center">
                             <div class="pr-2">
                                 <span class="text-slate-500 block text-[9px] uppercase font-bold tracking-wider mb-1">Min Amount</span>
-                                <strong class="text-slate-700 font-mono text-xs">KES <?= number_format($fee['min_amount'], 0) ?></strong>
+                                <strong class="text-slate-800 font-mono text-xs">KES <?= number_format($fee['min_amount'], 0) ?></strong>
                             </div>
                             <div class="px-2">
                                 <span class="text-slate-500 block text-[9px] uppercase font-bold tracking-wider mb-1">Max Amount</span>
-                                <strong class="text-slate-700 font-mono text-xs">KES <?= number_format($fee['max_amount'], 0) ?></strong>
+                                <strong class="text-slate-800 font-mono text-xs">KES <?= number_format($fee['max_amount'], 0) ?></strong>
                             </div>
                             <div class="pl-2">
                                 <span class="text-slate-500 block text-[9px] uppercase font-bold tracking-wider mb-1">Charges Fee</span>
@@ -131,11 +131,11 @@ if (file_exists($header_path)) include $header_path;
                         <div class="grid grid-cols-3 divide-x divide-slate-200/80 text-center">
                             <div class="pr-2">
                                 <span class="text-slate-500 block text-[9px] uppercase font-bold tracking-wider mb-1">Min Amount</span>
-                                <strong class="text-slate-700 font-mono text-xs">KES <?= number_format($fee['min_amount'], 0) ?></strong>
+                                <strong class="text-slate-800 font-mono text-xs">KES <?= number_format($fee['min_amount'], 0) ?></strong>
                             </div>
                             <div class="px-2">
                                 <span class="text-slate-500 block text-[9px] uppercase font-bold tracking-wider mb-1">Max Amount</span>
-                                <strong class="text-slate-700 font-mono text-xs">KES <?= number_format($fee['max_amount'], 0) ?></strong>
+                                <strong class="text-slate-800 font-mono text-xs">KES <?= number_format($fee['max_amount'], 0) ?></strong>
                             </div>
                             <div class="pl-2">
                                 <span class="text-slate-500 block text-[9px] uppercase font-bold tracking-wider mb-1">Charges Fee</span>

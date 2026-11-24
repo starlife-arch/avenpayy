@@ -70,9 +70,12 @@ if (!function_exists('av_finalize_subscription_payment')) {
                 } elseif (preg_match('/\\b(\\d{1,3})\\s+MONTHS?\\b/i', $description, $match)) {
                     $months = max(1, min(120, (int) $match[1]));
                 } elseif ($amount >= 3500) {
+                    // Legacy transactions created before the new pricing schedule.
                     $months = 12;
                 } elseif ($amount >= 950) {
                     $months = 3;
+                } elseif ($amount >= 200) {
+                    $months = 1;
                 } else {
                     // Legacy monthly price was KES 350; the new fixed monthly plan
                     // is explicitly tagged "1 MONTH" and will not reach this branch.

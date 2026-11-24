@@ -45,7 +45,7 @@ $currentGatewayUrl = $protocol . $host . $baseDir;
         <section class="space-y-6">
             <div class="text-center space-y-1">
                 <h2 class="text-sm md:text-base font-black text-slate-900 tracking-wide uppercase">Choose Your Growth Plan</h2>
-                <p class="text-xs text-slate-500">All plans include <span class="text-teal-600 font-bold">Unlimited STK Push</span>, Real-time Webhooks, and Payment Links.</p>
+                <p class="text-xs text-slate-500">All plans include <span class="text-teal-600 font-bold">Unlimited STK Push</span>, Real-time Webhooks, and Payment Links. Save 5% quarterly or 15% yearly; custom day and month durations are available.</p>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -53,7 +53,7 @@ $currentGatewayUrl = $protocol . $host . $baseDir;
                 <div class="bg-gradient-to-b from-white/90 via-white/95 to-slate-50/90 border border-slate-200/80 p-5 rounded-2xl shadow-xl hover:border-slate-300 transition-all flex flex-col justify-between relative overflow-hidden ring-1 ring-slate-200">
                     <div>
                         <h3 class="text-xs font-bold uppercase tracking-wider text-slate-600">Monthly</h3>
-                        <div class="my-3"><span class="text-2xl font-black text-slate-900">Ksh 350</span><span class="text-slate-500 text-xs ml-1 font-mono">/mo</span></div>
+                        <div class="my-3"><span class="text-2xl font-black text-slate-900">KES 200</span><span class="text-slate-500 text-xs ml-1 font-mono">/mo</span></div>
                         <ul class="text-slate-500 text-xs space-y-2 mb-6">
                             <li class="flex items-center"><i class="iclass fa-solid fa-check text-teal-600 mr-2 text-[10px]"></i> Unlimited STK Push</li>
                             <li class="flex items-center"><i class="iclass fa-solid fa-check text-teal-600 mr-2 text-[10px]"></i> Real-time Webhooks</li>
@@ -68,7 +68,7 @@ $currentGatewayUrl = $protocol . $host . $baseDir;
                     <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-teal-500 text-slate-950 text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-md">Best Value</div>
                     <div>
                         <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900">Quarterly</h3>
-                        <div class="my-3"><span class="text-2xl font-black text-slate-900">Ksh 950</span><span class="text-slate-500 text-xs ml-1 font-mono">/3mo</span></div>
+                        <div class="my-3"><span class="text-2xl font-black text-slate-900">KES 570</span><span class="text-slate-500 text-xs ml-1 font-mono">/3mo</span></div>
                         <ul class="text-slate-600 text-xs space-y-2 mb-6">
                             <li class="flex items-center"><i class="iclass fa-solid fa-check text-teal-600 mr-2 text-[10px]"></i> Unlimited STK Push</li>
                             <li class="flex items-center"><i class="iclass fa-solid fa-check text-teal-600 mr-2 text-[10px]"></i> Real-time Webhooks</li>
@@ -82,7 +82,7 @@ $currentGatewayUrl = $protocol . $host . $baseDir;
                 <div class="bg-gradient-to-b from-white/90 via-white/95 to-slate-50/90 border border-slate-200/80 p-5 rounded-2xl shadow-xl hover:border-slate-300 transition-all flex flex-col justify-between relative overflow-hidden ring-1 ring-slate-200">
                     <div>
                         <h3 class="text-xs font-bold uppercase tracking-wider text-slate-600">Yearly</h3>
-                        <div class="my-3"><span class="text-2xl font-black text-slate-900">Ksh 3,500</span><span class="text-slate-500 text-xs ml-1 font-mono">/yr</span></div>
+                        <div class="my-3"><span class="text-2xl font-black text-slate-900">KES 2,040</span><span class="text-slate-500 text-xs ml-1 font-mono">/yr</span></div>
                         <ul class="text-slate-500 text-xs space-y-2 mb-6">
                             <li class="flex items-center"><i class="iclass fa-solid fa-check text-teal-600 mr-2 text-[10px]"></i> Unlimited STK Push</li>
                             <li class="flex items-center"><i class="iclass fa-solid fa-check text-teal-600 mr-2 text-[10px]"></i> Real-time Webhooks</li>
