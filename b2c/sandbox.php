@@ -6,6 +6,12 @@ if (session_status() === PHP_SESSION_NONE) {
 ini_set('display_errors', 0);
 error_reporting(E_ALL);
 ?>
+<style>
+    html, body { background-color: #f8fafc !important; color: #0f172a !important; }
+    input, select, textarea { color: #0f172a !important; background-color: #ffffff !important; }
+    input::placeholder, textarea::placeholder { color: #64748b !important; opacity: 1; }
+</style>
+
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
