@@ -359,7 +359,7 @@ require_once __DIR__ . '/frame/header.php';
                 <span class="text-slate-700 font-semibold text-xs group-hover:text-slate-900 transition-colors">Add Settlement</span>
             </a>
 
-            <a href="https://wa.me/254748600179" class="bg-white/80 p-3.5 rounded-xl border border-slate-200 border-l-[4px] border-l-emerald-400 hover:border-emerald-500/60 hover:bg-slate-100/50 transition-all duration-200 flex items-center gap-2.5 shadow-md group">
+            <a href="https://wa.me/254106624924" class="bg-white/80 p-3.5 rounded-xl border border-slate-200 border-l-[4px] border-l-emerald-400 hover:border-emerald-500/60 hover:bg-slate-100/50 transition-all duration-200 flex items-center gap-2.5 shadow-md group">
                 <div class="w-8 h-8 bg-emerald-500/10 border border-emerald-500/20 rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform">
                     <span class="iclass text-emerald-600" aria-hidden="true">
                         <svg viewBox="0 0 24 24">
