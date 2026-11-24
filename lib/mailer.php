@@ -19,6 +19,10 @@ function av_send_mail(string $toEmail, string $toName, string $subject, string $
         $m->Port       = (int) av_env('SMTP_PORT', 465);
         $m->CharSet    = 'UTF-8';
         $m->setFrom($from, 'AvenPay');
+        $supportEmail = av_env('SUPPORT_EMAIL', 'avenpayenterprises@gmail.com');
+        if (filter_var($supportEmail, FILTER_VALIDATE_EMAIL)) {
+            $m->addReplyTo($supportEmail, 'AvenPay Support');
+        }
         $m->addAddress($toEmail, $toName);
         $m->isHTML(true);
         $m->Subject = $subject;
