@@ -41,7 +41,13 @@ $db_available = $db_loaded && isset($conn) && $conn instanceof mysqli;
 // ============================================================
 class SecureVault
 {
-    private static function vaultKey(): string { return (string) av_env('VAULT_KEY'); }
+    private static function vaultKey(): string {
+        $key = trim((string) av_env('VAULT_KEY'));
+        if (!preg_match('/^[a-fA-F0-9]{64}$/', $key)) {
+            throw new RuntimeException('A valid 64-character AvenPay VAULT_KEY is not configured.');
+        }
+        return hex2bin($key);
+    }
     private const METHOD = 'aes-256-cbc';
 
     public static function encrypt(string $plainText): string
@@ -299,13 +305,8 @@ if (!$db_available) {
             $secret = SecureVault::decrypt($row['consumer_secret'] ?? '');
             $password = SecureVault::decrypt($row['initiator_password'] ?? '');
 
-            $settings['consumer_secret'] = $secret !== false
-                ? $secret
-                : (string)($row['consumer_secret'] ?? '');
-
-            $settings['initiator_password'] = $password !== false
-                ? $password
-                : (string)($row['initiator_password'] ?? '');
+            $settings['consumer_secret'] = $secret !== false ? $secret : '';
+            $settings['initiator_password'] = $password !== false ? $password : '';
         }
 
         $result->free();

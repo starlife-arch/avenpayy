@@ -44,19 +44,14 @@ class SecureVault
 {
     private const METHOD = 'aes-256-cbc';
 
-    /**
-     * Current AvenPay key first, then the original PrintPay key for legacy
-     * ciphertext. PRINTPAY_LEGACY_VAULT_KEY may be set privately if the
-     * production PrintPay installation used a key different from its repo.
-     */
+    /** AvenPay uses only its own private VAULT_KEY. No PrintPay fallback. */
     private static function vaultKeys(): array
     {
-        $keys = [
-            (string) av_env('VAULT_KEY'),
-            (string) av_env('PRINTPAY_LEGACY_VAULT_KEY', 'your-very-secret-long-random-key-here')
-        ];
-        $keys = array_values(array_unique(array_filter($keys, static fn($key) => $key !== '')));
-        return $keys;
+        $key = trim((string) av_env('VAULT_KEY'));
+        if (!preg_match('/^[a-fA-F0-9]{64}$/', $key)) {
+            throw new RuntimeException('VAULT_KEY must be a 64-character hexadecimal AvenPay key.');
+        }
+        return [hex2bin($key)];
     }
 
     private static function encryptionKey(): string
@@ -132,8 +127,8 @@ function syncGatewaySettings(mysqli $conn, array $gateway, string $target): void
         $shortcode = (string)($gateway['shortcode'] ?? '');
         $initiatorName = (string)($gateway['initiator_username'] ?? '');
         $consumerKey = (string)($gateway['consumer_key'] ?? '');
-        $consumerSecret = (string)($gateway['consumer_secret'] ?? '');
-        $initiatorPassword = (string)($gateway['initiator_password'] ?? '');
+        $consumerSecret = SecureVault::encrypt((string)($gateway['consumer_secret'] ?? ''));
+        $initiatorPassword = SecureVault::encrypt((string)($gateway['initiator_password'] ?? ''));
 
         if ($shortcode === '' || $consumerKey === '' || $consumerSecret === '' ||
             $initiatorName === '' || $initiatorPassword === '') {
@@ -177,7 +172,7 @@ function syncGatewaySettings(mysqli $conn, array $gateway, string $target): void
         }
     }
 
-    // SecureVault uses VAULT_KEY when configured and the legacy PrintPay key otherwise.
+    // C2B credentials are encrypted with the AvenPay VAULT_KEY before storage.
     $stmt = $conn->prepare("
         INSERT INTO daraja_settings (key_name, encrypted_value)
         VALUES (?, ?)

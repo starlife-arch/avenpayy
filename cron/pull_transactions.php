@@ -22,31 +22,6 @@ function logMessage($filename, $message) {
     file_put_contents(av_log_path($filename), $formattedMessage, FILE_APPEND | LOCK_EX);
 }
 
-/**
- * Native SecureVault Decryption Logic
- */
-class SecureVault {
-    private static function vaultKey(): string { return (string) av_env('VAULT_KEY'); } 
-    private const METHOD = 'aes-256-cbc';
-
-    public static function decrypt($data) {
-        if (empty($data)) return '';
-        $decoded = base64_decode($data, true);
-        if ($decoded === false) return trim((string)$data);
-        $ivLength = openssl_cipher_iv_length(self::METHOD);
-        if ($ivLength === false || strlen($decoded) <= $ivLength) {
-            return trim((string)$data);
-        }
-        $iv = substr($decoded, 0, $ivLength);
-        $ciphertext = substr($decoded, $ivLength);
-        $decrypted = openssl_decrypt($ciphertext, self::METHOD, self::vaultKey(), 0, $iv);
-        return $decrypted !== false ? trim($decrypted) : trim((string)$data);
-    }
-}
-
-/**
- * Generate OAuth Access Token for a specific Shortcode's credentials
- */
 function getAccessTokenForCredentials($consumerKey, $consumerSecret) {
     $url = 'https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
     $credentials = base64_encode(trim($consumerKey) . ':' . trim($consumerSecret));
@@ -133,10 +108,10 @@ if (!$isCli) {
 while ($configRow = $gatewaysResult->fetch_assoc()) {
     $paybillNumber  = trim($configRow['shortcode']);
     $gatewayName    = trim($configRow['gateway_name']);
-    $consumerKey    = SecureVault::decrypt($configRow['consumer_key']) ?: trim($configRow['consumer_key']);
-    $consumerSecret = SecureVault::decrypt($configRow['consumer_secret']) ?: trim($configRow['consumer_secret']);
+    $consumerKey    = trim((string)$configRow['consumer_key']);
+    $consumerSecret = trim((string)$configRow['consumer_secret']);
     $initiatorUser  = trim($configRow['initiator_username']);
-    $initiatorPass  = SecureVault::decrypt($configRow['initiator_password']) ?: trim($configRow['initiator_password']);
+    $initiatorPass  = trim((string)$configRow['initiator_password']);
 
     if (empty($paybillNumber) || empty($consumerKey) || empty($consumerSecret)) {
         logMessage('error.log', "Skipping gateway {$paybillNumber} due to incomplete credentials.");

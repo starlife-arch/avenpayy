@@ -1,0 +1,35 @@
+name: PHP checks
+
+on:
+  push:
+    branches: [main, fix/avenpay-native-vault-generation]
+  pull_request:
+    branches: [main]
+
+jobs:
+  php-lint-and-vault-generator:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: openssl
+      - name: Lint PHP files
+        run: |
+          set -e
+          while IFS= read -r file; do
+            php -l "$file"
+          done < <(find . -type f -name '*.php' -not -path './vendor/*')
+      - name: Test one-time vault key generation
+        run: |
+          set -euo pipefail
+          tmp="$(mktemp -d)"
+          trap 'rm -rf "$tmp"' EXIT
+          AVENPAY_ENV_FILE="$tmp/avenpay.env" php tools/generate_vault_key.php
+          grep -Eq '^VAULT_KEY=[a-f0-9]{64}$' "$tmp/avenpay.env"
+          test "$(stat -c '%a' "$tmp/avenpay.env")" = "600"
+          if AVENPAY_ENV_FILE="$tmp/avenpay.env" php tools/generate_vault_key.php; then
+            echo "Generator incorrectly overwrote an existing key."
+            exit 1
+          fi
