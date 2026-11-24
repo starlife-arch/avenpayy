@@ -18,7 +18,7 @@ if (!function_exists('av_finalize_subscription_payment')) {
         $conn->begin_transaction();
         try {
             $stmt = $conn->prepare(
-                "SELECT id, user_id, amount, settlement_id, status, processed
+                "SELECT id, user_id, amount, settlement_id, transaction_desc, status, processed
                  FROM mpesa_transactions
                  WHERE checkout_request_id = ?
                  LIMIT 1 FOR UPDATE"
@@ -60,27 +60,30 @@ if (!function_exists('av_finalize_subscription_payment')) {
                 $settle->close();
                 if (!$settlement) throw new RuntimeException('The related settlement account was not found.');
 
-                // Custom plans store their exact duration in transaction_desc.
-                // Fixed plans retain the original discounted pricing rules.
-                $descriptionStmt = $conn->prepare("SELECT transaction_desc FROM mpesa_transactions WHERE id = ? LIMIT 1");
-                $descriptionStmt->bind_param('i', $txId);
-                $descriptionStmt->execute();
-                $descriptionRow = $descriptionStmt->get_result()->fetch_assoc();
-                $descriptionStmt->close();
-                $description = (string) ($descriptionRow['transaction_desc'] ?? '');
-                if (preg_match('/\\b(\\d{1,3})\\s+MONTHS?\\b/i', $description, $match)) {
+                // New transactions carry their exact paid duration in the description.
+                // Keep amount-based fallbacks for historical PrintPay/AvenPay payments.
+                $description = (string) ($tx['transaction_desc'] ?? '');
+                $durationDays = 0;
+                $months = 0;
+                if (preg_match('/\\b(\\d{1,4})\\s+DAYS?\\b/i', $description, $match)) {
+                    $durationDays = max(1, min(3650, (int) $match[1]));
+                } elseif (preg_match('/\\b(\\d{1,3})\\s+MONTHS?\\b/i', $description, $match)) {
                     $months = max(1, min(120, (int) $match[1]));
                 } elseif ($amount >= 3500) {
                     $months = 12;
                 } elseif ($amount >= 950) {
                     $months = 3;
                 } else {
+                    // Legacy monthly price was KES 350; the new fixed monthly plan
+                    // is explicitly tagged "1 MONTH" and will not reach this branch.
                     $months = max(1, (int) round($amount / 350));
                 }
 
                 $expiry = !empty($settlement['expiry_date']) ? strtotime($settlement['expiry_date']) : false;
                 $base = ($expiry !== false && $expiry > time()) ? $expiry : time();
-                $newExpiry = date('Y-m-d H:i:s', strtotime('+' . $months . ' months', $base));
+                $newExpiry = $durationDays > 0
+                    ? date('Y-m-d H:i:s', strtotime('+' . $durationDays . ' days', $base))
+                    : date('Y-m-d H:i:s', strtotime('+' . $months . ' months', $base));
 
                 $activate = $conn->prepare(
                     "UPDATE settlements
