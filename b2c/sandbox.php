@@ -68,18 +68,18 @@ if (file_exists($header_path)) {
     </div>
 
     <!-- Global Credentials Configuration Bar -->
-    <div class="bg-[rgba(15,23,42,0.95)] border border-[rgba(255,255,255,0.08)] p-5 rounded-sm shadow-xl space-y-4">
+    <div class="bg-white border border-slate-200 p-5 rounded-sm shadow-xl space-y-4">
         <h2 class="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-2">
             <i class="iclass fa-solid fa-shield-halved text-teal-600"></i> API Authentication Credentials (No Session Required)
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="space-y-1">
                 <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">X-Wallet-ID</label>
-                <input type="text" id="test-wallet-id" autocomplete="off" data-lpignore="true" spellcheck="false" placeholder="Paste your Wallet ID here (e.g., WALLET_XYZ123)" class="w-full px-3.5 py-2 bg-[#05080f] border border-slate-200 rounded-sm text-xs font-mono text-teal-700 focus:border-teal-500 outline-none">
+                <input type="text" id="test-wallet-id" autocomplete="off" data-lpignore="true" spellcheck="false" placeholder="Paste your Wallet ID here (e.g., WALLET_XYZ123)" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-sm text-xs font-mono text-teal-700 focus:border-teal-500 outline-none">
             </div>
             <div class="space-y-1">
                 <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">X-Security-Credential</label>
-                <input type="text" id="test-security-key" autocomplete="off" data-lpignore="true" spellcheck="false" placeholder="Paste your secret API key here" class="w-full px-3.5 py-2 bg-[#05080f] border border-slate-200 rounded-sm text-xs font-mono text-teal-700 focus:border-teal-500 outline-none">
+                <input type="text" id="test-security-key" autocomplete="off" data-lpignore="true" spellcheck="false" placeholder="Paste your secret API key here" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-sm text-xs font-mono text-teal-700 focus:border-teal-500 outline-none">
             </div>
         </div>
     </div>
@@ -88,13 +88,13 @@ if (file_exists($header_path)) {
     <div class="space-y-6">
 
         <!-- 1. CHECK BALANCE ENDPOINT -->
-        <div class="bg-[rgba(15,23,42,0.95)] border border-[rgba(255,255,255,0.08)] p-5 rounded-sm shadow-xl space-y-4">
+        <div class="bg-white border border-slate-200 p-5 rounded-sm shadow-xl space-y-4">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-200 pb-3">
                 <div class="flex items-center gap-2">
                     <span class="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-2">
                         <i class="iclass fa-solid fa-wallet text-teal-600"></i> 1. Check Wallet Balance
                     </span>
-                    <span class="text-[10px] font-mono font-bold text-emerald-600 bg-emerald-950 border border-emerald-800 px-2 py-0.5 rounded-sm">POST</span>
+                    <span class="text-[10px] font-mono font-bold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-sm">POST</span>
                 </div>
                 <div class="flex items-center bg-white p-0.5 rounded-sm border border-slate-200">
                     <button onclick="toggleCardView('bal', 'sandbox')" id="bal-btn-sandbox" class="px-3 py-1 rounded-sm text-[11px] font-bold transition bg-teal-600 text-white cursor-pointer">Sandbox</button>
@@ -129,13 +129,13 @@ if (file_exists($header_path)) {
         </div>
 
         <!-- 2. LOOKUP RECEIVER NAME ENDPOINT -->
-        <div class="bg-[rgba(15,23,42,0.95)] border border-[rgba(255,255,255,0.08)] p-5 rounded-sm shadow-xl space-y-4">
+        <div class="bg-white border border-slate-200 p-5 rounded-sm shadow-xl space-y-4">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-200 pb-3">
                 <div class="flex items-center gap-2">
                     <span class="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-2">
                         <i class="iclass fa-solid fa-address-book text-teal-600"></i> 2. Lookup Receiver Name
                     </span>
-                    <span class="text-[10px] font-mono font-bold text-emerald-600 bg-emerald-950 border border-emerald-800 px-2 py-0.5 rounded-sm">POST</span>
+                    <span class="text-[10px] font-mono font-bold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-sm">POST</span>
                 </div>
                 <div class="flex items-center bg-white p-0.5 rounded-sm border border-slate-200">
                     <button onclick="toggleCardView('lookup', 'sandbox')" id="lookup-btn-sandbox" class="px-3 py-1 rounded-sm text-[11px] font-bold transition bg-teal-600 text-white cursor-pointer">Sandbox</button>
@@ -144,7 +144,7 @@ if (file_exists($header_path)) {
             </div>
 
             <div id="lookup-sandbox-view" class="space-y-3">
-                <input type="text" id="lookup-phone" autocomplete="off" placeholder="Phone Number (e.g., 0712345678)" class="w-full px-3 py-2 bg-[#05080f] border border-slate-200 rounded-sm text-xs font-mono text-slate-700 outline-none focus:border-teal-500">
+                <input type="text" id="lookup-phone" autocomplete="off" placeholder="Phone Number (e.g., 0712345678)" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-sm text-xs font-mono text-slate-700 outline-none focus:border-teal-500">
                 <button onclick="runTest('lookup')" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-2 rounded-sm text-xs transition cursor-pointer flex items-center justify-center gap-2 shadow-md">
                     <i class="iclass fa-solid fa-play"></i> Lookup Receiver Name
                 </button>
@@ -173,13 +173,13 @@ if (file_exists($header_path)) {
         </div>
 
         <!-- 3. STK TOP-UP ENDPOINT -->
-        <div class="bg-[rgba(15,23,42,0.95)] border border-[rgba(255,255,255,0.08)] p-5 rounded-sm shadow-xl space-y-4">
+        <div class="bg-white border border-slate-200 p-5 rounded-sm shadow-xl space-y-4">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-200 pb-3">
                 <div class="flex items-center gap-2">
                     <span class="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-2">
                         <i class="iclass fa-solid fa-cloud-arrow-down text-teal-600"></i> 3. Wallet Top-Up (STK Push)
                     </span>
-                    <span class="text-[10px] font-mono font-bold text-emerald-600 bg-emerald-950 border border-emerald-800 px-2 py-0.5 rounded-sm">POST</span>
+                    <span class="text-[10px] font-mono font-bold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-sm">POST</span>
                 </div>
                 <div class="flex items-center bg-white p-0.5 rounded-sm border border-slate-200">
                     <button onclick="toggleCardView('top', 'sandbox')" id="top-btn-sandbox" class="px-3 py-1 rounded-sm text-[11px] font-bold transition bg-teal-600 text-white cursor-pointer">Sandbox</button>
@@ -189,8 +189,8 @@ if (file_exists($header_path)) {
 
             <div id="top-sandbox-view" class="space-y-3">
                 <div class="grid grid-cols-2 gap-2">
-                    <input type="text" id="topup-phone" autocomplete="off" placeholder="Phone (2547...)" class="px-3 py-2 bg-[#05080f] border border-slate-200 rounded-sm text-xs font-mono text-slate-700 outline-none focus:border-teal-500">
-                    <input type="number" id="topup-amount" autocomplete="off" placeholder="Amount (KES)" value="500" class="px-3 py-2 bg-[#05080f] border border-slate-200 rounded-sm text-xs font-mono text-slate-700 outline-none focus:border-teal-500">
+                    <input type="text" id="topup-phone" autocomplete="off" placeholder="Phone (2547...)" class="px-3 py-2 bg-slate-50 border border-slate-200 rounded-sm text-xs font-mono text-slate-700 outline-none focus:border-teal-500">
+                    <input type="number" id="topup-amount" autocomplete="off" placeholder="Amount (KES)" value="500" class="px-3 py-2 bg-slate-50 border border-slate-200 rounded-sm text-xs font-mono text-slate-700 outline-none focus:border-teal-500">
                 </div>
                 <button onclick="runTest('topup')" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-2 rounded-sm text-xs transition cursor-pointer flex items-center justify-center gap-2 shadow-md">
                     <i class="iclass fa-solid fa-play"></i> Send STK Push
@@ -220,7 +220,7 @@ if (file_exists($header_path)) {
         </div>
 
         <!-- 4. CHECK TOP-UP STATUS ENDPOINT -->
-        <div class="bg-[rgba(15,23,42,0.95)] border border-[rgba(255,255,255,0.08)] p-5 rounded-sm shadow-xl space-y-4">
+        <div class="bg-white border border-slate-200 p-5 rounded-sm shadow-xl space-y-4">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-200 pb-3">
                 <div class="flex items-center gap-2">
                     <span class="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-2">
@@ -235,7 +235,7 @@ if (file_exists($header_path)) {
             </div>
 
             <div id="topstatus-sandbox-view" class="space-y-3">
-                <input type="text" id="topup-checkout-id" autocomplete="off" placeholder="Checkout Request ID (e.g. ws_CO_...)" class="w-full px-3 py-2 bg-[#05080f] border border-slate-200 rounded-sm text-xs font-mono text-slate-700 outline-none focus:border-teal-500">
+                <input type="text" id="topup-checkout-id" autocomplete="off" placeholder="Checkout Request ID (e.g. ws_CO_...)" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-sm text-xs font-mono text-slate-700 outline-none focus:border-teal-500">
                 <button onclick="runTest('topup_status')" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-2 rounded-sm text-xs transition cursor-pointer flex items-center justify-center gap-2 shadow-md">
                     <i class="iclass fa-solid fa-play"></i> Poll Top-Up Status
                 </button>
@@ -262,13 +262,13 @@ if (file_exists($header_path)) {
         </div>
 
         <!-- 5. DISBURSEMENT PAYOUT ENDPOINT -->
-        <div class="bg-[rgba(15,23,42,0.95)] border border-[rgba(255,255,255,0.08)] p-5 rounded-sm shadow-xl space-y-4">
+        <div class="bg-white border border-slate-200 p-5 rounded-sm shadow-xl space-y-4">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-200 pb-3">
                 <div class="flex items-center gap-2">
                     <span class="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-2">
                         <i class="iclass fa-solid fa-paper-plane text-teal-600"></i> 5. B2C Disbursement Payout
                     </span>
-                    <span class="text-[10px] font-mono font-bold text-emerald-600 bg-emerald-950 border border-emerald-800 px-2 py-0.5 rounded-sm">POST</span>
+                    <span class="text-[10px] font-mono font-bold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-sm">POST</span>
                 </div>
                 <div class="flex items-center bg-white p-0.5 rounded-sm border border-slate-200">
                     <button onclick="toggleCardView('pay', 'sandbox')" id="pay-btn-sandbox" class="px-3 py-1 rounded-sm text-[11px] font-bold transition bg-teal-600 text-white cursor-pointer">Sandbox</button>
@@ -278,8 +278,8 @@ if (file_exists($header_path)) {
 
             <div id="pay-sandbox-view" class="space-y-3">
                 <div class="grid grid-cols-2 gap-2">
-                    <input type="text" id="payout-phone" autocomplete="off" placeholder="Recipient Phone (2547...)" class="px-3 py-2 bg-[#05080f] border border-slate-200 rounded-sm text-xs font-mono text-slate-700 outline-none focus:border-teal-500">
-                    <input type="number" id="payout-amount" autocomplete="off" placeholder="Amount (KES)" value="1000" class="px-3 py-2 bg-[#05080f] border border-slate-200 rounded-sm text-xs font-mono text-slate-700 outline-none focus:border-teal-500">
+                    <input type="text" id="payout-phone" autocomplete="off" placeholder="Recipient Phone (2547...)" class="px-3 py-2 bg-slate-50 border border-slate-200 rounded-sm text-xs font-mono text-slate-700 outline-none focus:border-teal-500">
+                    <input type="number" id="payout-amount" autocomplete="off" placeholder="Amount (KES)" value="1000" class="px-3 py-2 bg-slate-50 border border-slate-200 rounded-sm text-xs font-mono text-slate-700 outline-none focus:border-teal-500">
                 </div>
                 <button onclick="runTest('payout')" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-2 rounded-sm text-xs transition cursor-pointer flex items-center justify-center gap-2 shadow-md">
                     <i class="iclass fa-solid fa-play"></i> Send Payout (API Headless)
@@ -309,13 +309,13 @@ if (file_exists($header_path)) {
         </div>
 
         <!-- 6. CHECK PAYOUT STATUS ENDPOINT -->
-        <div class="bg-[rgba(15,23,42,0.95)] border border-[rgba(255,255,255,0.08)] p-5 rounded-sm shadow-xl space-y-4">
+        <div class="bg-white border border-slate-200 p-5 rounded-sm shadow-xl space-y-4">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-200 pb-3">
                 <div class="flex items-center gap-2">
                     <span class="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-2">
                         <i class="iclass fa-solid fa-spinner text-teal-600"></i> 6. Check Payout Status
                     </span>
-                    <span class="text-[10px] font-mono font-bold text-emerald-600 bg-emerald-950 border border-emerald-800 px-2 py-0.5 rounded-sm">POST</span>
+                    <span class="text-[10px] font-mono font-bold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-sm">POST</span>
                 </div>
                 <div class="flex items-center bg-white p-0.5 rounded-sm border border-slate-200">
                     <button onclick="toggleCardView('status', 'sandbox')" id="status-btn-sandbox" class="px-3 py-1 rounded-sm text-[11px] font-bold transition bg-teal-600 text-white cursor-pointer">Sandbox</button>
@@ -324,7 +324,7 @@ if (file_exists($header_path)) {
             </div>
 
             <div id="status-sandbox-view" class="space-y-3">
-                <input type="text" id="payout-conv-id" autocomplete="off" placeholder="Conversation ID (e.g. Ag_20261023_...)" class="w-full px-3 py-2 bg-[#05080f] border border-slate-200 rounded-sm text-xs font-mono text-slate-700 outline-none focus:border-teal-500">
+                <input type="text" id="payout-conv-id" autocomplete="off" placeholder="Conversation ID (e.g. Ag_20261023_...)" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-sm text-xs font-mono text-slate-700 outline-none focus:border-teal-500">
                 <button onclick="runTest('payout_status')" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-2 rounded-sm text-xs transition cursor-pointer flex items-center justify-center gap-2 shadow-md">
                     <i class="iclass fa-solid fa-play"></i> Poll Payout Status
                 </button>
