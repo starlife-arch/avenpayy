@@ -134,7 +134,7 @@ if (!empty($apiWalletId) && !empty($apiSecurityKey)) {
         exit();
     }
 
-    $storedCredential = SecureVault::decrypt($userRes['b2c_security_credential'] ?? '');
+    $storedCredential = trim((string)($userRes['b2c_security_credential'] ?? ''));
     if (empty($storedCredential) || (hash_equals($storedCredential, $apiSecurityKey) === false && $storedCredential !== $apiSecurityKey)) {
         http_response_code(401);
         echo json_encode(['status' => 'error', 'message' => 'Access denied. The security credential or API key is incorrect.']);
@@ -330,10 +330,15 @@ $consumerKey = trim($b2cConfig['consumer_key']);
 $consumerSecret = trim($b2cConfig['consumer_secret']);
 $plainInitiatorPassword = trim($b2cConfig['initiator_password']);
 
-// Decrypt fields if they were stored encrypted
-$consumerKey = SecureVault::decrypt($consumerKey) ?: $consumerKey;
-$consumerSecret = SecureVault::decrypt($consumerSecret) ?: $consumerSecret;
-$plainInitiatorPassword = SecureVault::decrypt($plainInitiatorPassword) ?: $plainInitiatorPassword;
+// consumer_key is plaintext; consumer_secret and initiator_password are encrypted.
+$consumerSecret = SecureVault::decrypt($consumerSecret);
+$plainInitiatorPassword = SecureVault::decrypt($plainInitiatorPassword);
+if ($consumerSecret === false || $consumerSecret === '' || $plainInitiatorPassword === false || $plainInitiatorPassword === '') {
+    error_log('AvenPay B2C payout stopped: stored Daraja secrets could not be decrypted with VAULT_KEY.');
+    http_response_code(500);
+    echo json_encode(['status' => 'error', 'message' => 'B2C credentials need to be saved again in the admin B2C settings before payouts can run.']);
+    exit();
+}
 
 if (empty($consumerKey) || empty($consumerSecret) || empty($initiatorName) || empty($shortcode)) {
     http_response_code(500);
