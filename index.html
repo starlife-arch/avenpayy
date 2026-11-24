@@ -1,0 +1,2209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="/brand/avenpay-icon.svg?v=3" sizes="any">
+    <link rel="icon" href="/icon.png?v=3" type="image/png">
+    <link rel="apple-touch-icon" href="/icon.png?v=3">
+    <meta name="theme-color" content="#ffffff">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="description" content="Integrate M-PESA C2B STK Push payments, B2C payouts, transaction verification, and callbacks with AvenPay API.">
+
+
+    <title>AvenPay - M-Pesa Payments Made Simple</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg: #ffffff;
+            --bg-soft: #f8fafc;
+            --panel: #ffffff;
+            --line: rgba(15, 23, 42, .10);
+            --text: #0f172a;
+            --muted: #475569;
+            --teal: #0b9a74;
+            --violet: #0b7a5c;
+            --radius: 20px;
+            --container: 1160px;
+        }
+
+        * { box-sizing: border-box; }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 86px;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: "DM Sans", sans-serif;
+            line-height: 1.6;
+        }
+
+        body.menu-open { overflow: hidden; }
+
+        a { color: inherit; text-decoration: none; }
+        button, input { font: inherit; }
+        button, a { -webkit-tap-highlight-color: transparent; }
+
+        .container {
+            width: min(var(--container), calc(100% - 40px));
+            margin-inline: auto;
+        }
+
+        .section { padding: 92px 0; }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            color: var(--teal);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+        }
+
+        .eyebrow-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--teal);
+            box-shadow: 0 0 14px rgba(11, 154, 116, .8);
+        }
+
+        .section-heading {
+            max-width: 670px;
+            margin: 0 auto 42px;
+            text-align: center;
+        }
+
+        .section-heading h2 {
+            margin: 12px 0;
+            font: 800 clamp(28px, 4vw, 42px)/1.15 "Manrope", sans-serif;
+            letter-spacing: -.04em;
+        }
+
+        .section-heading p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 15px;
+        }
+
+        .btn {
+            min-height: 46px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            padding: 0 18px;
+            border: 1px solid transparent;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 700;
+            transition: transform .2s ease, background .2s ease, border-color .2s ease;
+        }
+
+        .btn:hover { transform: translateY(-2px); }
+
+        .btn-primary {
+            color: #ffffff;
+            background: linear-gradient(110deg, var(--teal), #14b88c);
+            box-shadow: 0 10px 28px rgba(11, 154, 116, .15);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(110deg, #d1fae5, #a7f3d0);
+        }
+
+        .btn-secondary {
+            color: var(--text);
+            background: rgba(15, 23, 42, 0.028);
+            border-color: var(--line);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(15, 23, 42, 0.064);
+            border-color: rgba(11, 154, 116, .45);
+        }
+
+        /* Navigation */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(15, 23, 42, .1);
+            background: rgba(255, 255, 255, .85);
+            backdrop-filter: blur(18px);
+        }
+
+        .nav-container {
+            width: min(var(--container), calc(100% - 40px));
+            min-height: 72px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .nav-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .logo-img {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            object-fit: cover;
+        }
+
+        .logo-text {
+            font: 800 16px "Manrope", sans-serif;
+            letter-spacing: -.03em;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
+
+        .nav-link {
+            color: #334155;
+            font-size: 12px;
+            font-weight: 600;
+            transition: color .2s ease;
+        }
+
+        .nav-link:hover { color: var(--teal); }
+
+        .nav-link.nav-cta {
+            padding: 10px 14px;
+            border-radius: 10px;
+            color: #ffffff;
+            background: var(--teal);
+        }
+
+        .nav-link.nav-cta:hover {
+            color: #ffffff;
+            background: #d1fae5;
+        }
+
+        .hamburger {
+            width: 42px;
+            height: 42px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 5px;
+            border: 1px solid var(--line);
+            border-radius: 11px;
+            background: var(--bg-soft);
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 17px;
+            height: 2px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: transform .2s ease, opacity .2s ease;
+        }
+
+        .hamburger.active span:first-child {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+
+        .hamburger.active span:last-child {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        /* Hero */
+        .hero {
+            position: relative;
+            overflow: hidden;
+            padding: 82px 0 90px;
+            background:
+                radial-gradient(ellipse at 76% 25%, rgba(11, 154, 116, .12), transparent 33%),
+                radial-gradient(ellipse at 12% 20%, rgba(11, 154, 116, .13), transparent 34%);
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            opacity: .14;
+            pointer-events: none;
+            background-image: radial-gradient(rgba(15, 23, 42, .35) .7px, transparent .7px);
+            background-size: 27px 27px;
+            mask-image: linear-gradient(to bottom, black, transparent 80%);
+        }
+
+        .hero-grid {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1.02fr .98fr;
+            align-items: center;
+            gap: 64px;
+        }
+
+        .hero-title {
+            max-width: 650px;
+            margin: 20px 0 18px;
+            font: 800 clamp(40px, 6vw, 68px)/1.04 "Manrope", sans-serif;
+            letter-spacing: -.065em;
+        }
+
+        .gradient-text {
+            color: transparent;
+            background: linear-gradient(100deg, var(--teal), #34d399 52%, var(--violet));
+            background-clip: text;
+            -webkit-background-clip: text;
+        }
+
+        .hero-description {
+            max-width: 570px;
+            margin: 0;
+            color: #475569;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 11px;
+            margin-top: 27px;
+        }
+
+        .hero-trust {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-top: 25px;
+            color: #475569;
+            font-size: 11px;
+        }
+
+        .hero-trust span {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .hero-trust i { color: var(--teal); }
+
+        .hero-visual {
+            position: relative;
+            min-height: 405px;
+            display: grid;
+            place-items: center;
+        }
+
+        .visual-glow {
+            position: absolute;
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            background: rgba(11, 154, 116, .12);
+            filter: blur(70px);
+        }
+
+        .dashboard-card {
+            position: relative;
+            width: min(100%, 470px);
+            padding: 22px;
+            border: 1px solid rgba(15, 23, 42, .2);
+            border-radius: 22px;
+            background: linear-gradient(145deg, #ffffff, #f8fafc);
+            box-shadow: 0 28px 80px rgba(15, 23, 42, .08);
+            transform: rotate(1.5deg);
+        }
+
+        .dashboard-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 17px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .dashboard-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .dashboard-icon {
+            width: 34px;
+            height: 34px;
+            display: grid;
+            place-items: center;
+            color: var(--teal);
+            background: rgba(11, 154, 116, .1);
+            border: 1px solid rgba(11, 154, 116, .16);
+            border-radius: 10px;
+        }
+
+        .live-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 9px;
+            color: #15803d;
+            background: rgba(34, 197, 94, .09);
+            border: 1px solid rgba(34, 197, 94, .18);
+            border-radius: 20px;
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        .live-pill::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #4ade80;
+        }
+
+        .balance-label {
+            margin-top: 21px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .balance-value {
+            margin-top: 3px;
+            font: 800 31px "Manrope", sans-serif;
+            letter-spacing: -.04em;
+        }
+
+        .balance-value span {
+            color: #475569;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .chart {
+            height: 106px;
+            margin-top: 18px;
+            display: flex;
+            align-items: end;
+            gap: 9px;
+            padding: 12px 4px 0;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .chart-bar {
+            flex: 1;
+            min-width: 8px;
+            border-radius: 5px 5px 0 0;
+            background: linear-gradient(to top, rgba(11, 154, 116, .26), rgba(11, 154, 116, .9));
+        }
+
+        .transactions { margin-top: 17px; }
+
+        .transaction-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(15, 23, 42, .09);
+        }
+
+        .transaction-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 10px;
+        }
+
+        .transaction-icon {
+            width: 30px;
+            height: 30px;
+            display: grid;
+            place-items: center;
+            border-radius: 9px;
+            color: var(--teal);
+            background: rgba(11, 154, 116, .09);
+        }
+
+        .transaction-icon.payout {
+            color: var(--violet);
+            background: rgba(11, 154, 116, .1);
+        }
+
+        .transaction-detail small {
+            display: block;
+            margin-top: 2px;
+            color: #64748b;
+            font-size: 9px;
+        }
+
+        .transaction-amount {
+            color: #1e293b;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .float-tag {
+            position: absolute;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 11px 13px;
+            border: 1px solid rgba(15, 23, 42, .19);
+            border-radius: 13px;
+            background: rgba(255, 255, 255, .96);
+            box-shadow: 0 12px 36px rgba(15, 23, 42, .08);
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .float-tag i { color: var(--teal); }
+        .float-tag.one { top: 30px; right: -4px; }
+        .float-tag.two { bottom: 25px; left: -8px; }
+
+        /* Features */
+        .features {
+            border-top: 1px solid rgba(15, 23, 42, .08);
+            border-bottom: 1px solid rgba(15, 23, 42, .08);
+            background: #f8fafc;
+        }
+
+        .feature-grid,
+        .services-grid,
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 17px;
+        }
+
+        .feature-card,
+        .service-card,
+        .doc-card,
+        .testimonial-card {
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: linear-gradient(145deg, #ffffff, #f8fafc);
+        }
+
+        .feature-card {
+            padding: 24px;
+            transition: transform .2s ease, border-color .2s ease;
+        }
+
+        .feature-card:hover,
+        .service-card:hover,
+        .doc-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(11, 154, 116, .3);
+        }
+
+        .feature-icon,
+        .service-icon {
+            width: 45px;
+            height: 45px;
+            display: grid;
+            place-items: center;
+            color: var(--teal);
+            border: 1px solid rgba(11, 154, 116, .17);
+            border-radius: 13px;
+            background: rgba(11, 154, 116, .08);
+            font-size: 17px;
+        }
+
+        .feature-card h3,
+        .service-card h3 {
+            margin: 18px 0 8px;
+            font: 700 16px "Manrope", sans-serif;
+        }
+
+        .feature-card p,
+        .service-card p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.75;
+        }
+
+        .feature-list {
+            display: grid;
+            gap: 8px;
+            margin: 18px 0 0;
+            padding: 0;
+            list-style: none;
+            color: #334155;
+            font-size: 11px;
+        }
+
+        .feature-list i {
+            margin-right: 7px;
+            color: var(--teal);
+        }
+
+        /* C2B */
+        .c2b-section {
+            overflow: hidden;
+            background:
+                radial-gradient(ellipse at 90% 50%, rgba(11, 154, 116, .1), transparent 38%),
+                #ffffff;
+        }
+
+        .payment-layout {
+            display: grid;
+            grid-template-columns: .95fr 1.05fr;
+            align-items: center;
+            gap: 56px;
+        }
+
+        .payment-copy h2,
+        .b2c-copy h2 {
+            margin: 13px 0 15px;
+            font: 800 clamp(30px, 4vw, 44px)/1.12 "Manrope", sans-serif;
+            letter-spacing: -.045em;
+        }
+
+        .payment-copy > p,
+        .b2c-copy > p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .payment-points,
+        .b2c-points {
+            display: grid;
+            gap: 13px;
+            margin-top: 23px;
+        }
+
+        .payment-point,
+        .b2c-point {
+            display: flex;
+            align-items: flex-start;
+            gap: 11px;
+            color: #334155;
+            font-size: 12px;
+        }
+
+        .payment-point i,
+        .b2c-point i {
+            margin-top: 3px;
+            color: var(--teal);
+        }
+
+        .payment-panel,
+        .b2c-panel {
+            padding: 23px;
+            border-radius: 22px;
+            box-shadow: 0 24px 70px rgba(15, 23, 42, .08);
+        }
+
+        .payment-panel {
+            border: 1px solid rgba(11, 154, 116, .18);
+            background: linear-gradient(145deg, #ffffff, #f8fafc);
+        }
+
+        .payment-panel-header,
+        .b2c-panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding-bottom: 17px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .payment-panel-header strong,
+        .b2c-panel-header strong { font-size: 13px; }
+
+        .payment-panel-header span {
+            color: var(--teal);
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .payment-flow,
+        .b2c-flow {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 11px;
+            margin-top: 20px;
+        }
+
+        .flow-step {
+            min-height: 126px;
+            padding: 14px;
+            border: 1px solid rgba(15, 23, 42, .13);
+            border-radius: 14px;
+            background: rgba(15, 23, 42, 0.020);
+        }
+
+        .flow-step .number {
+            width: 26px;
+            height: 26px;
+            display: grid;
+            place-items: center;
+            color: #0b7a5c;
+            border-radius: 8px;
+            background: rgba(11, 154, 116, .13);
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .flow-step h3 {
+            margin: 13px 0 5px;
+            font-size: 11px;
+        }
+
+        .flow-step p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.6;
+        }
+
+        .security-note {
+            display: flex;
+            align-items: flex-start;
+            gap: 9px;
+            margin-top: 15px;
+            padding: 12px;
+            border: 1px solid rgba(11, 154, 116, .12);
+            border-radius: 12px;
+            color: #475569;
+            background: rgba(11, 154, 116, .045);
+            font-size: 10px;
+            line-height: 1.6;
+        }
+
+        .security-note i {
+            margin-top: 2px;
+            color: var(--teal);
+        }
+
+        /* B2C */
+        .b2c-section {
+            overflow: hidden;
+            background:
+                radial-gradient(ellipse at 90% 50%, rgba(11, 154, 116, .12), transparent 38%),
+                #f8fafc;
+            border-block: 1px solid rgba(15, 23, 42, .08);
+        }
+
+        .b2c-layout {
+            display: grid;
+            grid-template-columns: .9fr 1.1fr;
+            align-items: center;
+            gap: 56px;
+        }
+
+        .b2c-panel {
+            border: 1px solid rgba(11, 154, 116, .2);
+            background: linear-gradient(145deg, #ffffff, #f8fafc);
+        }
+
+        .b2c-panel-header span {
+            color: #0b7a5c;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .b2c-flow .flow-step .number {
+            color: #0b7a5c;
+            background: rgba(11, 154, 116, .13);
+        }
+
+        /* Steps */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .step-card {
+            padding: 24px;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: var(--panel);
+        }
+
+        .step-number {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            color: #ffffff;
+            border-radius: 12px;
+            background: var(--teal);
+            font: 800 14px "Manrope", sans-serif;
+        }
+
+        .step-card h3 {
+            margin: 18px 0 8px;
+            font: 700 15px "Manrope", sans-serif;
+        }
+
+        .step-card p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.75;
+        }
+
+        .step-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-top: 16px;
+        }
+
+        .step-tag {
+            padding: 5px 8px;
+            color: #334155;
+            border: 1px solid var(--line);
+            border-radius: 7px;
+            background: rgba(15, 23, 42, 0.020);
+            font-size: 9px;
+        }
+
+        /* Services */
+        .service-card {
+            padding: 22px;
+            transition: transform .2s ease, border-color .2s ease;
+        }
+
+        /* Documentation */
+        .docs-section {
+            background: #f8fafc;
+            border-block: 1px solid rgba(15, 23, 42, .08);
+        }
+
+        .docs-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 17px;
+        }
+
+        .doc-card {
+            padding: 24px;
+            transition: transform .2s ease, border-color .2s ease;
+        }
+
+        .doc-card h3 {
+            margin: 18px 0 8px;
+            font: 700 16px "Manrope", sans-serif;
+        }
+
+        .doc-card p {
+            min-height: 58px;
+            margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.75;
+        }
+
+        .doc-card .btn {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        /* Testimonials */
+        .testimonial-card { padding: 22px; }
+
+        .stars {
+            color: #d97706;
+            font-size: 11px;
+            letter-spacing: 2px;
+        }
+
+        .testimonial-card blockquote {
+            min-height: 82px;
+            margin: 15px 0 20px;
+            color: #334155;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .author-avatar {
+            width: 36px;
+            height: 36px;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(11, 154, 116, .2);
+            border-radius: 50%;
+            color: var(--violet);
+            background: rgba(11, 154, 116, .1);
+        }
+
+        .author strong {
+            display: block;
+            font-size: 11px;
+        }
+
+        .author small {
+            color: var(--muted);
+            font-size: 9px;
+        }
+
+        /* CTA and footer */
+        .cta { padding: 70px 0; }
+
+        .cta-panel {
+            position: relative;
+            overflow: hidden;
+            padding: 48px 28px;
+            border: 1px solid rgba(11, 154, 116, .22);
+            border-radius: 24px;
+            background:
+                radial-gradient(ellipse at 85% 20%, rgba(11, 154, 116, .13), transparent 35%),
+                linear-gradient(135deg, #ecfdf5, #f0fdfa);
+            text-align: center;
+        }
+
+        .cta-panel h2 {
+            margin: 0;
+            font: 800 clamp(27px, 4vw, 40px)/1.2 "Manrope", sans-serif;
+            letter-spacing: -.04em;
+        }
+
+        .cta-panel p {
+            max-width: 580px;
+            margin: 13px auto 23px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .footer {
+            padding: 58px 0 20px;
+            border-top: 1px solid var(--line);
+            background: #f1f5f9;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.6fr repeat(3, 1fr);
+            gap: 35px;
+            padding-bottom: 38px;
+        }
+
+        .footer-description {
+            max-width: 290px;
+            margin: 15px 0;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.8;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 8px;
+        }
+
+        .social-link {
+            width: 33px;
+            height: 33px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--line);
+            border-radius: 9px;
+            color: #475569;
+            background: rgba(15, 23, 42, 0.020);
+            font-size: 12px;
+        }
+
+        .social-link:hover {
+            color: var(--teal);
+            border-color: rgba(11, 154, 116, .3);
+        }
+
+        .footer-column h3 {
+            margin: 2px 0 15px;
+            font-size: 12px;
+        }
+
+        .footer-links {
+            display: grid;
+            gap: 10px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .footer-links a:hover { color: var(--teal); }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding-top: 19px;
+            border-top: 1px solid var(--line);
+            color: #64748b;
+            font-size: 10px;
+        }
+
+        .footer-bottom-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .footer-bottom-links a:hover { color: var(--text); }
+
+        .back-to-top {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 900;
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(11, 154, 116, .25);
+            border-radius: 13px;
+            color: #ffffff;
+            background: var(--teal);
+            box-shadow: 0 8px 24px rgba(15, 23, 42, .08);
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(8px);
+            transition: .2s ease;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* Fixed support chat sits above the sticky navigation */
+        .chat-widget {
+            position: fixed;
+            right: 20px;
+            bottom: 76px;
+            z-index: 2000;
+            font-family: "DM Sans", sans-serif;
+        }
+
+        .chat-toggle {
+            position: relative;
+            width: 52px;
+            height: 52px;
+            display: grid;
+            place-items: center;
+            border: 0;
+            border-radius: 17px;
+            color: #06211d;
+            background: linear-gradient(135deg, var(--teal), #80f9db);
+            box-shadow: 0 10px 30px rgba(24, 180, 141, .25);
+            cursor: pointer;
+        }
+
+        .chat-toggle i { font-size: 19px; }
+
+        .chat-notification {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 18px;
+            height: 18px;
+            display: grid;
+            place-items: center;
+            border: 2px solid var(--bg);
+            border-radius: 50%;
+            color: white;
+            background: #f43f5e;
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+        .chat-notification[hidden] { display: none; }
+
+        .chat-window {
+            position: absolute;
+            right: 0;
+            bottom: 64px;
+            width: 350px;
+            height: min(500px, calc(100dvh - 120px));
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid rgba(148, 163, 184, .2);
+            border-radius: 19px;
+            background: #f8fafc;
+            box-shadow: 0 20px 70px rgba(0, 0, 0, .45);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px) scale(.98);
+            transform-origin: bottom right;
+            transition: .2s ease;
+        }
+
+        .chat-window.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .chat-header {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 15px;
+            color: white;
+            background: linear-gradient(120deg, #12735b, #116e57);
+        }
+
+        .support-avatar {
+            position: relative;
+            width: 39px;
+            height: 39px;
+            display: grid;
+            place-items: center;
+            border-radius: 13px;
+            background: rgba(255, 255, 255, .15);
+        }
+
+        .online-indicator {
+            position: absolute;
+            right: -2px;
+            bottom: -2px;
+            width: 11px;
+            height: 11px;
+            border: 2px solid #12735b;
+            border-radius: 50%;
+            background: #4ade80;
+        }
+
+        .support-name {
+            margin: 0;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .support-status {
+            margin: 3px 0 0;
+            color: rgba(255, 255, 255, .75);
+            font-size: 9px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            background: #f1f5f9;
+        }
+
+        .message { margin-bottom: 12px; }
+        .message.user { text-align: right; }
+
+        .message-bubble {
+            display: inline-block;
+            max-width: 88%;
+            padding: 9px 12px;
+            border-radius: 14px;
+            color: #273449;
+            background: white;
+            box-shadow: 0 2px 7px rgba(15, 23, 42, .06);
+            font-size: 11px;
+            line-height: 1.65;
+            overflow-wrap: anywhere;
+            text-align: left;
+        }
+
+        .message.user .message-bubble {
+            color: #06312c;
+            background: #99f6e4;
+        }
+
+        .message-bubble a {
+            color: #12735b;
+            text-decoration: underline;
+            overflow-wrap: anywhere;
+        }
+
+        .message-time {
+            margin-top: 3px;
+            color: #94a3b8;
+            font-size: 8px;
+        }
+
+        .typing-indicator {
+            display: none;
+            padding: 0 15px 8px;
+            color: #64748b;
+            background: #f1f5f9;
+            font-size: 10px;
+        }
+
+        .quick-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            padding: 8px 12px;
+            border-top: 1px solid #e2e8f0;
+            background: white;
+        }
+
+        .quick-btn {
+            padding: 6px 8px;
+            border: 1px solid #dbe3ec;
+            border-radius: 20px;
+            color: #334155;
+            background: white;
+            font-size: 9px;
+            cursor: pointer;
+        }
+
+        .quick-btn:hover {
+            border-color: #18b48d;
+            color: #12735b;
+        }
+
+        .chat-contact {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding: 8px 12px;
+            border-top: 1px solid #e2e8f0;
+            background: #fff;
+        }
+
+        .chat-contact a {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 8px;
+            border: 1px solid #dbe3ec;
+            border-radius: 20px;
+            color: #334155;
+            font-size: 9px;
+        }
+
+        .chat-contact a:hover {
+            color: #12735b;
+            border-color: #18b48d;
+        }
+
+        .chat-input {
+            padding: 10px;
+            border-top: 1px solid #e2e8f0;
+            background: white;
+        }
+
+        .chat-input-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .chat-input input {
+            width: 100%;
+            min-width: 0;
+            padding: 10px 12px;
+            border: 1px solid #dbe3ec;
+            border-radius: 22px;
+            color: #0f172a;
+            background: white;
+            font-size: 11px;
+            outline: none;
+        }
+
+        .chat-input input:focus { border-color: #18b48d; }
+
+        .send-btn {
+            width: 37px;
+            height: 37px;
+            flex: 0 0 auto;
+            border: 0;
+            border-radius: 50%;
+            color: #06312c;
+            background: var(--teal);
+            cursor: pointer;
+        }
+
+        @media (max-width: 900px) {
+            .nav-menu { gap: 14px; }
+            .hero-grid { gap: 35px; }
+            .payment-layout, .b2c-layout { gap: 32px; }
+
+            .feature-grid,
+            .services-grid,
+            .docs-grid,
+            .testimonials-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-grid {
+                grid-template-columns: 1.4fr 1fr 1fr;
+            }
+
+            .footer-brand { grid-column: 1 / -1; }
+        }
+
+        @media (max-width: 700px) {
+            .container,
+            .nav-container {
+                width: min(100% - 32px, var(--container));
+            }
+
+            .section { padding: 68px 0; }
+            .nav-container { min-height: 64px; }
+            .hamburger { display: flex; }
+
+            .nav-menu {
+                position: fixed;
+                top: 64px;
+                left: 0;
+                right: 0;
+                display: flex;
+                align-items: stretch;
+                flex-direction: column;
+                gap: 0;
+                padding: 10px 16px 18px;
+                border-bottom: 1px solid var(--line);
+                background: rgba(8, 13, 24, .98);
+                box-shadow: 0 18px 30px rgba(0, 0, 0, .3);
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-8px);
+                transition: .2s ease;
+            }
+
+            .nav-menu.open {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+
+            .nav-link {
+                padding: 12px 8px;
+                border-bottom: 1px solid rgba(148, 163, 184, .08);
+            }
+
+            .nav-link.nav-cta {
+                margin-top: 10px;
+                text-align: center;
+                border: 0;
+            }
+
+            .hero { padding: 58px 0 62px; }
+
+            .hero-grid,
+            .payment-layout,
+            .b2c-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-grid { gap: 28px; }
+
+            .hero-title { font-size: clamp(40px, 11vw, 59px); }
+            .hero-description { font-size: 14px; }
+            .hero-visual { min-height: 355px; }
+            .dashboard-card { transform: none; }
+            .float-tag.one { right: -3px; }
+            .float-tag.two { left: -3px; }
+
+            .payment-layout,
+            .b2c-layout { gap: 28px; }
+
+            .steps { grid-template-columns: 1fr; }
+
+            .step-card {
+                display: grid;
+                grid-template-columns: 42px 1fr;
+                column-gap: 13px;
+            }
+
+            .step-card .step-number { grid-row: 1 / span 3; }
+            .step-card h3 { margin: 1px 0 6px; }
+            .step-card p, .step-tags { grid-column: 2; }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 28px 20px;
+            }
+
+            .footer-brand { grid-column: 1 / -1; }
+        }
+
+        @media (max-width: 480px) {
+            .container,
+            .nav-container {
+                width: calc(100% - 28px);
+            }
+
+            .hero-buttons {
+                display: grid;
+                grid-template-columns: 1fr;
+            }
+
+            .hero-buttons .btn { width: 100%; }
+            .hero-trust { gap: 10px 15px; }
+            .hero-visual { min-height: 330px; }
+
+            .dashboard-card {
+                padding: 16px;
+                border-radius: 17px;
+            }
+
+            .balance-value { font-size: 27px; }
+
+            .float-tag {
+                padding: 9px 10px;
+                font-size: 9px;
+            }
+
+            .float-tag.one { top: 5px; }
+            .float-tag.two { bottom: 0; }
+
+            .feature-grid,
+            .services-grid,
+            .docs-grid,
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .payment-panel,
+            .b2c-panel { padding: 16px; }
+
+            .payment-flow,
+            .b2c-flow { grid-template-columns: 1fr; }
+
+            .flow-step {
+                min-height: 0;
+                display: grid;
+                grid-template-columns: 30px 1fr;
+                column-gap: 10px;
+                align-items: center;
+            }
+
+            .flow-step .number { grid-row: 1 / span 2; }
+            .flow-step h3 { margin: 0 0 3px; }
+            .flow-step p { grid-column: 2; }
+
+            .cta-panel { padding: 35px 18px; }
+
+            .cta-buttons {
+                display: grid;
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons .btn { width: 100%; }
+            .footer-grid { gap: 24px 14px; }
+
+            .footer-bottom { flex-direction: column; }
+
+            .chat-widget {
+                right: 14px;
+                bottom: 70px;
+            }
+
+            .chat-window {
+                position: fixed;
+                right: 12px;
+                bottom: 132px;
+                width: min(360px, calc(100vw - 24px));
+                height: min(500px, calc(100dvh - 155px));
+            }
+
+            .back-to-top {
+                right: 16px;
+                bottom: 15px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                animation-duration: .01ms !important;
+                transition-duration: .01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo" aria-label="AvenPay API home">
+                <img src="/brand/avenpay-icon.svg?v=3" alt="" class="logo-img">
+                <span class="logo-text">AvenPay <span class="gradient-text">API</span></span>
+            </a>
+
+            <div class="nav-menu" id="nav-menu">
+                <a href="/" class="nav-link">Home</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#c2b" class="nav-link">C2B / STK Push</a>
+                <a href="#b2c" class="nav-link">B2C payouts</a>
+                <a href="/api/docs" class="nav-link" target="_blank" rel="noopener">Docs</a>
+                <a href="#contact" class="nav-link">Contact</a>
+                <a href="/register" class="nav-link nav-cta">Create account</a>
+            </div>
+
+            <button class="hamburger" id="hamburger" type="button"
+                aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="container hero-grid">
+                <div class="hero-copy">
+                    <span class="eyebrow"><span class="eyebrow-dot"></span> Payments infrastructure for Kenya</span>
+                    <h1 class="hero-title">Move money with <span class="gradient-text">confidence.</span></h1>
+                    <p class="hero-description">
+                        Accept customer payments with M-PESA STK Push and send
+                        business-to-customer payouts. Integrate payment requests,
+                        transaction verification, and callbacks from one platform.
+                    </p>
+
+                    <div class="hero-buttons">
+                        <a href="/register" class="btn btn-primary">
+                            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i> Get started
+                        </a>
+                        <a href="/api/docs" class="btn btn-secondary" target="_blank" rel="noopener">
+                            <i class="fa-solid fa-book-open" aria-hidden="true"></i> Explore the docs
+                        </a>
+                    </div>
+
+                    <div class="hero-trust">
+                        <span><i class="fa-solid fa-lock" aria-hidden="true"></i> Keep credentials secure</span>
+                        <span><i class="fa-solid fa-bolt" aria-hidden="true"></i> Transaction status updates</span>
+                    </div>
+                </div>
+
+                <div class="hero-visual" aria-label="Illustration of a payment dashboard">
+                    <div class="visual-glow"></div>
+                    <div class="float-tag one"><i class="fa-solid fa-circle-check" aria-hidden="true"></i> STK payment confirmed</div>
+
+                    <div class="dashboard-card">
+                        <div class="dashboard-top">
+                            <div class="dashboard-title">
+                                <span class="dashboard-icon"><i class="fa-solid fa-chart-line" aria-hidden="true"></i></span>
+                                Payment overview
+                            </div>
+                            <span class="live-pill">LIVE</span>
+                        </div>
+
+                        <div class="balance-label">Processed transactions</div>
+                        <div class="balance-value">KES 248,560 <span>this month</span></div>
+
+                        <div class="chart" aria-hidden="true">
+                            <span class="chart-bar" style="height:34%"></span>
+                            <span class="chart-bar" style="height:49%"></span>
+                            <span class="chart-bar" style="height:42%"></span>
+                            <span class="chart-bar" style="height:69%"></span>
+                            <span class="chart-bar" style="height:56%"></span>
+                            <span class="chart-bar" style="height:83%"></span>
+                            <span class="chart-bar" style="height:71%"></span>
+                            <span class="chart-bar" style="height:96%"></span>
+                            <span class="chart-bar" style="height:78%"></span>
+                            <span class="chart-bar" style="height:100%"></span>
+                        </div>
+
+                        <div class="transactions">
+                            <div class="transaction-row">
+                                <div class="transaction-left">
+                                    <span class="transaction-icon"><i class="fa-solid fa-mobile-screen-button" aria-hidden="true"></i></span>
+                                    <span class="transaction-detail">C2B STK Push<small>Customer paid</small></span>
+                                </div>
+                                <span class="transaction-amount">+ KES 2,500</span>
+                            </div>
+                            <div class="transaction-row">
+                                <div class="transaction-left">
+                                    <span class="transaction-icon payout"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></span>
+                                    <span class="transaction-detail">B2C payout<small>Sent to recipient</small></span>
+                                </div>
+                                <span class="transaction-amount">− KES 850</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="float-tag two"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> B2C payout initiated</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section features" id="features">
+            <div class="container">
+                <div class="section-heading">
+                    <span class="eyebrow"><span class="eyebrow-dot"></span> Built for your workflow</span>
+                    <h2>Collections and payouts, clearly explained</h2>
+                    <p>Collect money from customers with STK Push, or send money from your business to recipients with B2C payouts.</p>
+                </div>
+
+                <div class="feature-grid">
+                    <article class="feature-card">
+                        <div class="feature-icon"><i class="fa-solid fa-mobile-screen-button" aria-hidden="true"></i></div>
+                        <h3>Collect with STK Push</h3>
+                        <p>Your app requests payment. The customer gets an M-PESA prompt and approves it with their PIN. Successful funds settle to your configured till, bank, or Paybill.</p>
+                        <ul class="feature-list">
+                            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Customer pays your business</li>
+                            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Customer approves on their phone</li>
+                            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Confirm the result before fulfilling orders</li>
+                        </ul>
+                    </article>
+
+                    <article class="feature-card">
+                        <div class="feature-icon"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></div>
+                        <h3>Send B2C payouts</h3>
+                        <p>Your business initiates a supported payment to a recipient’s mobile money account—for example, a refund, reward, or commission.</p>
+                        <ul class="feature-list">
+                            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Business sends money to a recipient</li>
+                            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Track the payout status</li>
+                            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Use callbacks to update your records</li>
+                        </ul>
+                    </article>
+
+                    <article class="feature-card">
+                        <div class="feature-icon"><i class="fa-solid fa-code" aria-hidden="true"></i></div>
+                        <h3>Developer-ready API</h3>
+                        <p>Use REST endpoints and documentation to connect payment requests, status checks, and callbacks to your application.</p>
+                        <ul class="feature-list">
+                            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Server-side credential handling</li>
+                            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Integration examples</li>
+                            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Transaction status guidance</li>
+                        </ul>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section c2b-section" id="c2b">
+            <div class="container payment-layout">
+                <div class="payment-copy">
+                    <span class="eyebrow"><span class="eyebrow-dot"></span> Customer-to-business payments</span>
+                    <h2>Collect payments with <span class="gradient-text">STK Push.</span></h2>
+                    <p>
+                        C2B means <strong>customer-to-business</strong>: the customer
+                        pays your business. Your application initiates an M-PESA STK
+                        Push, the customer approves the prompt on their phone using
+                        their M-PESA PIN, and successful funds settle to your
+                        configured M-PESA till, bank, or Paybill.
+                    </p>
+
+                    <div class="payment-points">
+                        <div class="payment-point"><i class="fa-solid fa-circle-check" aria-hidden="true"></i><span>Your server initiates the STK Push with the customer’s phone number and payment amount.</span></div>
+                        <div class="payment-point"><i class="fa-solid fa-circle-check" aria-hidden="true"></i><span>The customer reviews and approves the payment prompt on their phone.</span></div>
+                        <div class="payment-point"><i class="fa-solid fa-circle-check" aria-hidden="true"></i><span>Successful payment proceeds to your configured till, bank, or Paybill.</span></div>
+                        <div class="payment-point"><i class="fa-solid fa-circle-check" aria-hidden="true"></i><span>Confirm the final transaction result using a callback or status-check endpoint.</span></div>
+                    </div>
+
+                    <div class="hero-buttons">
+                        <a href="/api/docs/c2b" class="btn btn-primary" target="_blank" rel="noopener">
+                            <i class="fa-solid fa-book-open" aria-hidden="true"></i> Read C2B / STK Push docs
+                        </a>
+                    </div>
+                </div>
+
+                <div class="payment-panel">
+                    <div class="payment-panel-header">
+                        <strong><i class="fa-solid fa-mobile-screen-button" aria-hidden="true"></i> STK Push payment flow</strong>
+                        <span>REQUEST → APPROVE → SETTLE</span>
+                    </div>
+                    <div class="payment-flow">
+                        <article class="flow-step"><span class="number">01</span><h3>Initiate STK Push</h3><p>Your application sends a payment request for the customer and amount.</p></article>
+                        <article class="flow-step"><span class="number">02</span><h3>Customer approves</h3><p>The customer enters their M-PESA PIN to authorize the payment.</p></article>
+                        <article class="flow-step"><span class="number">03</span><h3>Funds settle</h3><p>Successful payment settles to your configured till, bank, or Paybill.</p></article>
+                    </div>
+                    <div class="security-note">
+                        <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+                        <span>Do not treat the initial STK Push response as proof of payment. Confirm success with the callback or transaction-status endpoint before fulfilling an order.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section b2c-section" id="b2c">
+            <div class="container b2c-layout">
+                <div class="b2c-copy">
+                    <span class="eyebrow"><span class="eyebrow-dot"></span> Business-to-customer payments</span>
+                    <h2>Send money out with <span class="gradient-text">B2C payouts.</span></h2>
+                    <p>
+                        B2C means <strong>business-to-customer</strong>: your business
+                        sends money to a recipient. For example, you might send a
+                        refund, reward, commission, or another supported business
+                        payment to a customer’s mobile money account.
+                    </p>
+
+                    <div class="b2c-points">
+                        <div class="b2c-point"><i class="fa-solid fa-circle-check" aria-hidden="true"></i><span>Your backend initiates a payout using the required recipient and payment details.</span></div>
+                        <div class="b2c-point"><i class="fa-solid fa-circle-check" aria-hidden="true"></i><span>Check the payout status and use callbacks to process its final result.</span></div>
+                        <div class="b2c-point"><i class="fa-solid fa-circle-check" aria-hidden="true"></i><span>Check your configured account and available balance before initiating payouts.</span></div>
+                    </div>
+
+                    <div class="hero-buttons">
+                        <a href="/api/docs/b2c" class="btn btn-primary" target="_blank" rel="noopener">
+                            <i class="fa-solid fa-book-open" aria-hidden="true"></i> Read B2C payout docs
+                        </a>
+                    </div>
+                </div>
+
+                <div class="b2c-panel">
+                    <div class="b2c-panel-header">
+                        <strong><i class="fa-solid fa-arrow-right-arrow-left" aria-hidden="true"></i> B2C payout flow</strong>
+                        <span>INITIATE → TRACK → CONFIRM</span>
+                    </div>
+                    <div class="b2c-flow">
+                        <article class="flow-step"><span class="number">01</span><h3>Submit payout</h3><p>Your backend sends the recipient, amount, and required request details.</p></article>
+                        <article class="flow-step"><span class="number">02</span><h3>Track progress</h3><p>Save the transaction reference and check the payout status.</p></article>
+                        <article class="flow-step"><span class="number">03</span><h3>Handle result</h3><p>Use the final response or callback to update your records.</p></article>
+                    </div>
+                    <div class="security-note">
+                        <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+                        <span>Keep API credentials private and verify the final transaction result on your server.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="section-heading">
+                    <span class="eyebrow"><span class="eyebrow-dot"></span> Easy to get moving</span>
+                    <h2>From account to integration</h2>
+                    <p>Set up your account, connect your application, and test your payment workflow.</p>
+                </div>
+                <div class="steps">
+                    <article class="step-card">
+                        <span class="step-number">01</span><h3>Create your account</h3>
+                        <p>Register and configure the payment accounts you want to use with AvenPay.</p>
+                        <div class="step-tags"><span class="step-tag">Account setup</span><span class="step-tag">Credentials</span></div>
+                    </article>
+                    <article class="step-card">
+                        <span class="step-number">02</span><h3>Integrate the API</h3>
+                        <p>Follow the documentation to connect STK Push, B2C payouts, and transaction status checks.</p>
+                        <div class="step-tags"><span class="step-tag">PHP</span><span class="step-tag">Node.js</span><span class="step-tag">Python</span></div>
+                    </article>
+                    <article class="step-card">
+                        <span class="step-number">03</span><h3>Test your workflow</h3>
+                        <p>Verify requests and transaction responses in your environment before production use.</p>
+                        <div class="step-tags"><span class="step-tag">Status checks</span><span class="step-tag">Callbacks</span></div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section features">
+            <div class="container">
+                <div class="section-heading">
+                    <span class="eyebrow"><span class="eyebrow-dot"></span> Payment capabilities</span>
+                    <h2>Core services for your business</h2>
+                    <p>Build payment experiences around the tools your business needs.</p>
+                </div>
+                <div class="services-grid">
+                    <article class="service-card"><div class="service-icon"><i class="fa-solid fa-mobile-screen-button" aria-hidden="true"></i></div><h3>C2B STK Push</h3><p>Prompt a customer to approve an M-PESA payment to your configured till, bank, or Paybill.</p></article>
+                    <article class="service-card"><div class="service-icon"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></div><h3>B2C payouts</h3><p>Initiate supported business disbursements to customers and other recipients.</p></article>
+                    <article class="service-card"><div class="service-icon"><i class="fa-solid fa-circle-check" aria-hidden="true"></i></div><h3>Transaction verification</h3><p>Check transaction status and handle confirmed, pending, or failed results.</p></article>
+                    <article class="service-card"><div class="service-icon"><i class="fa-solid fa-bell" aria-hidden="true"></i></div><h3>Callbacks</h3><p>Receive asynchronous transaction updates at your configured server endpoint.</p></article>
+                    <article class="service-card"><div class="service-icon"><i class="fa-solid fa-chart-simple" aria-hidden="true"></i></div><h3>Payment visibility</h3><p>Review activity and transaction information from your AvenPay workspace.</p></article>
+                    <article class="service-card"><div class="service-icon"><i class="fa-solid fa-book-open" aria-hidden="true"></i></div><h3>Integration guidance</h3><p>Use API documentation and examples to build your payment integration.</p></article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section docs-section" id="docs">
+            <div class="container">
+                <div class="section-heading">
+                    <span class="eyebrow"><span class="eyebrow-dot"></span> API documentation</span>
+                    <h2>Choose your payment workflow</h2>
+                    <p>Explore the documentation for customer payments and business payouts.</p>
+                </div>
+                <div class="docs-grid">
+                    <article class="doc-card">
+                        <div class="feature-icon"><i class="fa-solid fa-mobile-screen-button" aria-hidden="true"></i></div>
+                        <h3>C2B / STK Push</h3>
+                        <p>Learn how to initiate customer payment prompts and handle transaction results.</p>
+                        <a href="/api/docs/c2b" class="btn btn-primary" target="_blank" rel="noopener">Read C2B docs <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+                    </article>
+                    <article class="doc-card">
+                        <div class="feature-icon"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></div>
+                        <h3>B2C payouts</h3>
+                        <p>Learn how to send supported business payouts and check their status.</p>
+                        <a href="/api/docs/b2c" class="btn btn-primary" target="_blank" rel="noopener">Read B2C docs <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+                    </article>
+                    <article class="doc-card">
+                        <div class="feature-icon"><i class="fa-solid fa-headset" aria-hidden="true"></i></div>
+                        <h3>Talk to us</h3>
+                        <p>Contact our team about your integration, business requirements, or support needs.</p>
+                        <a href="mailto:support@avenpay.co.ke" class="btn btn-secondary">Email our team <i class="fa-solid fa-envelope" aria-hidden="true"></i></a>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="section-heading">
+                    <span class="eyebrow"><span class="eyebrow-dot"></span> Customer stories</span>
+                    <h2>Built for businesses in motion</h2>
+                    <p>Payment tools can support everyday business workflows.</p>
+                </div>
+                <div class="testimonials-grid">
+                    <article class="testimonial-card">
+                        <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+                        <blockquote>“The API helped us bring our payment flow into one place and made it easier for our team to track transactions.”</blockquote>
+                        <div class="author"><span class="author-avatar"><i class="fa-solid fa-user" aria-hidden="true"></i></span><span><strong>John Kamau</strong><small>Business owner</small></span></div>
+                    </article>
+                    <article class="testimonial-card">
+                        <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+                        <blockquote>“Having payment collection and payout workflows together makes our day-to-day operations simpler.”</blockquote>
+                        <div class="author"><span class="author-avatar"><i class="fa-solid fa-user" aria-hidden="true"></i></span><span><strong>Sarah Wanjiku</strong><small>Software developer</small></span></div>
+                    </article>
+                    <article class="testimonial-card">
+                        <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+                        <blockquote>“The documentation gave us a clear starting point for connecting our application to M-PESA payments.”</blockquote>
+                        <div class="author"><span class="author-avatar"><i class="fa-solid fa-user" aria-hidden="true"></i></span><span><strong>Michael Ochieng</strong><small>Product lead</small></span></div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta">
+            <div class="container">
+                <div class="cta-panel">
+                    <span class="eyebrow"><span class="eyebrow-dot"></span> Start building</span>
+                    <h2>Bring your payment flow together.</h2>
+                    <p>Explore STK Push collections, B2C payouts, and transaction status workflows with AvenPay API.</p>
+                    <div class="cta-buttons">
+                        <a href="/register" class="btn btn-primary"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i> Create an account</a>
+                        <a href="/api/docs" class="btn btn-secondary" target="_blank" rel="noopener"><i class="fa-solid fa-book-open" aria-hidden="true"></i> Read documentation</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="/" class="nav-logo">
+                        <img src="/brand/avenpay-icon.svg?v=3" alt="" class="logo-img">
+                        <span class="logo-text">AvenPay <span class="gradient-text">API</span></span>
+                    </a>
+                    <p class="footer-description">Payment tools for businesses integrating M-PESA STK Push collections and B2C disbursement workflows.</p>
+                    <div class="social-links">
+                        <a href="mailto:support@avenpay.co.ke" class="social-link" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Product</h3>
+                    <ul class="footer-links">
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#c2b">C2B / STK Push</a></li>
+                        <li><a href="#b2c">B2C payouts</a></li>
+                        <li><a href="/api/docs" target="_blank" rel="noopener">Documentation</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Account</h3>
+                    <ul class="footer-links">
+                        <li><a href="/register">Create account</a></li>
+                        <li><a href="/login">Log in</a></li>
+                        <li><a href="/api/docs" target="_blank" rel="noopener">API guide</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li><a href="mailto:support@avenpay.co.ke">Email support</a></li>
+                        <li><a href="tel:+254748600179">+254 748 600 179</a></li>
+                        <li><a href="https://api.whatsapp.com/send?phone=254748600179" target="_blank" rel="noopener">WhatsApp</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <span>&copy; 2026 AvenPay API. All rights reserved.</span>
+                <div class="footer-bottom-links">
+                    <a href="/privacy">Privacy</a>
+                    <a href="/terms">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="backToTop" type="button" aria-label="Back to top">
+        <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+    </button>
+
+    <div class="chat-widget" id="chatWidget">
+        <button class="chat-toggle" id="chatToggle" type="button"
+            aria-label="Open support chat" aria-expanded="false" aria-controls="chatWindow">
+            <i class="fa-solid fa-comments" aria-hidden="true"></i>
+            <span class="chat-notification" id="chatNotification">1</span>
+        </button>
+
+        <section class="chat-window" id="chatWindow" aria-label="AvenPay payment help chat">
+            <div class="chat-header">
+                <div class="support-avatar">
+                    <i class="fa-solid fa-headset" aria-hidden="true"></i>
+                    <span class="online-indicator"></span>
+                </div>
+                <div>
+                    <h2 class="support-name">AvenPay Payment Guide</h2>
+                    <p class="support-status">Ask about C2B, STK Push, or B2C</p>
+                </div>
+            </div>
+
+            <div class="chat-messages" id="chatMessages" aria-live="polite"></div>
+            <div class="typing-indicator" id="typingIndicator">Typing…</div>
+
+            <div class="quick-actions" aria-label="Common questions">
+                <button class="quick-btn" type="button" data-message="What is C2B and STK Push?">What is C2B?</button>
+                <button class="quick-btn" type="button" data-message="How does B2C work?">What is B2C?</button>
+                <button class="quick-btn" type="button" data-message="What is the difference between C2B and B2C?">Compare them</button>
+                <button class="quick-btn" type="button" data-message="Where does a successful STK Push payment go?">Where do funds go?</button>
+                <button class="quick-btn" type="button" data-message="How can I contact support?">Contact support</button>
+            </div>
+
+            <div class="chat-contact" aria-label="Contact support">
+                <a href="mailto:support@avenpay.co.ke"><i class="fa-solid fa-envelope" aria-hidden="true"></i> Email</a>
+                <a href="tel:+254748600179"><i class="fa-solid fa-phone" aria-hidden="true"></i> Call</a>
+                <a href="https://api.whatsapp.com/send?phone=254748600179" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp</a>
+            </div>
+
+            <form class="chat-input" id="chatForm">
+                <div class="chat-input-row">
+                    <input id="messageInput" type="text" maxlength="500" placeholder="Ask a payment question…" autocomplete="off" aria-label="Ask a payment question">
+                    <button class="send-btn" type="submit" aria-label="Send message">
+                        <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </form>
+        </section>
+    </div>
+
+    <script>
+        (() => {
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('nav-menu');
+
+            function closeMenu() {
+                navMenu.classList.remove('open');
+                hamburger.classList.remove('active');
+                hamburger.setAttribute('aria-expanded', 'false');
+                hamburger.setAttribute('aria-label', 'Open navigation menu');
+                document.body.classList.remove('menu-open');
+            }
+
+            hamburger.addEventListener('click', () => {
+                const isOpen = navMenu.classList.toggle('open');
+                hamburger.classList.toggle('active', isOpen);
+                hamburger.setAttribute('aria-expanded', String(isOpen));
+                hamburger.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+                document.body.classList.toggle('menu-open', isOpen);
+            });
+
+            navMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
+
+            const backToTop = document.getElementById('backToTop');
+
+            window.addEventListener('scroll', () => {
+                backToTop.classList.toggle('visible', window.scrollY > 450);
+            }, { passive: true });
+
+            backToTop.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            const chatToggle = document.getElementById('chatToggle');
+            const chatWindow = document.getElementById('chatWindow');
+            const chatNotification = document.getElementById('chatNotification');
+            const chatMessages = document.getElementById('chatMessages');
+            const chatForm = document.getElementById('chatForm');
+            const messageInput = document.getElementById('messageInput');
+            const typingIndicator = document.getElementById('typingIndicator');
+
+            let welcomeSent = false;
+            let audioContext = null;
+            let audioEnabled = false;
+
+            function enableChatAudio() {
+                if (audioEnabled) return;
+
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContextClass) return;
+
+                try {
+                    audioContext = new AudioContextClass();
+                    if (audioContext.state === 'suspended') audioContext.resume();
+                    audioEnabled = true;
+                } catch (error) {
+                    audioEnabled = false;
+                }
+            }
+
+            function playTypingSound() {
+                if (!audioEnabled || !audioContext) return;
+
+                try {
+                    if (audioContext.state === 'suspended') audioContext.resume();
+
+                    const now = audioContext.currentTime;
+
+                    [740, 920, 680].forEach((frequency, index) => {
+                        const start = now + index * 0.075;
+                        const oscillator = audioContext.createOscillator();
+                        const gain = audioContext.createGain();
+
+                        oscillator.type = 'sine';
+                        oscillator.frequency.value = frequency;
+                        gain.gain.setValueAtTime(0.0001, start);
+                        gain.gain.exponentialRampToValueAtTime(0.025, start + 0.008);
+                        gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.055);
+
+                        oscillator.connect(gain);
+                        gain.connect(audioContext.destination);
+                        oscillator.start(start);
+                        oscillator.stop(start + 0.065);
+                    });
+                } catch (error) {
+                    // Chat remains usable if audio is unavailable.
+                }
+            }
+
+            function addMessage(text, sender) {
+                const message = document.createElement('div');
+                message.className = `message ${sender}`;
+
+                const bubble = document.createElement('div');
+                bubble.className = 'message-bubble';
+
+                /*
+                 * Convert documentation paths to full URLs using the current
+                 * site origin, so replies show https://your-domain.com/api/docs...
+                 */
+                const linkPattern = /(\/api\/docs(?:\/[a-z0-9-]+)?)/gi;
+                let lastIndex = 0;
+                let match;
+
+                while ((match = linkPattern.exec(text)) !== null) {
+                    bubble.appendChild(
+                        document.createTextNode(text.slice(lastIndex, match.index))
+                    );
+
+                    const path = match[0];
+                    const fullUrl = new URL(path, window.location.origin).href;
+
+                    const link = document.createElement('a');
+                    link.href = fullUrl;
+                    link.textContent = fullUrl;
+                    link.target = '_blank';
+                    link.rel = 'noopener noreferrer';
+                    bubble.appendChild(link);
+
+                    lastIndex = match.index + path.length;
+                }
+
+                bubble.appendChild(document.createTextNode(text.slice(lastIndex)));
+
+                const time = document.createElement('div');
+                time.className = 'message-time';
+                time.textContent = new Date().toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                message.append(bubble, time);
+                chatMessages.appendChild(message);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            function openChat() {
+                enableChatAudio();
+                chatWindow.classList.add('active');
+                chatToggle.setAttribute('aria-expanded', 'true');
+                chatToggle.setAttribute('aria-label', 'Close payment help chat');
+                chatNotification.hidden = true;
+
+                if (!welcomeSent) {
+                    welcomeSent = true;
+                    addMessage(
+                        'Hi! I can explain payments in simple terms. C2B/STK Push is when a customer pays your business: you request payment, the customer approves it on their phone, and successful funds settle to your configured till, bank, or Paybill. B2C is when your business sends money to a recipient. Ask me a question or use the contact options below.',
+                        'support'
+                    );
+                }
+
+                messageInput.focus();
+            }
+
+            function closeChat() {
+                chatWindow.classList.remove('active');
+                chatToggle.setAttribute('aria-expanded', 'false');
+                chatToggle.setAttribute('aria-label', 'Open support chat');
+            }
+
+            function getReply(message) {
+                const text = message.toLowerCase();
+
+                const asksC2B =
+                    text.includes('c2b') ||
+                    text.includes('stk') ||
+                    text.includes('customer pay') ||
+                    text.includes('collect payment') ||
+                    text.includes('collect money');
+
+                const asksB2C =
+                    text.includes('b2c') ||
+                    text.includes('payout') ||
+                    text.includes('disbursement') ||
+                    text.includes('send money') ||
+                    text.includes('refund');
+
+                const asksContact =
+                    text.includes('contact') ||
+                    text.includes('support') ||
+                    text.includes('human') ||
+                    text.includes('email') ||
+                    text.includes('phone') ||
+                    text.includes('call') ||
+                    text.includes('whatsapp');
+
+                if (asksContact) {
+                    return 'You can contact our support team by email at support@avenpay.co.ke, by phone at +254 748 600 179, or on WhatsApp using the WhatsApp button below. For API questions, include a short description of your integration and any relevant transaction reference. Please do not send passwords, PINs, or secret API credentials.';
+                }
+
+                if (
+                    (text.includes('difference') || text.includes('compare')) &&
+                    (text.includes('c2b') || text.includes('b2c') || text.includes('stk'))
+                ) {
+                    return 'The simple difference: C2B/STK Push is money coming IN from your customer to your business. Your app requests payment, the customer approves it on their phone, and successful funds settle to your configured till, bank, or Paybill. Read the C2B / STK Push documentation at /api/docs/c2b. B2C is money going OUT from your business to a recipient, such as a supported refund or reward. Read the B2C documentation at /api/docs/b2c.';
+                }
+
+                if (
+                    text.includes('where') &&
+                    (text.includes('fund') || text.includes('money') || text.includes('settle'))
+                ) {
+                    return 'For a successful C2B/STK Push transaction, funds settle to the M-PESA till, bank, or Paybill configured for your payment setup. Confirm the final transaction status through your callback or status-check endpoint. Read the C2B / STK Push documentation at /api/docs/c2b.';
+                }
+
+                if (asksC2B) {
+                    return 'C2B means customer-to-business: the customer pays your business. With STK Push, your app requests payment, an M-PESA prompt appears on the customer’s phone, and the customer enters their PIN to approve it. If successful, the money settles to your configured till, bank, or Paybill. Verify the final result before marking an order as paid. For the full integration steps, read the C2B / STK Push documentation at /api/docs/c2b.';
+                }
+
+                if (asksB2C) {
+                    return 'B2C means business-to-customer: your business sends money to a recipient. It can be used for supported payouts such as refunds, rewards, or commissions. Your backend initiates the payout, then checks the final result using the response, callback, or status endpoint. For the full integration steps, read the B2C payout documentation at /api/docs/b2c.';
+                }
+
+                if (
+                    text.includes('what is') ||
+                    text.includes('explain') ||
+                    text.includes('understand') ||
+                    text.includes('confused') ||
+                    text.includes('concept')
+                ) {
+                    return 'In simple terms: C2B is money coming IN from your customer to your business, usually through an STK Push the customer approves on their phone. B2C is money going OUT from your business to a recipient. For the technical steps, read the C2B documentation at /api/docs/c2b or the B2C documentation at /api/docs/b2c.';
+                }
+
+                if (text.includes('api') || text.includes('integration') || text.includes('docs')) {
+                    return 'The API connects your application to payment requests and transaction updates. Keep credentials on your server and confirm the final transaction result before treating a payment or payout as complete. Browse the API documentation at /api/docs.';
+                }
+
+                if (text.includes('price') || text.includes('pricing') || text.includes('quote')) {
+                    return 'For pricing or business questions, contact our team at support@avenpay.co.ke or call +254 748 600 179.';
+                }
+
+                return 'I can explain C2B/STK Push (a customer pays your business) or B2C (your business sends money to a recipient). Ask which one you’d like to learn about. You can also contact support by email at support@avenpay.co.ke, by phone at +254 748 600 179, or using the WhatsApp button below.';
+            }
+
+            function sendMessage(text) {
+                const message = text.trim();
+                if (!message) return;
+
+                enableChatAudio();
+                addMessage(message, 'user');
+                messageInput.value = '';
+                typingIndicator.style.display = 'block';
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                window.setTimeout(() => {
+                    typingIndicator.style.display = 'none';
+                    playTypingSound();
+                    addMessage(getReply(message), 'support');
+                }, 750);
+            }
+
+            chatToggle.addEventListener('click', () => {
+                chatWindow.classList.contains('active') ? closeChat() : openChat();
+            });
+
+            chatForm.addEventListener('submit', event => {
+                event.preventDefault();
+                sendMessage(messageInput.value);
+            });
+
+            document.querySelectorAll('.quick-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    sendMessage(button.dataset.message || '');
+                });
+            });
+            
+            document.addEventListener("keydown", function (event) {
+  if (
+    (event.ctrlKey || event.metaKey) &&
+    event.key.toLowerCase() === "u"
+  ) {
+    event.preventDefault();
+  }
+});
+
+            document.addEventListener('keydown', event => {
+                if (event.key === 'Escape') {
+                    closeMenu();
+                    closeChat();
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

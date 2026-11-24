@@ -1,0 +1,45 @@
+# Disable directory listing
+Options -Indexes
+
+# Custom 404 error page (matches public_html/404.php in your archive)
+ErrorDocument 404 /404.php
+
+# Protect sensitive files and directories if accessed directly
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+<FilesMatch "\.(env|ini|log|sh|sql|json)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Force HTTPS (uncomment if behind SSL without cPanel redirect already handling it)
+    # RewriteCond %{HTTPS} !=on
+    # RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Do not rewrite existing files or directories
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Redirect direct .php requests to clean URLs? Leave commented unless intentional,
+    # as webhooks/callbacks (e.g. /api/callback.php, /webhook.php) often hit .php directly.
+
+    # Rewrite extensionless URLs (such as /register or /login) to matching .php file
+    RewriteCond %{REQUEST_FILENAME}.php -f
+    RewriteRule ^(.+?)/?$ $1.php [L]
+</IfModule>
+
+# Prevent PHP execution inside uploads directory as a security safeguard
+<IfModule mod_rewrite.c>
+    RewriteRule ^uploads/.*\.(php|phtml|php3|php4|php5|php7|php8|phar)$ - [F,L,NC]
+</IfModule>
+
+# Default character set
+AddDefaultCharset UTF-8

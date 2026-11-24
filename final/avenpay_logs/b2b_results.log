@@ -1,0 +1,9 @@
+[2026-11-23 08:36:51] {"Result":{"ResultType":0,"ResultCode":2001,"ResultDesc":"The initiator information is invalid.","OriginatorConversationID":"O_AG_FAIL1","ConversationID":"AG_FAIL1"}}
+[2026-11-23 08:36:51] {"Result":{"ResultType":0,"ResultCode":2001,"ResultDesc":"The initiator information is invalid.","OriginatorConversationID":"O_AG_FAIL1","ConversationID":"AG_FAIL1"}}
+[2026-11-23 08:36:51] {"Result":{"ResultType":0,"ResultCode":0,"ResultDesc":"The service request is processed successfully.","OriginatorConversationID":"O_AG_OK1","ConversationID":"AG_OK1","TransactionID":"SGX1234ABC"}}
+[2026-11-23 08:37:07] {"Result":{"ResultType":0,"ResultCode":2001,"ResultDesc":"The initiator information is invalid.","OriginatorConversationID":"O_AG_FAIL1","ConversationID":"AG_FAIL1"}}
+[2026-11-23 08:37:07] {"Result":{"ResultType":0,"ResultCode":2001,"ResultDesc":"The initiator information is invalid.","OriginatorConversationID":"O_AG_FAIL1","ConversationID":"AG_FAIL1"}}
+[2026-11-23 08:37:07] {"Result":{"ResultType":0,"ResultCode":0,"ResultDesc":"The service request is processed successfully.","OriginatorConversationID":"O_AG_OK1","ConversationID":"AG_OK1","TransactionID":"SGX1234ABC"}}
+[2026-11-23 08:37:10] {"Result":{"ResultType":0,"ResultCode":2001,"ResultDesc":"The initiator information is invalid.","OriginatorConversationID":"O_AG_FAIL1","ConversationID":"AG_FAIL1"}}
+[2026-11-23 08:37:10] {"Result":{"ResultType":0,"ResultCode":2001,"ResultDesc":"The initiator information is invalid.","OriginatorConversationID":"O_AG_FAIL1","ConversationID":"AG_FAIL1"}}
+[2026-11-23 08:37:10] {"Result":{"ResultType":0,"ResultCode":0,"ResultDesc":"The service request is processed successfully.","OriginatorConversationID":"O_AG_OK1","ConversationID":"AG_OK1","TransactionID":"SGX1234ABC"}}

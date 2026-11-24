@@ -1,0 +1,1197 @@
+[23-Nov-2026 19:39:21 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:22 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:23 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:24 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:25 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:26 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:27 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:28 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:29 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:30 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:31 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:32 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:33 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:34 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:35 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:36 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:37 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:38 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:39 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:40 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:41 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:42 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:43 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:44 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:45 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:46 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:47 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:48 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:49 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:50 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:51 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:52 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:53 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:54 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:55 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:56 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:57 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:58 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:39:59 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:00 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:01 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:02 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:03 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:04 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:05 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:06 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:07 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:08 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:09 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:10 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:11 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:12 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:13 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:14 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:15 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:16 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:17 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:18 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:19 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:20 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:21 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:22 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:23 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:24 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:25 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:26 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:27 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:28 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:29 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:30 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:31 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:32 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:33 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:34 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:35 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:37 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:38 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:39 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:40 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:41 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:42 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:43 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:44 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:45 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:46 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:47 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:48 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:49 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:50 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:51 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:52 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:53 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:54 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:55 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:40:56 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:41:19 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:41:20 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:41:21 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:41:22 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:41:23 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:41:24 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:41:25 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:41:26 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:41:27 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 19:41:27 Africa/Nairobi] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/avenpayc/public_html/admin/transactions.php on line 152
+[23-Nov-2026 19:41:27 Africa/Nairobi] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/avenpayc/public_html/admin/transactions.php on line 153
+[23-Nov-2026 19:41:27 Africa/Nairobi] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/avenpayc/public_html/admin/transactions.php on line 154
+[23-Nov-2026 19:41:44 Africa/Nairobi] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/avenpayc/public_html/admin/users_list.php on line 225
+[23-Nov-2026 19:41:44 Africa/Nairobi] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/avenpayc/public_html/admin/users_list.php on line 226
+[23-Nov-2026 19:41:44 Africa/Nairobi] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/avenpayc/public_html/admin/users_list.php on line 227
+[23-Nov-2026 19:41:52 Africa/Nairobi] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/avenpayc/public_html/admin/users_delete.php on line 250
+[23-Nov-2026 19:41:52 Africa/Nairobi] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/avenpayc/public_html/admin/users_delete.php on line 251
+[23-Nov-2026 20:21:45 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'avenpayc_avenpay.mpesa_b2b_transactions' doesn't exist in /home/avenpayc/public_html/admin/payout_review.php:43
+Stack trace:
+#0 /home/avenpayc/public_html/admin/payout_review.php(43): mysqli->query('SELECT id, user...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/payout_review.php on line 43
+[23-Nov-2026 20:53:34 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'avenpayc_avenpay.mpesa_b2b_transactions' doesn't exist in /home/avenpayc/public_html/admin/payout_review.php:43
+Stack trace:
+#0 /home/avenpayc/public_html/admin/payout_review.php(43): mysqli->query('SELECT id, user...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/payout_review.php on line 43
+[23-Nov-2026 21:03:19 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:03:20 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:03:21 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:03:22 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:03:23 Africa/Nairobi] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/avenpayc/public_html/admin/transactions.php on line 152
+[23-Nov-2026 21:03:23 Africa/Nairobi] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/avenpayc/public_html/admin/transactions.php on line 153
+[23-Nov-2026 21:03:23 Africa/Nairobi] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/avenpayc/public_html/admin/transactions.php on line 154
+[23-Nov-2026 21:03:23 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:31:38 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:31:39 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:31:40 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:31:41 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:31:42 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:31:43 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:31:44 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:31:45 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:31:46 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:31:47 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:31:48 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:31:49 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:31:50 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:31:51 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:31:52 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:31:53 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:31:54 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:31:55 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:31:56 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:31:57 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:31:58 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:31:59 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:32:00 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:32:01 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:32:02 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:32:03 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:32:04 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:32:05 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:32:06 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:32:07 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:32:08 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:32:09 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:32:10 Africa/Nairobi] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/avenpayc/public_html/admin/transactions.php on line 152
+[23-Nov-2026 21:32:10 Africa/Nairobi] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/avenpayc/public_html/admin/transactions.php on line 153
+[23-Nov-2026 21:32:10 Africa/Nairobi] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/avenpayc/public_html/admin/transactions.php on line 154
+[23-Nov-2026 21:33:28 Africa/Nairobi] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/avenpayc/public_html/admin/transactions.php on line 152
+[23-Nov-2026 21:33:28 Africa/Nairobi] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/avenpayc/public_html/admin/transactions.php on line 153
+[23-Nov-2026 21:33:28 Africa/Nairobi] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/avenpayc/public_html/admin/transactions.php on line 154
+[23-Nov-2026 21:52:10 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:52:11 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:52:12 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:52:13 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:52:14 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:52:15 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:52:16 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:52:17 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:52:18 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:52:19 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:52:20 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:52:21 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:52:22 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[23-Nov-2026 21:52:23 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:21 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:22 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:23 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:24 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:25 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:26 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:27 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:28 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:29 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:30 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:31 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:32 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:33 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:33 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'avenpayc_avenpay.mpesa_b2b_transactions' doesn't exist in /home/avenpayc/public_html/admin/payout_review.php:43
+Stack trace:
+#0 /home/avenpayc/public_html/admin/payout_review.php(43): mysqli->query('SELECT id, user...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/payout_review.php on line 43
+[24-Nov-2026 10:58:38 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:39 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:40 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:41 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:42 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:43 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:44 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:45 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:46 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:47 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:48 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:49 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:50 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:51 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:52 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:53 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:54 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:55 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:56 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:57 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:58 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:58:59 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:59:00 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:59:01 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:59:02 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 10:59:03 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:29:41 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:29:42 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:29:43 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:29:44 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:29:44 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'avenpayc_avenpay.mpesa_b2b_transactions' doesn't exist in /home/avenpayc/public_html/admin/payout_review.php:43
+Stack trace:
+#0 /home/avenpayc/public_html/admin/payout_review.php(43): mysqli->query('SELECT id, user...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/payout_review.php on line 43
+[24-Nov-2026 11:29:47 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:29:48 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:29:50 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:29:52 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:29:54 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:29:56 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:29:58 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:30:00 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:30:02 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:30:04 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:30:06 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:30:08 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:30:10 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:30:12 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:30:14 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:30:16 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:30:18 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:30:20 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:30:22 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:30:24 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:30:26 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:30:28 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:30:30 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:30:32 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:30:34 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:30:36 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:30:38 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:30:40 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:30:42 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:30:44 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:30:46 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:30:48 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:31:18 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
+[24-Nov-2026 11:32:18 Africa/Nairobi] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.fee_ivalue' in 'SELECT' in /home/avenpayc/public_html/admin/fetch_admin_stats.php:66
+Stack trace:
+#0 /home/avenpayc/public_html/admin/fetch_admin_stats.php(66): mysqli->prepare('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in /home/avenpayc/public_html/admin/fetch_admin_stats.php on line 66
