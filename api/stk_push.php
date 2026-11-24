@@ -73,7 +73,7 @@ function getDarajaConfig($conn, $user_id = null) {
                     }
                     $stmt2->close();
 
-                    if (!empty($customSettings['consumer_key'])) {
+                    if (!empty($customSettings['consumer_key']) && !empty($customSettings['consumer_secret']) && !empty($customSettings['paybill']) && !empty($customSettings['passkey'])) {
                         return [
                             'consumer_key'    => $customSettings['consumer_key'] ?? '',
                             'consumer_secret' => $customSettings['consumer_secret'] ?? '',
@@ -120,9 +120,14 @@ function getAccessToken($conn, $user_id = null) {
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
 
     $response = curl_exec($ch);
+    $curlError = curl_error($ch);
+    $httpCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
 
     $result = json_decode($response ?: '', true);
+    if (empty($result['access_token'])) {
+        error_log('AvenPay Daraja OAuth failed; HTTP ' . $httpCode . ($curlError !== '' ? '; cURL: ' . $curlError : '') . '; provider message: ' . (string)($result['errorMessage'] ?? $result['error'] ?? 'No access token returned'));
+    }
     return $result['access_token'] ?? '';
 }
 
@@ -591,9 +596,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($token === '') {
         http_response_code(502);
+        $config = getDarajaConfig($conn, $user_id);
+        $missing = [];
+        foreach (['consumer_key', 'consumer_secret', 'paybill', 'passkey'] as $requiredKey) {
+            if (empty($config[$requiredKey])) $missing[] = $requiredKey;
+        }
         echo json_encode([
             "status" => "error",
-            "message" => "Could not connect to the payment service. Please try again later."
+            "message" => $missing
+                ? "Daraja gateway credentials are incomplete. Please ask the administrator to check: " . implode(', ', $missing) . "."
+                : "Safaricom authentication is temporarily unavailable. Please try again later."
         ]);
         exit;
     }
