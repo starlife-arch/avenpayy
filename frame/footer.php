@@ -9,7 +9,7 @@
                 <?php echo ucfirst(strtolower("AVENPAY")); ?>
             </span>
             <span class="text-slate-800">|</span>
-            <span class="text-slate-500">Designed by <span class="text-slate-500 font-semibold"><?php echo ucfirst(strtolower("KentahTech")); ?></span></span>
+            <span class="text-slate-500">Designed by <span class="text-slate-600 font-semibold">Leen Avenpay Solutions</span></span>
         </div>
         
         <!-- Updated Documentation Links -->
