@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../database_config/env.php';
+require_once __DIR__ . '/../lib/daraja_environment.php';
 // api/token.php
 
 header('Content-Type: application/json; charset=utf-8');
@@ -33,7 +34,7 @@ if (empty($cfg['consumer_key']) || empty($cfg['consumer_secret'])) {
 }
 
 $credentials = base64_encode($cfg['consumer_key'] . ':' . $cfg['consumer_secret']);
-$ch = curl_init('https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials');
+$ch = curl_init(av_daraja_oauth_url());
 curl_setopt($ch, CURLOPT_HTTPHEADER, ['Authorization: Basic ' . $credentials]);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_TIMEOUT, 15);
