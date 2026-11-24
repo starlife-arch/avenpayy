@@ -6,8 +6,9 @@ require_once __DIR__ . '/../lib/logger.php';
 error_reporting(E_ALL);
 ini_set('display_errors', 0);
 
-if (file_exists('database_config/db.php')) {
-    require_once 'database_config/db.php';
+$dbPath = __DIR__ . '/../database_config/db.php';
+if (is_file($dbPath)) {
+    require_once $dbPath;
 } else {
     file_put_contents(av_log_path('callback_errors.log'), "[" . date('Y-m-d H:i:s') . "] Core Configuration Error: database_config/db.php missing" . PHP_EOL, FILE_APPEND);
     http_response_code(500);
