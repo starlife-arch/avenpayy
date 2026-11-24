@@ -107,7 +107,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/frame/header.php';
 
             <!-- Submit Button -->
             <button type="submit" id="payBtn" class="w-full bg-teal-600 hover:bg-teal-500 active:bg-teal-700 text-white py-2.5 rounded font-semibold text-xs uppercase tracking-wider transition shadow-sm">
-                Pay KES <span id="displayAmount">350</span>
+                Pay KES <span id="displayAmount">200</span>
             </button>
         </form>
 
