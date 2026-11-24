@@ -159,10 +159,10 @@ if (file_exists($header_path)) {
                         <td class="p-3.5 font-sans text-slate-500">Poll live status of processing disbursement</td>
                     </tr>
                     <tr class="hover:bg-white/50">
-                        <td class="p-3.5 font-sans font-bold text-slate-900">Result Webhook</td>
+                        <td class="p-3.5 font-sans font-bold text-slate-900">Safaricom result callback (internal)</td>
                         <td class="p-3.5"><span class="bg-teal-950 text-teal-600 px-2 py-0.5 rounded-sm border border-teal-800 font-bold">POST</span></td>
                         <td class="p-3.5 text-teal-700 domain-sensed-endpoint" data-path="/b2c/payout/result">...</td>
-                        <td class="p-3.5 font-sans text-slate-500">Receive async payout confirmations</td>
+                        <td class="p-3.5 font-sans text-slate-500">AvenPay-only Safaricom callback receiver; not a merchant webhook URL</td>
                     </tr>
                 </tbody>
             </table>
@@ -541,22 +541,22 @@ if (file_exists($header_path)) {
         </div>
     </div>
 
-    <!-- Section 8: Result Webhook Callback -->
+    <!-- Section 8: Internal Safaricom Result Callback -->
     <div class="bg-[rgba(15,23,42,0.95)] border border-[rgba(255,255,255,0.08)] rounded-sm shadow-xl overflow-hidden space-y-4 p-6">
         <div class="flex items-center justify-between">
             <h3 class="text-sm font-black text-slate-900 uppercase tracking-wider flex items-center gap-2">
-                <i class="iclass fa-solid fa-satellite-dish text-teal-600"></i> 8. Result Webhook Callback
+                <i class="iclass fa-solid fa-satellite-dish text-teal-600"></i> 8. Safaricom Result Callback (Internal)
             </h3>
             <span class="text-xs font-mono font-bold text-teal-600 bg-teal-950 border border-teal-800 px-2 py-0.5 rounded-sm">POST</span>
         </div>
         <p class="text-xs text-slate-500 leading-relaxed">
-            Configure this URL in your backend handler to receive asynchronous confirmation payloads when a disbursement completes or fails.
+            This is AvenPay’s server-to-server callback receiver used by Safaricom to report B2C payout results. Do not register this URL as your merchant webhook and do not send requests to it yourself. It is protected by AvenPay callback authentication.
         </p>
         <div class="space-y-1">
-            <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">Webhook Endpoint URL</label>
+            <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">Internal Safaricom callback receiver (reference only)</label>
             <div class="flex items-center gap-2">
                 <input type="text" id="endpoint-result" readonly class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-sm text-xs font-mono text-teal-700 select-all">
-                <button onclick="copyInput('endpoint-result', 'Webhook URL copied!')" class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-2 rounded-sm text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shrink-0">Copy</button>
+                <button onclick="copyInput('endpoint-result', 'Internal callback URL copied!')" class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-2 rounded-sm text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shrink-0">Copy</button>
             </div>
         </div>
     </div>
@@ -564,7 +564,7 @@ if (file_exists($header_path)) {
 </main>
 
 <script>
-const currentDomain = window.location.origin;
+const currentDomain = 'https://api.avenpay.co.ke';
 
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('endpoint-bal').value = currentDomain + "/b2c/walletbalance";
@@ -605,10 +605,10 @@ function renderSnippets() {
     // 2. Lookup Receiver Snippets
     const lookupUrl = currentDomain + "/b2c/api/v1/lookup_receiver";
     const lookupSnippets = {
-        php: `\x3C?php\n$ch = curl_init("${lookupUrl}");\ncurl_setopt_array($ch, [\n    CURLOPT_POST            => true,\n    CURLOPT_POSTFIELDS       => json_encode(['api_key' => 'YOUR_USER_API_KEY', 'phone' => '0712345678']),\n    CURLOPT_RETURNTRANSFER => true,\n    CURLOPT_HTTPHEADER     => [\n        'Content-Type: application/json'\n    ],\n]);\n$response = curl_exec($ch);\ncurl_close($ch);\necho $response;\n?>`,
+        php: `\x3C?php\n$ch = curl_init("${lookupUrl}");\ncurl_setopt_array($ch, [\n    CURLOPT_POST            => true,\n    CURLOPT_POSTFIELDS       => json_encode(['phone' => '0712345678']),\n    CURLOPT_RETURNTRANSFER => true,\n    CURLOPT_HTTPHEADER     => [\n        'Content-Type: application/json'\n    ],\n]);\n$response = curl_exec($ch);\ncurl_close($ch);\necho $response;\n?>`,
         node: `const fetch = require('node-fetch');\nasync function lookupReceiver() {\n    const res = await fetch('${lookupUrl}', {\n        method: 'POST',\n        headers: { 'Content-Type': 'application/json' },\n        body: JSON.stringify({ api_key: 'YOUR_USER_API_KEY', phone: '0712345678' })\n    });\n    console.log(await res.json());\n}\nlookupReceiver();`,
-        py: `import requests\nres = requests.post('${lookupUrl}', json={'api_key': 'YOUR_USER_API_KEY', 'phone': '0712345678'})\nprint(res.json())`,
-        curl: `curl -X POST "${lookupUrl}" \\\n  -H "Content-Type: application/json" \\\n  -d '{"api_key": "YOUR_USER_API_KEY", "phone": "0712345678"}'`
+        py: `import requests\nres = requests.post('${lookupUrl}', json={'phone': '0712345678'}, headers={'X-Wallet-ID': 'WALLET_XYZ123', 'X-Security-Credential': 'your_api_key'})\nprint(res.json())`,
+        curl: `curl -X POST "${lookupUrl}" \\\n  -H "X-Wallet-ID: WALLET_XYZ123" \\\n  -H "X-Security-Credential: your_api_key" \\\n  -H "Content-Type: application/json" \\\n  -d '{"phone": "0712345678"}'`
     };
 
     // 3. Topup Snippets
