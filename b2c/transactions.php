@@ -272,7 +272,8 @@ function changePage(direction) {
 }
 
 function filterTransactions() {
-    const searchVal = document.getElementById('searchInput').value.toLowerCase().trim();
+    const searchInput = document.getElementById('searchInput');
+    const searchVal = (searchInput?.value || '').toLowerCase().trim();
     const rows = document.querySelectorAll('.tx-row');
     const txCountBadge = document.getElementById('txCountBadge');
     const paginationInfo = document.getElementById('paginationInfo');
@@ -317,17 +318,29 @@ function filterTransactions() {
     }
 
     // Update Counter Badges & Pagination Footers
-    txCountBadge.innerText = `${totalVisible} entries`;
-    
-    if (totalVisible > 0) {
-        paginationInfo.innerText = `Showing ${startIdx + 1} to ${Math.min(endIdx, totalVisible)} of ${totalVisible} entries`;
-    } else {
-        paginationInfo.innerText = `Showing 0 entries`;
+    if (txCountBadge) {
+        txCountBadge.innerText = `${totalVisible} entries`;
     }
 
-    pageIndicator.innerText = `${currentPage} / ${totalPages}`;
-    prevPageBtn.disabled = currentPage === 1;
-    nextPageBtn.disabled = currentPage === totalPages || totalPages === 0;
+    // Pagination controls are not rendered when the PHP page has no transactions.
+    // Keep tab/search filtering safe in that empty state.
+    if (paginationInfo) {
+        if (totalVisible > 0) {
+            paginationInfo.innerText = `Showing ${startIdx + 1} to ${Math.min(endIdx, totalVisible)} of ${totalVisible} entries`;
+        } else {
+            paginationInfo.innerText = `Showing 0 entries`;
+        }
+    }
+
+    if (pageIndicator) {
+        pageIndicator.innerText = `${currentPage} / ${totalPages}`;
+    }
+    if (prevPageBtn) {
+        prevPageBtn.disabled = currentPage === 1;
+    }
+    if (nextPageBtn) {
+        nextPageBtn.disabled = currentPage === totalPages || totalPages === 0;
+    }
 }
 
 // Initial render call on page load
