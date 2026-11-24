@@ -171,28 +171,34 @@ $result = $queryStmt->get_result();
 
 include 'admin-frame/header.php';
 ?>
+<style>
+    html, body { background-color: #f8fafc !important; color: #0f172a !important; }
+    input, select, textarea { color: #0f172a !important; background-color: #ffffff !important; }
+    input::placeholder, textarea::placeholder { color: #64748b !important; opacity: 1; }
+</style>
+
 
 <div class="space-y-4">
 
     <!-- Header -->
-    <div class="p-4 sm:p-5 rounded-md bg-gradient-to-br from-teal-500/10 via-white to-white border border-teal-300/80 dark:bg-[#0f172a] dark:border-teal-500/30 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+    <div class="p-4 sm:p-5 rounded-md bg-gradient-to-br from-teal-500/10 via-white to-white border border-teal-300/80 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div>
-            <h1 class="text-lg font-bold tracking-tight text-slate-800 dark:text-slate-100 flex items-center gap-2">
+            <h1 class="text-lg font-bold tracking-tight text-slate-800 flex items-center gap-2">
                 <i class="fa-solid fa-money-bill-transfer text-teal-400"></i>
                 B2C Withdrawals
             </h1>
-            <p class="text-xs font-medium text-slate-600 dark:text-slate-400">
+            <p class="text-xs font-medium text-slate-600">
                 Monitor M-Pesa B2C withdrawals, user accounts, and result descriptions.
             </p>
         </div>
 
-        <div class="text-xs font-semibold text-slate-500 dark:text-slate-400">
+        <div class="text-xs font-semibold text-slate-500">
             Total records: <?= number_format($totalRows) ?>
         </div>
     </div>
 
     <!-- Search -->
-    <div class="bg-white dark:bg-[#0f172a] p-3 rounded-md border border-slate-200 dark:border-white/10 shadow-xs">
+    <div class="bg-white p-3 rounded-md border border-slate-200 shadow-xs">
         <form method="GET" action="" class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
             <div class="relative flex-1 sm:max-w-md">
                 <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
@@ -204,7 +210,7 @@ include 'admin-frame/header.php';
                     name="search"
                     value="<?= $escape($search) ?>"
                     placeholder="Search username, email, phone, name, transaction ID..."
-                    class="w-full pl-9 pr-3 py-2 text-xs rounded-md bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-teal-500"
+                    class="w-full pl-9 pr-3 py-2 text-xs rounded-md bg-slate-50 border border-slate-300 text-slate-800 focus:outline-none focus:ring-1 focus:ring-teal-500"
                 >
             </div>
 
@@ -218,7 +224,7 @@ include 'admin-frame/header.php';
             <?php if ($search !== ''): ?>
                 <a
                     href="b2c_transactions.php"
-                    class="px-3 py-2 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold rounded-md text-center"
+                    class="px-3 py-2 bg-slate-200 text-slate-700 text-xs font-bold rounded-md text-center"
                 >
                     Clear
                 </a>
@@ -227,11 +233,11 @@ include 'admin-frame/header.php';
     </div>
 
     <!-- Withdrawals Table -->
-    <div class="bg-white dark:bg-[#0f172a] rounded-md border border-slate-200 dark:border-white/10 shadow-xs overflow-hidden">
+    <div class="bg-white rounded-md border border-slate-200 shadow-xs overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-white/10 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                    <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
                         <th class="p-3">ID</th>
                         <th class="p-3">User / Account</th>
                         <th class="p-3">Phone Number</th>
@@ -243,7 +249,7 @@ include 'admin-frame/header.php';
                     </tr>
                 </thead>
 
-                <tbody class="divide-y divide-slate-200 dark:divide-white/10 text-xs">
+                <tbody class="divide-y divide-slate-200 text-xs">
                     <?php if ($result && $result->num_rows > 0): ?>
 
                         <?php while ($row = $result->fetch_assoc()): ?>
@@ -289,42 +295,42 @@ include 'admin-frame/header.php';
                                 ?? 'N/A';
                             ?>
 
-                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-900/30 transition-colors">
-                                <td class="p-3 font-semibold text-slate-700 dark:text-slate-300">
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="p-3 font-semibold text-slate-700">
                                     #<?= $id ?>
                                 </td>
 
                                 <!-- User Username & Email Column -->
                                 <td class="p-3">
-                                    <div class="font-bold text-slate-900 dark:text-slate-100">
+                                    <div class="font-bold text-slate-900">
                                         <?= $escape($username) ?>
                                     </div>
-                                    <div class="text-[11px] text-slate-500 dark:text-slate-400">
+                                    <div class="text-[11px] text-slate-500">
                                         <?= $escape($email) ?>
                                     </div>
                                 </td>
 
-                                <td class="p-3 font-medium text-slate-800 dark:text-slate-200 whitespace-nowrap">
+                                <td class="p-3 font-medium text-slate-800 whitespace-nowrap">
                                     <?= $escape($phone) ?>
                                 </td>
 
-                                <td class="p-3 text-slate-700 dark:text-slate-300">
+                                <td class="p-3 text-slate-700">
                                     <?= $escape($receiver) ?>
                                 </td>
 
-                                <td class="p-3 font-black text-slate-900 dark:text-slate-100 whitespace-nowrap">
+                                <td class="p-3 font-black text-slate-900 whitespace-nowrap">
                                     KES <?= number_format($amount, 2) ?>
                                 </td>
 
-                                <td class="p-3 text-slate-700 dark:text-slate-300 min-w-56">
+                                <td class="p-3 text-slate-700 min-w-56">
                                     <?= $escape($status) ?>
                                 </td>
 
-                                <td class="p-3 font-mono text-[11px] text-slate-500 dark:text-slate-400 break-all">
+                                <td class="p-3 font-mono text-[11px] text-slate-500 break-all">
                                     <?= $escape($reference) ?>
                                 </td>
 
-                                <td class="p-3 text-slate-500 dark:text-slate-400 whitespace-nowrap">
+                                <td class="p-3 text-slate-500 whitespace-nowrap">
                                     <?= $escape($date) ?>
                                 </td>
                             </tr>
@@ -343,7 +349,7 @@ include 'admin-frame/header.php';
 
         <!-- Pagination -->
         <?php if ($totalPages > 1): ?>
-            <div class="p-3 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-white/10 flex items-center justify-between gap-3">
+            <div class="p-3 bg-slate-50 border-t border-slate-200 flex items-center justify-between gap-3">
                 <span class="text-xs text-slate-500">
                     Page <strong><?= $page ?></strong>
                     of <strong><?= $totalPages ?></strong>
@@ -353,7 +359,7 @@ include 'admin-frame/header.php';
                     <?php if ($page > 1): ?>
                         <a
                             href="?search=<?= urlencode($search) ?>&amp;page=<?= $page - 1 ?>"
-                            class="px-3 py-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded text-xs font-bold text-slate-700 dark:text-slate-200"
+                            class="px-3 py-1 bg-white border border-slate-300 rounded text-xs font-bold text-slate-700"
                         >
                             Previous
                         </a>
@@ -362,7 +368,7 @@ include 'admin-frame/header.php';
                     <?php if ($page < $totalPages): ?>
                         <a
                             href="?search=<?= urlencode($search) ?>&amp;page=<?= $page + 1 ?>"
-                            class="px-3 py-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded text-xs font-bold text-slate-700 dark:text-slate-200"
+                            class="px-3 py-1 bg-white border border-slate-300 rounded text-xs font-bold text-slate-700"
                         >
                             Next
                         </a>
