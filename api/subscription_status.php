@@ -16,6 +16,7 @@ if (!file_exists($dbPath)) {
     exit();
 }
 require_once $dbPath;
+require_once __DIR__ . '/../lib/subscription_payment.php';
 
 class SecureVault {
     private static function vaultKey(): string { return (string) av_env('VAULT_KEY'); } 
@@ -133,25 +134,25 @@ if ($status === 'PENDING') {
 
             if (isset($qRes['ResultCode'])) {
                 $resCode = (string)$qRes['ResultCode'];
-                if ($resCode === '0') {
-                    $receipt = !empty($qRes['MpesaReceiptNumber']) ? $qRes['MpesaReceiptNumber'] : 'SUCCESS';
-                    
-                    $up = $conn->prepare("UPDATE mpesa_transactions SET status = 'SUCCESS', result_code = 0, mpesa_receipt_number = ? WHERE id = ?");
-                    $up->bind_param("si", $receipt, $tx['id']);
-                    $up->execute();
-                    $up->close();
-
-                    $status = 'SUCCESS';
-                    $tx['mpesa_receipt_number'] = $receipt;
-                } elseif ($resCode !== '4999') {
-                    $resultDesc = $qRes['ResultDesc'] ?? 'Transaction Failed';
-                    $up = $conn->prepare("UPDATE mpesa_transactions SET status = 'FAILED', result_code = ?, mpesa_receipt_number = ? WHERE id = ?");
-                    $up->bind_param("isi", $resCode, $resultDesc, $tx['id']);
-                    $up->execute();
-                    $up->close();
-
-                    $status = 'FAILED';
-                    $tx['mpesa_receipt_number'] = $resultDesc;
+                if (preg_match('/^-?\\d+$/', $resCode) && $resCode !== '4999') {
+                    $receipt = $resCode === '0' ? (string) ($qRes['MpesaReceiptNumber'] ?? '') : '';
+                    $resultDesc = (string) ($qRes['ResultDesc'] ?? '');
+                    // Use the same atomic finalizer as the asynchronous Daraja callback.
+                    // Never mark a payment successful without activating its owned settlement.
+                    $finalized = av_finalize_subscription_payment(
+                        $conn,
+                        $checkoutID,
+                        (int) $resCode,
+                        $receipt,
+                        $resultDesc
+                    );
+                    $status = $finalized['status'];
+                    $refresh = $conn->prepare("SELECT mpesa_receipt_number FROM mpesa_transactions WHERE id = ? AND user_id = ? LIMIT 1");
+                    $refresh->bind_param('ii', $tx['id'], $user_id);
+                    $refresh->execute();
+                    $fresh = $refresh->get_result()->fetch_assoc();
+                    $refresh->close();
+                    $tx['mpesa_receipt_number'] = $fresh['mpesa_receipt_number'] ?? null;
                 }
             }
         }
