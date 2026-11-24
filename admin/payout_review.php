@@ -6,6 +6,7 @@ require_once __DIR__ . '/../lib/ledger.php';
 
 const AV_STUCK_MINUTES = 15;
 
+if (!function_exists('av_payout_table_exists')) {
 function av_payout_table_exists(mysqli $conn, string $table): bool
 {
     $stmt = $conn->prepare(
@@ -20,6 +21,7 @@ function av_payout_table_exists(mysqli $conn, string $table): bool
     $exists = (bool)$stmt->get_result()->fetch_row();
     $stmt->close();
     return $exists;
+}
 }
 
 // The original PrintPay database contains mpesa_b2c_transactions.
@@ -53,7 +55,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
 
             if (!$row) {
                 $conn->rollback();
-                $flash = 'This payout has already been resolved or no longer exists.';
+                $flash = 'Already resolved by someone else.';
             } elseif ($outcome === 'success') {
                 $u = $conn->prepare("UPDATE `$tbl` SET result_code = 0, result_desc = 'Resolved by admin: confirmed paid', completed_at = NOW() WHERE id = ? AND result_code = 1000");
                 if (!$u) throw new RuntimeException('Could not prepare the payout update.');
