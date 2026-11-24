@@ -56,7 +56,8 @@ if (!function_exists('av_finalize_mpesa_transaction')) {
                     if (!$enrich) {
                         throw new RuntimeException('Could not prepare receipt enrichment: ' . $conn->error);
                     }
-                    $enrich->bind_param('ssi', $incomingReceipt, $merchantRequestId, $tx['id']);
+                    $enrichTxId = (int) $tx['id'];
+                    $enrich->bind_param('ssi', $incomingReceipt, $merchantRequestId, $enrichTxId);
                     $enrich->execute();
                     $enrich->close();
                     $storedReceipt = $incomingReceipt;
