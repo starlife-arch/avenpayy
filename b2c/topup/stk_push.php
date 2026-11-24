@@ -192,6 +192,19 @@ if (empty($consumerKey) || empty($consumerSecret)) {
     exit();
 }
 
+if (av_callback_token('topup') === '') {
+    error_log('AvenPay wallet top-up blocked: CALLBACK_SECRET is not configured.');
+    http_response_code(503);
+    echo json_encode(['status' => 'error', 'message' => 'Wallet top-ups are temporarily unavailable because the secure callback configuration is incomplete.']);
+    exit();
+}
+
+if (empty($passkey) || empty($paybillShortcode)) {
+    http_response_code(503);
+    echo json_encode(['status' => 'error', 'message' => 'C2B Paybill shortcode and passkey must be saved before wallet top-ups can be started.']);
+    exit();
+}
+
 $baseUrl = av_daraja_base_url();
 
 // 6. Generate Production Access Token
@@ -252,14 +265,33 @@ $stkData = [
 ];
 
 $ch2 = curl_init($baseUrl . '/mpesa/stkpush/v1/processrequest');
-curl_setopt($ch2, CURLOPT_HTTPHEADER, ['Authorization: Bearer ' . $accessToken, 'Content-Type: application/json']);
-curl_setopt($ch2, CURLOPT_POST, true);
-curl_setopt($ch2, CURLOPT_POSTFIELDS, json_encode($stkData));
-curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch2, CURLOPT_SSL_VERIFYPEER, true);
+curl_setopt_array($ch2, [
+    CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $accessToken, 'Content-Type: application/json'],
+    CURLOPT_POST => true,
+    CURLOPT_POSTFIELDS => json_encode($stkData),
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_CONNECTTIMEOUT => 10,
+    CURLOPT_TIMEOUT => 30,
+    CURLOPT_SSL_VERIFYPEER => true,
+    CURLOPT_SSL_VERIFYHOST => 2
+]);
 $stkResponse = curl_exec($ch2);
+$stkCurlError = curl_error($ch2);
+$stkHttpCode = (int) curl_getinfo($ch2, CURLINFO_HTTP_CODE);
 curl_close($ch2);
+if ($stkResponse === false) {
+    error_log('AvenPay wallet top-up STK transport failure: ' . $stkCurlError);
+    http_response_code(502);
+    echo json_encode(['status' => 'error', 'message' => 'Safaricom STK service could not be reached. Please retry shortly.']);
+    exit();
+}
 $stkResData = json_decode($stkResponse, true);
+if (!is_array($stkResData)) {
+    error_log('AvenPay wallet top-up STK returned invalid JSON: HTTP ' . $stkHttpCode);
+    http_response_code(502);
+    echo json_encode(['status' => 'error', 'message' => 'Safaricom returned an unreadable STK response. Please retry shortly.']);
+    exit();
+}
 
 if (isset($stkResData['ResponseCode']) && $stkResData['ResponseCode'] === '0') {
     $checkoutId = $stkResData['CheckoutRequestID'];
