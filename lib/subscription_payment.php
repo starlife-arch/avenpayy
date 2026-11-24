@@ -70,9 +70,9 @@ if (!function_exists('av_finalize_subscription_payment')) {
                 $description = (string) ($descriptionRow['transaction_desc'] ?? '');
                 $days = 0;
                 $months = 0;
-                if (preg_match('/\\b(\\d{1,4})\\s+DAYS?\\b/i', $description, $match)) {
+                if (preg_match('/\b(\d{1,4})\s+DAYS?\b/i', $description, $match)) {
                     $days = max(1, min(3650, (int) $match[1]));
-                } elseif (preg_match('/\\b(\\d{1,3})\\s+MONTHS?\\b/i', $description, $match)) {
+                } elseif (preg_match('/\b(\d{1,3})\s+MONTHS?\b/i', $description, $match)) {
                     $months = max(1, min(120, (int) $match[1]));
                 } elseif ($amount >= 3500) {
                     // Legacy transactions created before the new pricing schedule.
