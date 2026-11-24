@@ -39,7 +39,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/frame/header.php';
     <link rel="apple-touch-icon" href="/icon.png?v=3">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#0a0f1a">
+    <meta name="theme-color" content="#ffffff">
 
     <title>STK Push (C2B) API - AvenPay Docs</title>
 
@@ -51,15 +51,15 @@ include $_SERVER['DOCUMENT_ROOT'] . '/frame/header.php';
 
     <style>
         :root {
-            color-scheme: dark;
-            --page: #0a0f1a;
-            --surface: #f8fafc;
-            --ink: #0f172a;
+            color-scheme: light;
+            --page: #f4f7fb;
+            --surface: #ffffff;
+            --ink: #172033;
             --muted: #475569;
-            --line: #e2e8f0;
+            --line: #dbe3ed;
             --accent: #4fdcb9;
-            --accent-soft: #153b3d;
-            --code: #080d16;
+            --accent-soft: #e6f7f2;
+            --code: #f1f5f9;
         }
 
         * {
@@ -72,9 +72,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/frame/header.php';
 
         body {
             margin: 0;
-            background:
-                radial-gradient(ellipse at 12% 0%, rgba(49, 91, 112, 0.18), transparent 38%),
-                var(--page);
+            background: var(--page);
             color: var(--ink);
             font-family: Inter, ui-sans-serif, system-ui, -apple-system,
                 BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -91,8 +89,8 @@ include $_SERVER['DOCUMENT_ROOT'] . '/frame/header.php';
             overflow: hidden;
             border: 1px solid #e2e8f0;
             border-radius: 24px;
-            background: linear-gradient(135deg, #142b38 0%, #f8fafc 55%, #f1f5f9 100%);
-            color: #fff;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 60%, #eef7f5 100%);
+            color: #172033;
             padding: 38px;
             box-shadow: 0 22px 60px rgba(15, 23, 42, 0.14);
         }
@@ -154,7 +152,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/frame/header.php';
 
         .hero-pill {
             border: 1px solid rgba(15, 23, 42, 0.16);
-            background: rgba(255, 255, 255, 0.07);
+            background: rgba(255, 255, 255, 0.9);
             color: #0f172a;
             border-radius: 999px;
             padding: 7px 11px;
