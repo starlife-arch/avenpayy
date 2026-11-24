@@ -1,15 +1,13 @@
 <?php
 // token.php
 session_start();
-require_once 'database_config/db.php';
+require_once __DIR__ . '/database_config/db.php';
 
 // Access Control: Ensure user is logged in
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
+    header('Location: /login.php');
     exit();
 }
-
-$user_id = $_SESSION['user_id'];
 
 // Load the current wallet ID for the authenticated account.
 $user_id = (int) $_SESSION['user_id'];
