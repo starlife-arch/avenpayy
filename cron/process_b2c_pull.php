@@ -23,7 +23,7 @@ function logMessage($filename, $message) {
 }
 
 function getAccessTokenForCredentials($consumerKey, $consumerSecret) {
-    $url = 'https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
+    $url = av_daraja_oauth_url();
     $credentials = base64_encode($consumerKey . ':' . $consumerSecret);
 
     $ch = curl_init($url);
@@ -124,7 +124,7 @@ while ($configRow = $gatewaysResult->fetch_assoc()) {
         continue;
     }
 
-    $url = 'https://api.safaricom.co.ke/pulltransactions/v1/query';
+    $url = av_daraja_endpoint('pulltransactions/v1/query');
 
     // Safely retrieve last transaction time for THIS specific gateway shortcode
     $startDate = null;
