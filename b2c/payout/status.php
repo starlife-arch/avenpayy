@@ -98,7 +98,7 @@ if (!$authRes) {
 }
 
 // Decrypt and verify security credential securely
-$storedCredential = SecureVault::decrypt($authRes['b2c_security_credential'] ?? '');
+$storedCredential = trim((string)($authRes['b2c_security_credential'] ?? ''));
 if (empty($storedCredential) || (hash_equals($storedCredential, $securityCredential) === false && $storedCredential !== $securityCredential)) {
     http_response_code(401);
     echo json_encode(['status' => 'error', 'message' => 'Unauthorized: Invalid Security Credential API Key.']);
