@@ -1,116 +1,135 @@
 <?php
 require_once __DIR__ . '/../lib/callback_auth.php';
 av_require_callback_token('sub');
-// /api/subscription_callback.php
 header('Content-Type: application/json; charset=utf-8');
-
 ini_set('display_errors', 0);
 error_reporting(E_ALL);
 
 $dbPath = $_SERVER['DOCUMENT_ROOT'] . '/database_config/db.php';
-if (!file_exists($dbPath)) {
+if (!is_file($dbPath)) {
     http_response_code(500);
     exit(json_encode(['status' => 'error', 'message' => 'Database config missing']));
 }
 require_once $dbPath;
 
-$callbackPayload = file_get_contents('php://input');
-$data = json_decode($callbackPayload, true);
-
-if (!isset($data['Body']['stkCallback'])) {
+$data = json_decode(file_get_contents('php://input'), true);
+if (!isset($data['Body']['stkCallback']) || !is_array($data['Body']['stkCallback'])) {
     http_response_code(400);
     exit(json_encode(['status' => 'error', 'message' => 'Invalid callback payload']));
 }
 
-$stkCallback = $data['Body']['stkCallback'];
-$checkoutRequestId = $stkCallback['CheckoutRequestID'] ?? '';
-$resultCode = intval($stkCallback['ResultCode'] ?? -1);
-$resultDesc = $stkCallback['ResultDesc'] ?? 'Unknown status';
+$callback = $data['Body']['stkCallback'];
+$checkoutRequestId = trim((string) ($callback['CheckoutRequestID'] ?? ''));
+$resultCode = filter_var($callback['ResultCode'] ?? null, FILTER_VALIDATE_INT);
+$resultDesc = trim((string) ($callback['ResultDesc'] ?? 'Unknown status'));
 
-// Fetch transaction along with stored settlement_id
-$stmt = $conn->prepare("SELECT id, user_id, amount, settlement_id, status FROM mpesa_transactions WHERE checkout_request_id = ? LIMIT 1");
-$stmt->bind_param("s", $checkoutRequestId);
-$stmt->execute();
-$txRes = $stmt->get_result()->fetch_assoc();
-$stmt->close();
-
-if (!$txRes) {
-    http_response_code(404);
-    exit(json_encode(['status' => 'error', 'message' => 'Transaction not found']));
+if ($checkoutRequestId === '' || $resultCode === false || $resultCode === null) {
+    http_response_code(400);
+    exit(json_encode(['status' => 'error', 'message' => 'Callback is missing transaction details']));
 }
 
-$txId = $txRes['id'];
-$userId = (int)$txRes['user_id'];
-$settlementId = (int)($txRes['settlement_id'] ?? 0);
-
-if ($txRes['status'] === 'SUCCESS' || $txRes['status'] === 'FAILED') {
-    exit(json_encode(['status' => 'success', 'message' => 'Already processed']));
-}
-
-if ($resultCode === 0) {
-    $receiptNumber = '';
-    foreach ($stkCallback['CallbackMetadata']['Item'] ?? [] as $item) {
-        if ($item['Name'] === 'MpesaReceiptNumber') {
-            $receiptNumber = $item['Value'];
-            break;
-        }
+$receiptNumber = '';
+foreach (($callback['CallbackMetadata']['Item'] ?? []) as $item) {
+    if (($item['Name'] ?? '') === 'MpesaReceiptNumber') {
+        $receiptNumber = (string) ($item['Value'] ?? '');
+        break;
     }
-    if (empty($receiptNumber)) $receiptNumber = 'SUCCESS';
+}
 
+try {
     $conn->begin_transaction();
-    try {
-        // 1. Update transaction status
-        $updTx = $conn->prepare("UPDATE mpesa_transactions SET status = 'SUCCESS', result_code = 0, mpesa_receipt_number = ? WHERE id = ?");
-        $updTx->bind_param("si", $receiptNumber, $txId);
-        $updTx->execute();
-        $updTx->close();
 
-        // 2. Derive months from amount paid (350 = 1 mo, 950 = 3 mo, 3500 = 12 mo)
-        $amountPaid = floatval($txRes['amount']);
-        $monthsToAdd = 1;
+    // Lock the transaction row so concurrent/retried callbacks cannot extend twice.
+    $stmt = $conn->prepare("SELECT id, user_id, amount, settlement_id, status, processed FROM mpesa_transactions WHERE checkout_request_id = ? LIMIT 1 FOR UPDATE");
+    if (!$stmt) {
+        throw new RuntimeException('Could not prepare transaction lookup.');
+    }
+    $stmt->bind_param('s', $checkoutRequestId);
+    $stmt->execute();
+    $tx = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
+
+    if (!$tx) {
+        $conn->rollback();
+        http_response_code(404);
+        exit(json_encode(['status' => 'error', 'message' => 'Transaction not found']));
+    }
+
+    $currentStatus = strtoupper((string) $tx['status']);
+    if ((int) ($tx['processed'] ?? 0) === 1 || in_array($currentStatus, ['SUCCESS', 'FAILED'], true)) {
+        $conn->commit();
+        exit(json_encode(['status' => 'success', 'message' => 'Callback already processed']));
+    }
+
+    $txId = (int) $tx['id'];
+    if ($resultCode === 0) {
+        $settlementId = (int) ($tx['settlement_id'] ?? 0);
+        $userId = (int) ($tx['user_id'] ?? 0);
+        if ($settlementId < 1 || $userId < 1) {
+            throw new RuntimeException('Transaction is missing its settlement ownership details.');
+        }
+
+        $settleStmt = $conn->prepare("SELECT expiry_date FROM settlements WHERE id = ? AND user_id = ? LIMIT 1 FOR UPDATE");
+        if (!$settleStmt) {
+            throw new RuntimeException('Could not prepare settlement lookup.');
+        }
+        $settleStmt->bind_param('ii', $settlementId, $userId);
+        $settleStmt->execute();
+        $settlement = $settleStmt->get_result()->fetch_assoc();
+        $settleStmt->close();
+        if (!$settlement) {
+            throw new RuntimeException('The related settlement account was not found.');
+        }
+
+        $amountPaid = (float) $tx['amount'];
+        if ($amountPaid <= 0) {
+            throw new RuntimeException('Transaction amount is invalid.');
+        }
+        // Preserve the existing plan pricing rules.
         if ($amountPaid >= 3500) {
             $monthsToAdd = 12;
         } elseif ($amountPaid >= 950) {
             $monthsToAdd = 3;
-        } elseif ($amountPaid > 0) {
-            $monthsToAdd = max(1, round($amountPaid / 350));
+        } else {
+            $monthsToAdd = max(1, (int) round($amountPaid / 350));
         }
 
-        // 3. Extend or activate settlement expiry
-        if ($settlementId > 0) {
-            $sStmt = $conn->prepare("SELECT expiry_date, is_active FROM settlements WHERE id = ? AND user_id = ? LIMIT 1");
-            $sStmt->bind_param("ii", $settlementId, $userId);
-            $sStmt->execute();
-            $sInfo = $sStmt->get_result()->fetch_assoc();
-            $sStmt->close();
+        $expiryTimestamp = !empty($settlement['expiry_date']) && strtotime($settlement['expiry_date']) > time()
+            ? strtotime($settlement['expiry_date'])
+            : time();
+        $newExpiryDate = date('Y-m-d H:i:s', strtotime('+' . $monthsToAdd . ' months', $expiryTimestamp));
 
-            if ($sInfo) {
-                $currentExpiry = (!empty($sInfo['expiry_date']) && strtotime($sInfo['expiry_date']) > time()) 
-                    ? strtotime($sInfo['expiry_date']) 
-                    : time();
-                
-                $newExpiryDate = date('Y-m-d H:i:s', strtotime("+$monthsToAdd months", $currentExpiry));
-
-                $updS = $conn->prepare("UPDATE settlements SET is_active = 1, status = 'active', expiry_date = ? WHERE id = ?");
-                $updS->bind_param("si", $newExpiryDate, $settlementId);
-                $updS->execute();
-                $updS->close();
-            }
+        $updateSettlement = $conn->prepare("UPDATE settlements SET is_active = 1, status = 'active', expiry_date = ? WHERE id = ? AND user_id = ?");
+        if (!$updateSettlement) {
+            throw new RuntimeException('Could not prepare settlement activation.');
         }
+        $updateSettlement->bind_param('sii', $newExpiryDate, $settlementId, $userId);
+        $updateSettlement->execute();
+        if ($updateSettlement->affected_rows < 0) {
+            throw new RuntimeException('Settlement activation failed.');
+        }
+        $updateSettlement->close();
+
+        $receiptNumber = $receiptNumber !== '' ? $receiptNumber : 'SUCCESS';
+        $updateTx = $conn->prepare("UPDATE mpesa_transactions SET status = 'SUCCESS', result_code = 0, processed = 1, mpesa_receipt_number = ? WHERE id = ? AND status = 'PENDING' AND processed = 0");
+        $updateTx->bind_param('si', $receiptNumber, $txId);
+        $updateTx->execute();
+        $updateTx->close();
 
         $conn->commit();
         echo json_encode(['status' => 'success', 'message' => 'Subscription activated/renewed successfully']);
-    } catch (Exception $e) {
-        $conn->rollback();
-        http_response_code(500);
-        echo json_encode(['status' => 'error', 'message' => 'Database error during subscription extension']);
+    } else {
+        $updateTx = $conn->prepare("UPDATE mpesa_transactions SET status = 'FAILED', result_code = ?, processed = 1, mpesa_receipt_number = ? WHERE id = ? AND status = 'PENDING' AND processed = 0");
+        $updateTx->bind_param('isi', $resultCode, $resultDesc, $txId);
+        $updateTx->execute();
+        $updateTx->close();
+        $conn->commit();
+        echo json_encode(['status' => 'success', 'message' => 'Payment failure recorded']);
     }
-} else {
-    $updFail = $conn->prepare("UPDATE mpesa_transactions SET status = 'FAILED', result_code = ?, mpesa_receipt_number = ? WHERE id = ?");
-    $updFail->bind_param("isi", $resultCode, $resultDesc, $txId);
-    $updFail->execute();
-    $updFail->close();
-
-    echo json_encode(['status' => 'success', 'message' => 'Failure recorded']);
+} catch (Throwable $e) {
+    try { $conn->rollback(); } catch (Throwable $ignored) {}
+    error_log('AvenPay subscription callback failed: ' . $e->getMessage());
+    http_response_code(500);
+    echo json_encode(['status' => 'error', 'message' => 'Subscription payment could not be finalized. The callback can be safely retried.']);
 }
 exit();
