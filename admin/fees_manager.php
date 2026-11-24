@@ -115,28 +115,36 @@ $stmt_fetch->close();
 // Include admin header via admin-frame folder
 include_once __DIR__ . '/admin-frame/header.php'; 
 ?>
+<style>
+    html, body { background-color: #f8fafc !important; color: #0f172a !important; }
+    input, select, textarea { color: #0f172a !important; background-color: #ffffff !important; }
+    input::placeholder, textarea::placeholder { color: #64748b !important; opacity: 1; }
+        [class~="text-slate-400"] { color: #64748b !important; }
+        [class~="text-slate-500"] { color: #475569 !important; }
+</style>
+
 
 <!-- BREADCRUMB & HEADER TITLE -->
 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 pb-4 border-b border-inherit">
     <div>
-        <h1 class="text-sm font-black tracking-wide text-slate-800 dark:text-white uppercase flex items-center gap-2">
-            <i class="iclass fa-solid fa-percent text-teal-600 dark:text-teal-400"></i>
+        <h1 class="text-sm font-black tracking-wide text-slate-800 uppercase flex items-center gap-2">
+            <i class="iclass fa-solid fa-percent text-teal-600"></i>
             <span>Transaction Fee Tiers</span>
         </h1>
-        <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Configure transaction fee brackets for B2C Withdrawals and C2B Top-Ups</p>
+        <p class="text-[11px] text-slate-500 mt-0.5">Configure transaction fee brackets for B2C Withdrawals and C2B Top-Ups</p>
     </div>
 
     <!-- SERVICE TOGGLE SWITCH -->
-    <div class="flex items-center bg-slate-200 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 p-1 rounded-sm">
-        <a href="/admin/fees_manager.php?view=b2c" class="px-3 py-1.5 rounded-sm text-xs font-bold transition flex items-center gap-2 <?= $current_view === 'b2c' ? 'bg-teal-600 text-white shadow-md' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white' ?>">
+    <div class="flex items-center bg-slate-200 border border-slate-300 p-1 rounded-sm">
+        <a href="/admin/fees_manager.php?view=b2c" class="px-3 py-1.5 rounded-sm text-xs font-bold transition flex items-center gap-2 <?= $current_view === 'b2c' ? 'bg-teal-600 text-white shadow-md' : 'text-slate-600 hover:text-slate-900' ?>">
             <i class="iclass fa-solid fa-arrow-up-from-bracket text-[11px]"></i>
             <span>B2C Withdrawal</span>
         </a>
-        <a href="/admin/fees_manager.php?view=c2b" class="px-3 py-1.5 rounded-sm text-xs font-bold transition flex items-center gap-2 <?= $current_view === 'c2b' ? 'bg-teal-600 text-white shadow-md' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white' ?>">
+        <a href="/admin/fees_manager.php?view=c2b" class="px-3 py-1.5 rounded-sm text-xs font-bold transition flex items-center gap-2 <?= $current_view === 'c2b' ? 'bg-teal-600 text-white shadow-md' : 'text-slate-600 hover:text-slate-900' ?>">
             <i class="iclass fa-solid fa-arrow-down-long text-[11px]"></i>
             <span>C2B Top-Up</span>
         </a>
-        <a href="/admin/fees_manager.php?view=b2b" class="px-3 py-1.5 rounded-sm text-xs font-bold transition flex items-center gap-2 <?= $current_view === 'b2b' ? 'bg-teal-600 text-white shadow-md' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white' ?>">
+        <a href="/admin/fees_manager.php?view=b2b" class="px-3 py-1.5 rounded-sm text-xs font-bold transition flex items-center gap-2 <?= $current_view === 'b2b' ? 'bg-teal-600 text-white shadow-md' : 'text-slate-600 hover:text-slate-900' ?>">
             <i class="iclass fa-solid fa-arrow-down-long text-[11px]"></i>
             <span>B2B Top-Up</span>
         </a>
@@ -144,14 +152,14 @@ include_once __DIR__ . '/admin-frame/header.php';
 </div>
 
 <?php if ($success_message): ?>
-    <div class="bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 p-3 rounded-sm text-xs flex items-center gap-2 mb-4">
+    <div class="bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 p-3 rounded-sm text-xs flex items-center gap-2 mb-4">
         <i class="iclass fa-solid fa-circle-check"></i>
         <span><?= htmlspecialchars($success_message) ?></span>
     </div>
 <?php endif; ?>
 
 <?php if ($error_message): ?>
-    <div class="bg-rose-500/10 border border-rose-500/30 text-rose-600 dark:text-rose-400 p-3 rounded-sm text-xs flex items-center gap-2 mb-4">
+    <div class="bg-rose-500/10 border border-rose-500/30 text-rose-600 p-3 rounded-sm text-xs flex items-center gap-2 mb-4">
         <i class="iclass fa-solid fa-triangle-exclamation"></i>
         <span><?= htmlspecialchars($error_message) ?></span>
     </div>
@@ -162,7 +170,7 @@ include_once __DIR__ . '/admin-frame/header.php';
     <!-- ADD / EDIT FORM CARD -->
     <div class="lg:col-span-1 dash-card rounded-sm p-5 h-fit">
         <div class="flex items-center justify-between mb-4 pb-2 border-b border-inherit">
-            <h2 class="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 flex items-center gap-2">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-2">
                 <i class="iclass fa-solid <?= $edit_id > 0 ? 'fa-pen-to-square text-amber-500' : 'fa-plus text-teal-500' ?>"></i> 
                 <?= $edit_id > 0 ? 'Edit Fee Tier' : 'Add Fee Tier' ?>
             </h2>
@@ -176,8 +184,8 @@ include_once __DIR__ . '/admin-frame/header.php';
             <input type="hidden" name="fee_id" value="<?= $edit_id ?>">
 
             <div>
-                <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Target Service</label>
-                <select name="service_type" required class="w-full bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 px-3 py-2 rounded-sm text-xs text-slate-800 dark:text-slate-100 outline-none focus:border-teal-500 transition">
+                <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Target Service</label>
+                <select name="service_type" required class="w-full bg-slate-100 border border-slate-300 px-3 py-2 rounded-sm text-xs text-slate-800 outline-none focus:border-teal-500 transition">
                     <option value="b2c_withdrawal" <?= $edit_data['service_type'] === 'b2c_withdrawal' ? 'selected' : '' ?>>B2C Withdrawal</option>
                     <option value="c2b_topup" <?= $edit_data['service_type'] === 'c2b_topup' ? 'selected' : '' ?>>C2B Top-Up</option>
                     <option value="b2b_payment" <?= $edit_data['service_type'] === 'b2b_payment' ? 'selected' : '' ?>>B2B Payment (Paybill/Till)</option>
@@ -186,26 +194,26 @@ include_once __DIR__ . '/admin-frame/header.php';
 
             <div class="grid grid-cols-2 gap-2">
                 <div>
-                    <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Min Amount (KES)</label>
-                    <input type="number" step="1" name="min_amount" value="<?= htmlspecialchars($edit_data['min_amount']) ?>" placeholder="1" required class="w-full bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 px-3 py-2 rounded-sm text-xs text-slate-800 dark:text-slate-100 font-mono outline-none focus:border-teal-500 transition">
+                    <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Min Amount (KES)</label>
+                    <input type="number" step="1" name="min_amount" value="<?= htmlspecialchars($edit_data['min_amount']) ?>" placeholder="1" required class="w-full bg-slate-100 border border-slate-300 px-3 py-2 rounded-sm text-xs text-slate-800 font-mono outline-none focus:border-teal-500 transition">
                 </div>
                 <div>
-                    <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Max Amount (KES)</label>
-                    <input type="number" step="1" name="max_amount" value="<?= htmlspecialchars($edit_data['max_amount']) ?>" placeholder="1000" required class="w-full bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 px-3 py-2 rounded-sm text-xs text-slate-800 dark:text-slate-100 font-mono outline-none focus:border-teal-500 transition">
+                    <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Max Amount (KES)</label>
+                    <input type="number" step="1" name="max_amount" value="<?= htmlspecialchars($edit_data['max_amount']) ?>" placeholder="1000" required class="w-full bg-slate-100 border border-slate-300 px-3 py-2 rounded-sm text-xs text-slate-800 font-mono outline-none focus:border-teal-500 transition">
                 </div>
             </div>
 
             <div class="grid grid-cols-2 gap-2">
                 <div>
-                    <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Fee Structure</label>
-                    <select name="fee_type" class="w-full bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 px-3 py-2 rounded-sm text-xs text-slate-800 dark:text-slate-100 outline-none focus:border-teal-500 transition">
+                    <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Fee Structure</label>
+                    <select name="fee_type" class="w-full bg-slate-100 border border-slate-300 px-3 py-2 rounded-sm text-xs text-slate-800 outline-none focus:border-teal-500 transition">
                         <option value="fixed" <?= $edit_data['fee_type'] === 'fixed' ? 'selected' : '' ?>>Fixed Fee (KES)</option>
                         <option value="percentage" <?= $edit_data['fee_type'] === 'percentage' ? 'selected' : '' ?>>Percentage (%)</option>
                     </select>
                 </div>
                 <div>
-                    <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Fee Value</label>
-                    <input type="number" step="0.01" name="fee_value" value="<?= htmlspecialchars($edit_data['fee_value']) ?>" placeholder="15" required class="w-full bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 px-3 py-2 rounded-sm text-xs text-slate-800 dark:text-slate-100 font-mono outline-none focus:border-teal-500 transition">
+                    <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Fee Value</label>
+                    <input type="number" step="0.01" name="fee_value" value="<?= htmlspecialchars($edit_data['fee_value']) ?>" placeholder="15" required class="w-full bg-slate-100 border border-slate-300 px-3 py-2 rounded-sm text-xs text-slate-800 font-mono outline-none focus:border-teal-500 transition">
                 </div>
             </div>
 
@@ -219,18 +227,18 @@ include_once __DIR__ . '/admin-frame/header.php';
     <!-- LIST OF REGISTERED FEE TIERS -->
     <div class="lg:col-span-2 dash-card rounded-sm shadow-xl overflow-hidden">
         <div class="p-4 border-b border-inherit flex items-center justify-between">
-            <h2 class="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 flex items-center gap-2">
-                <i class="iclass fa-solid <?= $current_view === 'c2b' ? 'fa-arrow-down-long' : 'fa-arrow-up-from-bracket' ?> text-teal-600 dark:text-teal-400"></i> 
+            <h2 class="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-2">
+                <i class="iclass fa-solid <?= $current_view === 'c2b' ? 'fa-arrow-down-long' : 'fa-arrow-up-from-bracket' ?> text-teal-600"></i> 
                 <span><?= $current_view === 'c2b' ? 'C2B Top-Up' : 'B2C Withdrawal' ?> Fee Brackets</span>
             </h2>
-            <span class="text-[10px] bg-teal-500/10 border border-teal-500/20 text-teal-600 dark:text-teal-400 px-2 py-0.5 rounded-sm font-mono uppercase">
+            <span class="text-[10px] bg-teal-500/10 border border-teal-500/20 text-teal-600 px-2 py-0.5 rounded-sm font-mono uppercase">
                 <?= count($fees) ?> Active Tiers
             </span>
         </div>
 
         <div class="overflow-x-auto">
             <table class="w-full text-left text-xs">
-                <thead class="bg-slate-100/80 dark:bg-slate-950/60 text-slate-500 dark:text-slate-400 uppercase text-[10px] border-b border-inherit tracking-wider">
+                <thead class="bg-slate-100/80 text-slate-500 uppercase text-[10px] border-b border-inherit tracking-wider">
                     <tr>
                         <th class="p-3 pl-4">Min Amount</th>
                         <th class="p-3">Max Amount</th>
@@ -242,17 +250,17 @@ include_once __DIR__ . '/admin-frame/header.php';
                     <?php if (empty($fees)): ?>
                         <tr>
                             <td colspan="4" class="p-8 text-center text-slate-500 text-xs">
-                                <i class="iclass fa-solid fa-folder-open text-3xl text-slate-400 dark:text-slate-600 mb-2 block"></i>
+                                <i class="iclass fa-solid fa-folder-open text-3xl text-slate-400 mb-2 block"></i>
                                 No fee tiers registered for <?= $current_view === 'c2b' ? 'C2B Top-Up' : 'B2C Withdrawal' ?> yet.
                             </td>
                         </tr>
                     <?php else: ?>
                         <?php foreach ($fees as $fee): ?>
-                        <tr class="hover:bg-slate-100/50 dark:hover:bg-slate-900/40 transition-colors <?= $edit_id == $fee['id'] ? 'bg-teal-500/10' : '' ?>">
-                            <td class="p-3 pl-4 font-mono text-slate-800 dark:text-slate-200 font-semibold">
+                        <tr class="hover:bg-slate-100/50 transition-colors <?= $edit_id == $fee['id'] ? 'bg-teal-500/10' : '' ?>">
+                            <td class="p-3 pl-4 font-mono text-slate-800 font-semibold">
                                 KES <?= number_format($fee['min_amount'], 0) ?>
                             </td>
-                            <td class="p-3 font-mono text-slate-800 dark:text-slate-200 font-semibold">
+                            <td class="p-3 font-mono text-slate-800 font-semibold">
                                 KES <?= number_format($fee['max_amount'], 0) ?>
                             </td>
                             <td class="p-3 font-bold text-amber-500 font-mono">
@@ -263,7 +271,7 @@ include_once __DIR__ . '/admin-frame/header.php';
                                 <?php endif; ?>
                             </td>
                             <td class="p-3 pr-4 text-center flex items-center justify-center gap-1.5">
-                                <a href="/admin/fees_manager.php?view=<?= $current_view ?>&action=edit&id=<?= $fee['id'] ?>" class="w-7 h-7 rounded-sm bg-teal-500/10 border border-teal-500/20 text-teal-600 dark:text-teal-400 hover:bg-teal-500/20 inline-flex items-center justify-center transition text-xs" title="Edit Tier">
+                                <a href="/admin/fees_manager.php?view=<?= $current_view ?>&action=edit&id=<?= $fee['id'] ?>" class="w-7 h-7 rounded-sm bg-teal-500/10 border border-teal-500/20 text-teal-600 hover:bg-teal-500/20 inline-flex items-center justify-center transition text-xs" title="Edit Tier">
                                     <i class="iclass fa-solid fa-pen"></i>
                                 </a>
                                 <a href="/admin/fees_manager.php?view=<?= $current_view ?>&action=delete&id=<?= $fee['id'] ?>" onclick="return confirm('Delete this fee tier bracket?');" class="w-7 h-7 rounded-sm bg-rose-500/10 border border-rose-500/20 text-rose-500 hover:bg-rose-500/20 inline-flex items-center justify-center transition text-xs" title="Delete Tier">

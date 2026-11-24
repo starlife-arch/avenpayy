@@ -117,26 +117,34 @@ $metrics = $metrics_res ? $metrics_res->fetch_assoc() : ['total_count' => 0, 'su
 $page_title = "M-Pesa Transactions";
 include __DIR__ . '/admin-frame/header.php';
 ?>
+<style>
+    html, body { background-color: #f8fafc !important; color: #0f172a !important; }
+    input, select, textarea { color: #0f172a !important; background-color: #ffffff !important; }
+    input::placeholder, textarea::placeholder { color: #64748b !important; opacity: 1; }
+        [class~="text-slate-400"] { color: #64748b !important; }
+        [class~="text-slate-500"] { color: #475569 !important; }
+</style>
+
 
 <div class="space-y-6 pb-10">
     <!-- Header Banner -->
-    <div class="bg-white dark:bg-[#0f172a] border border-slate-200/80 dark:border-white/10 rounded p-5 shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <div class="bg-white border border-slate-200/80 rounded p-5 shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-            <h1 class="text-base font-bold text-slate-800 dark:text-slate-100">M-Pesa Transaction Logs</h1>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+            <h1 class="text-base font-bold text-slate-800">M-Pesa Transaction Logs</h1>
+            <p class="text-xs text-slate-500 mt-0.5">
                 Monitor live payin receipts, user deposits, and payment statuses.
             </p>
         </div>
         <div class="flex items-center">
-            <div class="px-3.5 py-1.5 bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 rounded">
+            <div class="px-3.5 py-1.5 bg-slate-50 border border-slate-200/60 rounded">
                 <span class="text-[11px] text-slate-400 font-medium">Total Volume: </span>
-                <span class="text-xs font-bold text-slate-700 dark:text-slate-200"><?= number_format($metrics['total_count']) ?></span>
+                <span class="text-xs font-bold text-slate-700"><?= number_format($metrics['total_count']) ?></span>
             </div>
         </div>
     </div>
 
     <!-- Filter & Search Controls Card Bar -->
-    <div class="bg-white dark:bg-[#0f172a] border border-slate-200/80 dark:border-white/10 rounded p-4 shadow-xs flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+    <div class="bg-white border border-slate-200/80 rounded p-4 shadow-xs flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         
         <!-- Professional Dropdown Selection Pop Filter Form -->
         <form method="GET" action="transactions.php" class="flex flex-wrap items-center gap-2">
@@ -145,9 +153,9 @@ include __DIR__ . '/admin-frame/header.php';
                 <input type="hidden" name="search" value="<?= htmlspecialchars($search_query) ?>">
             <?php endif; ?>
             
-            <label for="status" class="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">Filter Status:</label>
+            <label for="status" class="text-xs font-bold uppercase tracking-wider text-slate-600">Filter Status:</label>
             <div class="relative">
-                <select name="status" id="status" onchange="this.form.submit()" class="appearance-none px-3.5 py-2 pr-8 text-xs font-semibold rounded border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-teal-500 cursor-pointer shadow-xs">
+                <select name="status" id="status" onchange="this.form.submit()" class="appearance-none px-3.5 py-2 pr-8 text-xs font-semibold rounded border border-slate-200 bg-slate-50/50 text-slate-800 focus:outline-none focus:ring-1 focus:ring-teal-500 cursor-pointer shadow-xs">
                     <option value="">All Transactions (<?= number_format($metrics['total_count']) ?>)</option>
                     <option value="completed" <?= $status_filter === 'completed' ? 'selected' : '' ?>>Completed (<?= number_format($metrics['success_count']) ?>)</option>
                     <option value="cancelled" <?= $status_filter === 'cancelled' ? 'selected' : '' ?>>Cancelled (<?= number_format($metrics['cancelled_count']) ?>)</option>
@@ -166,7 +174,7 @@ include __DIR__ . '/admin-frame/header.php';
             <?php endif; ?>
             
             <div class="relative">
-                <select name="limit" onchange="this.form.submit()" class="appearance-none px-3 py-2 pr-8 text-xs font-semibold rounded border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900 text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-1 focus:ring-teal-500 cursor-pointer shadow-xs">
+                <select name="limit" onchange="this.form.submit()" class="appearance-none px-3 py-2 pr-8 text-xs font-semibold rounded border border-slate-200 bg-slate-50/50 text-slate-700 focus:outline-none focus:ring-1 focus:ring-teal-500 cursor-pointer shadow-xs">
                     <?php foreach ($allowed_limits as $l): ?>
                         <option value="<?= $l ?>" <?= $limit === $l ? 'selected' : '' ?>><?= $l ?> per page</option>
                     <?php endforeach; ?>
@@ -180,43 +188,43 @@ include __DIR__ . '/admin-frame/header.php';
                 <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
                     <i class="fa-solid fa-magnifying-glass text-xs"></i>
                 </span>
-                <input type="text" name="search" value="<?= htmlspecialchars($search_query) ?>" placeholder="Receipt, phone, user..." class="w-full pl-9 pr-3 py-2 text-xs border border-slate-200 dark:border-slate-700 rounded bg-slate-50/50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-teal-500">
+                <input type="text" name="search" value="<?= htmlspecialchars($search_query) ?>" placeholder="Receipt, phone, user..." class="w-full pl-9 pr-3 py-2 text-xs border border-slate-200 rounded bg-slate-50/50 text-slate-900 focus:outline-none focus:ring-1 focus:ring-teal-500">
             </div>
             <button type="submit" class="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white text-xs font-semibold rounded shadow-xs transition-colors shrink-0">Search</button>
             <?php if (!empty($search_query) || !empty($status_filter) || $limit !== 10): ?>
-                <a href="transactions.php" class="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-600 dark:text-slate-300 text-xs font-semibold rounded transition-colors shrink-0">Reset</a>
+                <a href="transactions.php" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-semibold rounded transition-colors shrink-0">Reset</a>
             <?php endif; ?>
         </form>
     </div>
 
     <!-- Data Table Card Container -->
-    <div class="bg-white dark:bg-[#0f172a] border border-slate-200/80 dark:border-white/10 rounded shadow-xs overflow-hidden">
+    <div class="bg-white border border-slate-200/80 rounded shadow-xs overflow-hidden">
         <div class="overflow-x-auto w-full">
             <table class="w-full text-left border-collapse">
-                <thead class="bg-slate-50/70 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-800">
+                <thead class="bg-slate-50/70 border-b border-slate-200">
                     <tr>
-                        <th class="px-4 py-3 text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">ID</th>
-                        <th class="px-4 py-3 text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">User Account</th>
-                        <th class="px-4 py-3 text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Phone / Reference</th>
-                        <th class="px-4 py-3 text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Amount</th>
-                        <th class="px-4 py-3 text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Status</th>
-                        <th class="px-4 py-3 text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Date & Time</th>
+                        <th class="px-4 py-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider">ID</th>
+                        <th class="px-4 py-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider">User Account</th>
+                        <th class="px-4 py-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider">Phone / Reference</th>
+                        <th class="px-4 py-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider">Amount</th>
+                        <th class="px-4 py-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider">Status</th>
+                        <th class="px-4 py-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider">Date & Time</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-200 dark:divide-slate-800 text-xs">
+                <tbody class="divide-y divide-slate-200 text-xs">
                     <?php if (count($transactions) > 0): ?>
                         <?php foreach ($transactions as $tx): ?>
-                            <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition-colors">
-                                <td class="px-4 py-3 font-medium text-slate-700 dark:text-slate-300 align-middle">#<?= htmlspecialchars($tx['id']) ?></td>
+                            <tr class="hover:bg-slate-50/50 transition-colors">
+                                <td class="px-4 py-3 font-medium text-slate-700 align-middle">#<?= htmlspecialchars($tx['id']) ?></td>
                                 <td class="px-4 py-3 align-middle">
-                                    <div class="font-bold text-slate-900 dark:text-slate-100"><?= htmlspecialchars($tx['username'] ?? 'Guest / Unlinked') ?></div>
+                                    <div class="font-bold text-slate-900"><?= htmlspecialchars($tx['username'] ?? 'Guest / Unlinked') ?></div>
                                     <div class="text-[10px] text-slate-400 mt-0.5"><?= htmlspecialchars($tx['email'] ?? '') ?></div>
                                 </td>
                                 <td class="px-4 py-3 align-middle">
-                                    <div class="font-semibold text-slate-800 dark:text-slate-200"><?= htmlspecialchars($tx['phone_number'] ?? 'N/A') ?></div>
+                                    <div class="font-semibold text-slate-800"><?= htmlspecialchars($tx['phone_number'] ?? 'N/A') ?></div>
                                     <div class="font-mono text-[10px] text-slate-400 mt-0.5"><?= htmlspecialchars($tx['mpesa_receipt_number'] ?? $tx['checkout_request_id'] ?? 'N/A') ?></div>
                                 </td>
-                                <td class="px-4 py-3 font-black text-slate-900 dark:text-slate-100 align-middle">KES <?= number_format($tx['amount'], 2) ?></td>
+                                <td class="px-4 py-3 font-black text-slate-900 align-middle">KES <?= number_format($tx['amount'], 2) ?></td>
                                 <td class="px-4 py-3 align-middle">
                                     <?php 
                                         $status = strtolower($tx['status']);
@@ -224,20 +232,20 @@ include __DIR__ . '/admin-frame/header.php';
                                         $is_cancelled = ($status === 'cancelled' || strpos($receipt, '1032') !== false || strpos($receipt, 'cancel') !== false);
                                     ?>
                                     <?php if ($status === 'completed' || $status === 'success'): ?>
-                                        <span class="inline-flex items-center justify-start gap-1.5 w-28 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
+                                        <span class="inline-flex items-center justify-start gap-1.5 w-28 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-700 border border-emerald-500/20">
                                             <i class="fa-solid fa-check text-[9px] shrink-0 w-3 text-center"></i> Completed
                                         </span>
                                     <?php elseif ($is_cancelled): ?>
-                                        <span class="inline-flex items-center justify-start gap-1.5 w-28 px-2.5 py-1 rounded-full border border-amber-500/30 text-[10px] font-semibold bg-amber-500/10 text-amber-700 dark:text-amber-400" title="Cancelled">
+                                        <span class="inline-flex items-center justify-start gap-1.5 w-28 px-2.5 py-1 rounded-full border border-amber-500/30 text-[10px] font-semibold bg-amber-500/10 text-amber-700" title="Cancelled">
                                             <i class="fa-solid fa-ban text-[9px] shrink-0 w-3 text-center"></i> Cancelled
                                         </span>
                                     <?php else: ?>
-                                        <span class="inline-flex items-center justify-start gap-1.5 w-28 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-rose-500/10 text-rose-700 dark:text-rose-400 border border-rose-500/20">
+                                        <span class="inline-flex items-center justify-start gap-1.5 w-28 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-rose-500/10 text-rose-700 border border-rose-500/20">
                                             <i class="fa-solid fa-xmark text-[9px] shrink-0 w-3 text-center"></i> Failed
                                         </span>
                                     <?php endif; ?>
                                 </td>
-                                <td class="px-4 py-3 text-slate-500 dark:text-slate-400 font-medium align-middle"><?= htmlspecialchars($tx['transaction_date']) ?></td>
+                                <td class="px-4 py-3 text-slate-500 font-medium align-middle"><?= htmlspecialchars($tx['transaction_date']) ?></td>
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
@@ -253,15 +261,15 @@ include __DIR__ . '/admin-frame/header.php';
 
         <!-- Pagination Bar -->
         <?php if ($total_pages > 1 || $total_rows > 0): ?>
-            <div class="px-4 py-3 bg-slate-50/50 dark:bg-slate-900/30 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
-                <div class="text-xs text-slate-500 dark:text-slate-400">
-                    Showing <span class="font-bold text-slate-700 dark:text-slate-200"><?= $total_rows > 0 ? $offset + 1 : 0 ?></span> to <span class="font-bold text-slate-700 dark:text-slate-200"><?= min($offset + $limit, $total_rows) ?></span> out of <span class="font-bold text-slate-700 dark:text-slate-200"><?= number_format($total_rows) ?></span> results
+            <div class="px-4 py-3 bg-slate-50/50 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div class="text-xs text-slate-500">
+                    Showing <span class="font-bold text-slate-700"><?= $total_rows > 0 ? $offset + 1 : 0 ?></span> to <span class="font-bold text-slate-700"><?= min($offset + $limit, $total_rows) ?></span> out of <span class="font-bold text-slate-700"><?= number_format($total_rows) ?></span> results
                 </div>
                 
                 <div class="flex items-center gap-1">
                     <?php if ($page > 1): ?>
                         <a href="transactions.php?page=<?= $page - 1 ?>&limit=<?= $limit ?><?= !empty($status_filter) ? '&status=' . urlencode($status_filter) : '' ?><?= !empty($search_query) ? '&search=' . urlencode($search_query) : '' ?>" 
-                           class="px-3 py-1 text-xs font-semibold rounded bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 transition-colors">
+                           class="px-3 py-1 text-xs font-semibold rounded bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 transition-colors">
                            Prev
                         </a>
                     <?php endif; ?>
@@ -272,14 +280,14 @@ include __DIR__ . '/admin-frame/header.php';
                         for ($i = $start_p; $i <= $end_p; $i++): 
                     ?>
                         <a href="transactions.php?page=<?= $i ?>&limit=<?= $limit ?><?= !empty($status_filter) ? '&status=' . urlencode($status_filter) : '' ?><?= !empty($search_query) ? '&search=' . urlencode($search_query) : '' ?>" 
-                           class="px-3 py-1 text-xs font-semibold rounded transition-colors <?= $i === $page ? 'bg-teal-600 text-white shadow-xs' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50' ?>">
+                           class="px-3 py-1 text-xs font-semibold rounded transition-colors <?= $i === $page ? 'bg-teal-600 text-white shadow-xs' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50' ?>">
                             <?= $i ?>
                         </a>
                     <?php endfor; ?>
 
                     <?php if ($page < $total_pages): ?>
                         <a href="transactions.php?page=<?= $page + 1 ?>&limit=<?= $limit ?><?= !empty($status_filter) ? '&status=' . urlencode($status_filter) : '' ?><?= !empty($search_query) ? '&search=' . urlencode($search_query) : '' ?>" 
-                           class="px-3 py-1 text-xs font-semibold rounded bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 transition-colors">
+                           class="px-3 py-1 text-xs font-semibold rounded bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 transition-colors">
                            Next
                         </a>
                     <?php endif; ?>
