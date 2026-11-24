@@ -27,18 +27,26 @@ require_once $dbPath;
 
 // 1. SecureVault Decryption Class
 class SecureVault {
-    private static function vaultKey(): string { return (string) av_env('VAULT_KEY'); } 
     private const METHOD = 'aes-256-cbc';
 
+    private static function encryptionKey(): string {
+        $key = trim((string) av_env('VAULT_KEY'));
+        if (!preg_match('/^[a-fA-F0-9]{64}$/', $key)) {
+            throw new RuntimeException('A valid AvenPay VAULT_KEY is not configured.');
+        }
+        return hex2bin($key);
+    }
+
     public static function decrypt($data) {
-        if (empty($data)) return null;
-        $decoded = base64_decode($data);
+        if (!is_string($data) || $data === '') return null;
+        $decoded = base64_decode($data, true);
+        if ($decoded === false) return null;
         $ivLength = openssl_cipher_iv_length(self::METHOD);
-        if (strlen($decoded) < $ivLength) return $data;
+        if (strlen($decoded) <= $ivLength) return null;
         $iv = substr($decoded, 0, $ivLength);
         $ciphertext = substr($decoded, $ivLength);
-        $decrypted = openssl_decrypt($ciphertext, self::METHOD, self::vaultKey(), 0, $iv);
-        return $decrypted !== false ? trim($decrypted) : trim($data);
+        $plainText = openssl_decrypt($ciphertext, self::METHOD, self::encryptionKey(), 0, $iv);
+        return $plainText !== false ? trim($plainText) : null;
     }
 }
 
@@ -164,7 +172,7 @@ if ($useCustom === 1) {
     $cStmt->close();
 }
 
-if (empty($consumerKey) || empty($consumerSecret)) {
+if (empty($consumerKey) || empty($consumerSecret) || empty($passkey) || empty($paybillShortcode)) {
     $gRes = $conn->query("SELECT key_name, encrypted_value FROM daraja_settings");
     if ($gRes) {
         while ($row = $gRes->fetch_assoc()) {
@@ -180,7 +188,20 @@ if (empty($consumerKey) || empty($consumerSecret)) {
 
 if (empty($consumerKey) || empty($consumerSecret)) {
     http_response_code(500);
-    echo json_encode(['status' => 'error', 'message' => 'AvenPay gateway not configured.']);
+    echo json_encode(['status' => 'error', 'message' => 'C2B Daraja settings are incomplete. Save the consumer key, consumer secret, paybill shortcode and passkey in the AvenPay C2B gateway settings.']);
+    exit();
+}
+
+if (av_callback_token('topup') === '') {
+    error_log('AvenPay wallet top-up blocked: CALLBACK_SECRET is not configured.');
+    http_response_code(503);
+    echo json_encode(['status' => 'error', 'message' => 'Wallet top-ups are temporarily unavailable because the secure callback configuration is incomplete.']);
+    exit();
+}
+
+if (empty($passkey) || empty($paybillShortcode)) {
+    http_response_code(503);
+    echo json_encode(['status' => 'error', 'message' => 'C2B Paybill shortcode and passkey must be saved before wallet top-ups can be started.']);
     exit();
 }
 
@@ -189,28 +210,39 @@ $baseUrl = av_daraja_base_url();
 // 6. Generate Production Access Token
 $credentials = base64_encode($consumerKey . ':' . $consumerSecret);
 $ch = curl_init($baseUrl . '/oauth/v1/generate?grant_type=client_credentials');
-curl_setopt($ch, CURLOPT_HTTPHEADER, ['Authorization: Basic ' . $credentials]);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
-curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+curl_setopt_array($ch, [
+    CURLOPT_HTTPHEADER => ['Authorization: Basic ' . $credentials],
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_CONNECTTIMEOUT => 10,
+    CURLOPT_TIMEOUT => 25,
+    CURLOPT_SSL_VERIFYPEER => true,
+    CURLOPT_SSL_VERIFYHOST => 2
+]);
 $response = curl_exec($ch);
-
-if (curl_errno($ch)) {
-    $curlError = curl_error($ch);
-    curl_close($ch);
-    http_response_code(500);
-    echo json_encode(['status' => 'error', 'message' => 'cURL Connection Error: ' . $curlError]);
-    exit();
-}
+$curlError = curl_error($ch);
+$authHttpCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
 curl_close($ch);
 
+if ($response === false) {
+    error_log('AvenPay wallet top-up Daraja OAuth transport failure: ' . $curlError);
+    http_response_code(502);
+    echo json_encode(['status' => 'error', 'message' => 'Safaricom authentication service could not be reached. Please retry shortly.']);
+    exit();
+}
+
 $authData = json_decode($response, true);
-$accessToken = $authData['access_token'] ?? null;
+$accessToken = is_array($authData) ? ($authData['access_token'] ?? null) : null;
 
 if (!$accessToken) {
-    $safariError = $authData['errorMessage'] ?? $authData['error'] ?? $response ?? 'Unknown reason';
-    http_response_code(500);
-    echo json_encode(['status' => 'error', 'message' => 'Daraja Auth Failed: ' . $safariError]);
+    $providerMessage = is_array($authData)
+        ? (string) ($authData['errorMessage'] ?? $authData['error_description'] ?? $authData['error'] ?? '')
+        : '';
+    error_log('AvenPay wallet top-up Daraja OAuth rejected: HTTP ' . $authHttpCode . '; response=' . substr((string) $response, 0, 400));
+    http_response_code(502);
+    $safeMessage = $providerMessage !== ''
+        ? 'Safaricom rejected the configured credentials: ' . $providerMessage
+        : 'Safaricom returned HTTP ' . $authHttpCode . ' without an access token. Check that the consumer key and secret match the selected Daraja environment.';
+    echo json_encode(['status' => 'error', 'message' => $safeMessage]);
     exit();
 }
 
@@ -233,14 +265,33 @@ $stkData = [
 ];
 
 $ch2 = curl_init($baseUrl . '/mpesa/stkpush/v1/processrequest');
-curl_setopt($ch2, CURLOPT_HTTPHEADER, ['Authorization: Bearer ' . $accessToken, 'Content-Type: application/json']);
-curl_setopt($ch2, CURLOPT_POST, true);
-curl_setopt($ch2, CURLOPT_POSTFIELDS, json_encode($stkData));
-curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch2, CURLOPT_SSL_VERIFYPEER, true);
+curl_setopt_array($ch2, [
+    CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $accessToken, 'Content-Type: application/json'],
+    CURLOPT_POST => true,
+    CURLOPT_POSTFIELDS => json_encode($stkData),
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_CONNECTTIMEOUT => 10,
+    CURLOPT_TIMEOUT => 30,
+    CURLOPT_SSL_VERIFYPEER => true,
+    CURLOPT_SSL_VERIFYHOST => 2
+]);
 $stkResponse = curl_exec($ch2);
+$stkCurlError = curl_error($ch2);
+$stkHttpCode = (int) curl_getinfo($ch2, CURLINFO_HTTP_CODE);
 curl_close($ch2);
+if ($stkResponse === false) {
+    error_log('AvenPay wallet top-up STK transport failure: ' . $stkCurlError);
+    http_response_code(502);
+    echo json_encode(['status' => 'error', 'message' => 'Safaricom STK service could not be reached. Please retry shortly.']);
+    exit();
+}
 $stkResData = json_decode($stkResponse, true);
+if (!is_array($stkResData)) {
+    error_log('AvenPay wallet top-up STK returned invalid JSON: HTTP ' . $stkHttpCode);
+    http_response_code(502);
+    echo json_encode(['status' => 'error', 'message' => 'Safaricom returned an unreadable STK response. Please retry shortly.']);
+    exit();
+}
 
 if (isset($stkResData['ResponseCode']) && $stkResData['ResponseCode'] === '0') {
     $checkoutId = $stkResData['CheckoutRequestID'];

@@ -9,10 +9,32 @@ $db_user = trim((string) av_env('DB_USER'));
 $db_pass = (string) av_env('DB_PASS');
 $db_name = trim((string) av_env('DB_NAME'));
 
+$requestPath = parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH) ?: '';
+$isAvenPayJsonEndpoint = in_array($_SERVER['REQUEST_METHOD'] ?? 'GET', ['POST', 'PUT', 'PATCH'], true)
+    && (str_starts_with($requestPath, '/api/')
+        || str_starts_with($requestPath, '/b2c/')
+        || str_starts_with($requestPath, '/logs/'));
+
+function av_db_unavailable(bool $jsonResponse): void
+{
+    http_response_code(503);
+    if ($jsonResponse) {
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode([
+            'success' => false,
+            'status' => 'error',
+            'error' => 'Service temporarily unavailable',
+            'message' => 'The database connection is not available. Check the private AvenPay database settings and server error log.'
+        ]);
+    } else {
+        echo 'Service temporarily unavailable.';
+    }
+    exit();
+}
+
 if ($db_user === '' || $db_pass === '' || $db_name === '') {
     error_log('AvenPay database configuration is incomplete. Set DB_USER, DB_PASS and DB_NAME in the private environment file.');
-    http_response_code(500);
-    exit('Service temporarily unavailable.');
+    av_db_unavailable($isAvenPayJsonEndpoint);
 }
 
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
@@ -23,8 +45,7 @@ try {
     $conn->query("SET time_zone = '+03:00'");
 } catch (mysqli_sql_exception $e) {
     error_log('AvenPay database connection failed: ' . $e->getMessage());
-    http_response_code(500);
-    exit('Service temporarily unavailable.');
+    av_db_unavailable($isAvenPayJsonEndpoint);
 }
 
 /**
