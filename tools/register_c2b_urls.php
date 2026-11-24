@@ -70,7 +70,7 @@ $payload = [
     'ConfirmationURL' => av_callback_url('/logs/confirmation.php', 'c2b'),
     'ValidationURL' => av_callback_url('/logs/validation.php', 'c2b')
 ];
-$ch = curl_init($baseUrl . '/mpesa/c2b/v1/registerurl');
+$ch = curl_init($baseUrl . '/mpesa/c2b/v2/registerurl');
 curl_setopt_array($ch, [
     CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $accessToken, 'Content-Type: application/json'],
     CURLOPT_POST => true,
