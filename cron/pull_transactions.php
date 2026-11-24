@@ -235,41 +235,74 @@ while ($configRow = $gatewaysResult->fetch_assoc()) {
                                 $stmtUser->close();
 
                                 if ($userRow) {
-                                    $stmtCheck = $conn->prepare("SELECT id FROM b2c_topup_transactions WHERE receipt_number = ? LIMIT 1");
-                                    $stmtCheck->bind_param("s", $transId);
-                                    $stmtCheck->execute();
-                                    $resCheck = $stmtCheck->get_result();
-                                    $existingTopup = $resCheck->fetch_assoc();
-                                    $stmtCheck->close();
-
-                                    if (!$existingTopup) {
-                                        $userId = $userRow['id'];
-
-                                        $insertTopup = $conn->prepare("
-                                            INSERT INTO b2c_topup_transactions 
-                                            (user_id, wallet_id, checkout_request_id, merchant_request_id, phone_number, amount, status, receipt_number, result_code, result_desc, created_at) 
-                                            VALUES (?, ?, ?, ?, ?, ?, 'completed', ?, 0, 'Auto-credited via Gateway Pull Sync', NOW())
-                                        ");
-                                        $checkoutReqId = 'PULL_' . $transId;
-                                        $merchantReqId = 'PULL_API';
-                                        $insertTopup->bind_param("issssds", $userId, $billRef, $checkoutReqId, $merchantReqId, $msisdn, $grossAmount, $transId);
-                                        $insertTopup->execute();
-                                        $insertTopup->close();
-
-                                        if ($netCreditAmount > 0) {
-                                            av_wallet_apply($conn, (int)$userId, (float)$netCreditAmount, 'topup_credit', 'pull', (string)$transId, 'Gateway pull credit ' . $transId);
+                                    $userId = (int) $userRow['id'];
+                                    $conn->begin_transaction();
+                                    try {
+                                        // Re-check under the transaction before recording the receipt.
+                                        $stmtCheck = $conn->prepare(
+                                            "SELECT id FROM b2c_topup_transactions WHERE receipt_number = ? LIMIT 1 FOR UPDATE"
+                                        );
+                                        if (!$stmtCheck) {
+                                            throw new RuntimeException('Could not prepare receipt lookup: ' . $conn->error);
                                         }
+                                        $stmtCheck->bind_param("s", $transId);
+                                        $stmtCheck->execute();
+                                        $existingTopup = $stmtCheck->get_result()->fetch_assoc();
+                                        $stmtCheck->close();
 
-                                        $totalCredited++;
-                                        $walletCreditedStatus = "<b style='color: green;'>Credited Net: KES " . number_format($netCreditAmount, 2) . " (Fee: KES " . number_format($topupFee, 2) . ")</b>";
-                                    } else {
-                                        $walletCreditedStatus = "<span style='color: blue;'>Already Processed</span>";
+                                        if ($existingTopup) {
+                                            $conn->commit();
+                                            $walletCreditedStatus = "<span style='color: blue;'>Already Processed</span>";
+                                        } else {
+                                            $checkoutReqId = 'PULL_' . $transId;
+                                            $merchantReqId = 'PULL_API';
+                                            $insertTopup = $conn->prepare("
+                                                INSERT INTO b2c_topup_transactions
+                                                (user_id, wallet_id, checkout_request_id, merchant_request_id, phone_number, amount, status, receipt_number, result_code, result_desc, created_at)
+                                                VALUES (?, ?, ?, ?, ?, ?, 'completed', ?, 0, 'Auto-credited via Gateway Pull Sync', NOW())
+                                            ");
+                                            if (!$insertTopup) {
+                                                throw new RuntimeException('Could not prepare top-up record: ' . $conn->error);
+                                            }
+                                            $insertTopup->bind_param("issssds", $userId, $billRef, $checkoutReqId, $merchantReqId, $msisdn, $grossAmount, $transId);
+                                            $insertTopup->execute();
+                                            $insertTopup->close();
+
+                                            if ($netCreditAmount > 0) {
+                                                $ledgerReason = null;
+                                                $applied = av_wallet_apply(
+                                                    $conn,
+                                                    $userId,
+                                                    (float) $netCreditAmount,
+                                                    'topup_credit',
+                                                    'pull',
+                                                    (string) $transId,
+                                                    'Gateway pull credit ' . $transId,
+                                                    false,
+                                                    $ledgerReason
+                                                );
+                                                if (!$applied && $ledgerReason !== 'duplicate') {
+                                                    throw new RuntimeException('Wallet ledger credit failed: ' . (string) $ledgerReason);
+                                                }
+                                            }
+
+                                            $conn->commit();
+                                            if ($netCreditAmount > 0 && $ledgerReason !== 'duplicate') {
+                                                $totalCredited++;
+                                                $walletCreditedStatus = "<b style='color: green;'>Credited Net: KES " . number_format($netCreditAmount, 2) . " (Fee: KES " . number_format($topupFee, 2) . ")</b>";
+                                            } else {
+                                                $walletCreditedStatus = "<span style='color: blue;'>Already Processed</span>";
+                                            }
+                                        }
+                                    } catch (Throwable $e) {
+                                        try { $conn->rollback(); } catch (Throwable $ignored) {}
+                                        throw $e;
                                     }
                                 } else {
                                     $walletCreditedStatus = "<span style='color: orange;'>Wallet not available</span>";
                                 }
 
-                            } catch (Exception $e) {
+                            } catch (Throwable $e) {
                                 logMessage('error.log', "Gateway Pull DB Error [{$transId}]: " . $e->getMessage());
                                 $walletCreditedStatus = "<span style='color: red;'>DB Error</span>";
                             }
