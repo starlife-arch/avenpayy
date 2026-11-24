@@ -124,8 +124,8 @@ function syncGatewaySettings(mysqli $conn, array $gateway, string $target): void
         $shortcode = (string)($gateway['shortcode'] ?? '');
         $initiatorName = (string)($gateway['initiator_username'] ?? '');
         $consumerKey = (string)($gateway['consumer_key'] ?? '');
-        $consumerSecret = (string)($gateway['consumer_secret'] ?? '');
-        $initiatorPassword = (string)($gateway['initiator_password'] ?? '');
+        $consumerSecret = SecureVault::encrypt((string)($gateway['consumer_secret'] ?? ''));
+        $initiatorPassword = SecureVault::encrypt((string)($gateway['initiator_password'] ?? ''));
 
         if ($shortcode === '' || $consumerKey === '' || $consumerSecret === '' ||
             $initiatorName === '' || $initiatorPassword === '') {
@@ -169,7 +169,7 @@ function syncGatewaySettings(mysqli $conn, array $gateway, string $target): void
         }
     }
 
-    // SecureVault uses VAULT_KEY when configured and the legacy PrintPay key otherwise.
+    // C2B credentials are encrypted with the AvenPay VAULT_KEY before storage.
     $stmt = $conn->prepare("
         INSERT INTO daraja_settings (key_name, encrypted_value)
         VALUES (?, ?)
