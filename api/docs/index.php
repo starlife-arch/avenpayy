@@ -133,7 +133,7 @@ if (file_exists($header_path)) {
                 </div>
             </div>
             <div>
-                <a href="/api/docs/b2b" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 py-2.5 rounded-sm text-xs font-bold transition shadow-md flex items-center justify-center gap-2">
+                <a href="/api/docs/b2b.php" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 py-2.5 rounded-sm text-xs font-bold transition shadow-md flex items-center justify-center gap-2">
                     <i class="iclass fa-solid fa-code text-teal-600"></i> Visit B2B Documentation
                 </a>
             </div>
