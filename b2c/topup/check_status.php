@@ -52,8 +52,12 @@ final class B2CTopupCredentialVault {
 
 // 1. Dual Authentication: Check Dashboard Session OR API Headers (X-Wallet-ID & X-Security-Credential)
 $headers = function_exists('getallheaders') ? getallheaders() : [];
-$apiWalletId = $headers['X-Wallet-ID'] ?? $headers['x-wallet-id'] ?? $_GET['wallet_id'] ?? '';
-$apiSecurityKey = $headers['X-Security-Credential'] ?? $headers['x-security-credential'] ?? $_GET['security_credential'] ?? '';
+$normalizedHeaders = [];
+foreach ($headers as $name => $value) {
+    $normalizedHeaders[strtolower((string)$name)] = $value;
+}
+$apiWalletId = $normalizedHeaders['x-wallet-id'] ?? $_GET['wallet_id'] ?? '';
+$apiSecurityKey = $normalizedHeaders['x-security-credential'] ?? $_GET['security_credential'] ?? '';
 
 if (!empty($apiWalletId) && !empty($apiSecurityKey)) {
     // API Mode: Authenticate via credentials
