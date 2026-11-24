@@ -13,7 +13,7 @@ $isHttps = (
 );
 
 $protocol = $isHttps ? 'https://' : 'http://';
-$host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+$host = 'api.avenpay.co.ke';
 $parsedHost = parse_url($protocol . $host, PHP_URL_HOST);
 
 if (
@@ -1002,20 +1002,18 @@ print(response.json())</code></pre>
                             <i class="fa-solid fa-arrow-right-arrow-left" aria-hidden="true"></i>
                         </div>
                         <div>
-                            <h2>Callback notifications</h2>
-                            <p>Receive transaction updates at your configured callback URL.</p>
+                            <h2>Safaricom callback and merchant webhooks</h2>
+                            <p>Safaricom calls AvenPay first; AvenPay then notifies your configured merchant webhook.</p>
                         </div>
                     </div>
 
                     <p class="section-intro">
-                        Configure your callback URL in the relevant merchant
-                        settings. Confirm the callback method, payload, and
-                        registration requirements against your deployed API.
+                        Safaricom sends its STK callback to AvenPay at <code class="inline">https://api.avenpay.co.ke/api/callback.php</code>. This is an internal receiver protected by AvenPay callback authentication; merchants must not register it as their own callback endpoint. Set your own HTTPS webhook URL in the merchant settlement settings. AvenPay sends your server a POST with the JSON payload shown below and an <code class="inline">X-AvenPay-Signature</code> header.
                     </p>
 
                     <div class="endpoint-bar">
                         <span class="method method-post">POST</span>
-                        <code data-endpoint="callback"></code>
+                        <code>Safaricom → AvenPay: /api/callback.php (internal)</code>
                         <button
                             type="button"
                             class="copy-button"
@@ -1040,10 +1038,7 @@ print(response.json())</code></pre>
                     <div class="notice">
                         <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
                         <span>
-                            Treat this as an illustrative payload only. Verify
-                            callback authenticity, validate amount and receipt,
-                            and update transactions idempotently before fulfilling
-                            an order.
+                            Verify the <code class="inline">X-AvenPay-Signature</code> header using HMAC-SHA256 over <code class="inline">timestamp + "." + raw request body</code> and your settlement webhook secret. Reject stale timestamps, validate amount and receipt, and process each checkout ID idempotently before fulfilling an order. Keep the webhook secret private.
                         </span>
                     </div>
                 </section>
