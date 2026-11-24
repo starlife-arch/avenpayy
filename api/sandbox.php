@@ -156,7 +156,7 @@ if (file_exists($header_path)) include $header_path;
                 <i class="iclass fa-solid fa-code text-teal-600"></i>
                 <span>C2B API Sandbox Gateway</span>
             </h1>
-            <p class="text-[11px] text-slate-500 mt-0.5">Test and simulate live customer STK push transaction flows per documentation specs</p>
+            <p class="text-[11px] text-slate-500 mt-0.5">Simulates the API checkout flow locally. It does not contact Safaricom or move real money.</p>
         </div>
         <div>
             <a href="/transactions" class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-1.5 rounded-sm text-xs font-bold transition flex items-center gap-1.5 shadow-md">
@@ -166,12 +166,12 @@ if (file_exists($header_path)) include $header_path;
     </div>
 
     <!-- Main Card Wrapper -->
-    <div class="bg-[rgba(15,23,42,0.95)] border border-[rgba(255,255,255,0.08)] rounded-sm shadow-xl backdrop-blur-md overflow-hidden">
+    <div class="bg-white border border-slate-200 rounded-sm shadow-xl backdrop-blur-md overflow-hidden">
         <div class="p-4 border-b border-slate-200/80 flex items-center justify-between gap-3">
             <h2 class="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-2">
                 <i class="iclass fa-solid fa-terminal text-teal-600"></i> POST /api/stk_push Simulator
             </h2>
-            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-teal-500/10 text-teal-600 border border-teal-500/20">Sandbox Live</span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-teal-500/10 text-teal-600 border border-teal-500/20">Internal Simulation</span>
         </div>
 
         <div class="p-5 space-y-4">
@@ -179,7 +179,7 @@ if (file_exists($header_path)) include $header_path;
                 <div>
                     <label for="test_api_key" class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Settlement API Key (x_api_key)</label>
                     <div class="relative">
-                        <input type="text" id="test_api_key" name="test_api_key" placeholder="Paste your settlement x_api_key here..." required autocomplete="off" class="w-full px-3.5 py-2.5 bg-[#0b0f19] border border-[#1e293b] rounded-sm text-xs font-mono text-slate-700">
+                        <input type="text" id="test_api_key" name="test_api_key" placeholder="Paste your settlement x_api_key here..." required autocomplete="off" class="w-full px-3.5 py-2.5 bg-slate-50 border border-[#1e293b] rounded-sm text-xs font-mono text-slate-700">
                         <span id="keyStatusIndicator" class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-xs hidden">
                             <i class="iclass fa-solid fa-spinner fa-spin text-teal-600"></i>
                         </span>

@@ -1,11 +1,11 @@
 <?php
 // index.php
 session_start();
-require_once 'database_config/db.php';
+require_once __DIR__ . '/../database_config/db.php';
 
 // Access control: Ensure user is logged in
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
+    header('Location: /login.php');
     exit();
 }
 $user_id = $_SESSION['user_id'];
