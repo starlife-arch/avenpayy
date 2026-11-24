@@ -79,8 +79,13 @@ class SecureVault
     }
 }
 
-// Force user_id to 1 (using session as fallback if available)
-$user_id = isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : 1;
+// Subscription purchases must belong to the authenticated merchant.
+if (empty($_SESSION['user_id']) || (int) $_SESSION['user_id'] < 1) {
+    http_response_code(401);
+    echo json_encode(['status' => 'error', 'message' => 'Please sign in to continue.']);
+    exit();
+}
+$user_id = (int) $_SESSION['user_id'];
 $settlement_id = (int)($_POST['id'] ?? 0);
 $phoneInput = trim($_POST['phone'] ?? '');
 $plan = strtolower(trim($_POST['plan'] ?? 'monthly'));
@@ -101,7 +106,7 @@ $stmt->close();
 
 if (!$settlement) {
     http_response_code(404);
-    echo json_encode(['status' => 'error', 'message' => 'Settlement account not found for user ID 1.']);
+    echo json_encode(['status' => 'error', 'message' => 'Settlement account not found for your account.']);
     exit();
 }
 
@@ -128,13 +133,21 @@ $expiryDate = $settlement['expiry_date'] ?? '';
 
 $isCurrentlyActive = ($isActive === 1 && $status !== 'expired' && !empty($expiryDate) && strtotime($expiryDate) > $now);
 $transactionDesc = $isCurrentlyActive ? 'API RENEWAL PLAN' : 'API SUBSCRIPTION PLAN';
+if ($plan === 'custom') {
+    $transactionDesc .= ' - ' . $months . ' MONTHS';
+}
 
 // Format Phone Number (2547XXXXXXXX)
 $phone = preg_replace('/[^0-9]/', '', $phoneInput);
-if (strlen($phone) == 10) $phone = '254' . substr($phone, 1);
-elseif (strlen($phone) == 9) $phone = '254' . $phone;
+if (strlen($phone) === 10 && $phone[0] === '0') $phone = '254' . substr($phone, 1);
+elseif (strlen($phone) === 9 && ($phone[0] === '7' || $phone[0] === '1')) $phone = '254' . $phone;
+if (!preg_match('/^254[17][0-9]{8}$/', $phone)) {
+    http_response_code(400);
+    echo json_encode(['status' => 'error', 'message' => 'Enter a valid Kenyan Safaricom phone number.']);
+    exit();
+}
 
-// Resolve Daraja Credentials for user_id = 1 (Default Paybill: 4022787)
+// Resolve the authenticated merchant's Daraja credentials, with the configured platform gateway as fallback.
 $consumerKey = ''; $consumerSecret = ''; $passkey = ''; $paybill = '4022787';
 
 $uStmt = $conn->prepare("SELECT use_custom_mpesa FROM users WHERE id = ?");
@@ -173,7 +186,7 @@ if (empty($consumerKey) || empty($consumerSecret) || empty($passkey) || empty($p
     }
 }
 
-if (empty($consumerKey) || empty($consumerSecret)) {
+if (empty($consumerKey) || empty($consumerSecret) || empty($passkey) || empty($paybill)) {
     http_response_code(500);
     echo json_encode(['status' => 'error', 'message' => 'Daraja gateway credentials not configured.']);
     exit();
@@ -187,8 +200,14 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
 curl_setopt($ch, CURLOPT_TIMEOUT, 20);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
-$authRes = json_decode(curl_exec($ch), true);
+$authBody = curl_exec($ch);
+$authHttpCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$authError = curl_error($ch);
 curl_close($ch);
+$authRes = is_string($authBody) && $authHttpCode >= 200 && $authHttpCode < 300 ? json_decode($authBody, true) : null;
+if ($authRes === null) {
+    error_log('AvenPay subscription OAuth request failed (HTTP ' . $authHttpCode . '): ' . $authError);
+}
 
 $accessToken = $authRes['access_token'] ?? null;
 if (!$accessToken) {
@@ -224,24 +243,39 @@ curl_setopt($ch2, CURLOPT_CONNECTTIMEOUT, 10);
 curl_setopt($ch2, CURLOPT_TIMEOUT, 25);
 curl_setopt($ch2, CURLOPT_SSL_VERIFYPEER, true);
 $response = curl_exec($ch2);
+$stkHttpCode = (int) curl_getinfo($ch2, CURLINFO_HTTP_CODE);
+$stkError = curl_error($ch2);
 curl_close($ch2);
 
-$res = json_decode($response, true);
+$res = is_string($response) && $stkHttpCode >= 200 && $stkHttpCode < 300 ? json_decode($response, true) : null;
+if ($res === null) {
+    error_log('AvenPay subscription STK request failed (HTTP ' . $stkHttpCode . '): ' . $stkError);
+}
 
 if (isset($res['CheckoutRequestID'])) {
     $checkoutId = $res['CheckoutRequestID'];
     $merchantRequestId = $res['MerchantRequestID'] ?? null;
 
     $stmt = $conn->prepare("
-        INSERT INTO mpesa_transactions (user_id, checkout_request_id, merchant_request_id, phone_number, amount, settlement_id, transaction_desc, status, processed) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, 'PENDING', 0) 
-        ON DUPLICATE KEY UPDATE status = 'PENDING', amount = VALUES(amount), settlement_id = VALUES(settlement_id), transaction_desc = VALUES(transaction_desc)
+        INSERT INTO mpesa_transactions
+            (user_id, checkout_request_id, merchant_request_id, phone_number, amount, settlement_id, transaction_desc, status, processed)
+        VALUES (?, ?, ?, ?, ?, ?, ?, 'PENDING', 0)
     ");
-    if ($stmt) {
-        $stmt->bind_param("isssdis", $user_id, $checkoutId, $merchantRequestId, $phone, $amount, $settlement_id, $transactionDesc);
-        $stmt->execute();
-        $stmt->close();
+    if (!$stmt) {
+        error_log('AvenPay could not prepare subscription transaction insert: ' . $conn->error);
+        http_response_code(500);
+        echo json_encode(['status' => 'error', 'message' => 'The payment prompt was sent, but its transaction record could not be saved. Contact support with the checkout reference.']);
+        exit();
     }
+    $stmt->bind_param("isssdis", $user_id, $checkoutId, $merchantRequestId, $phone, $amount, $settlement_id, $transactionDesc);
+    if (!$stmt->execute()) {
+        error_log('AvenPay subscription transaction insert failed for checkout ' . $checkoutId . ': ' . $stmt->error);
+        $stmt->close();
+        http_response_code(500);
+        echo json_encode(['status' => 'error', 'message' => 'The payment prompt was sent, but its transaction record could not be saved. Contact support with the checkout reference.']);
+        exit();
+    }
+    $stmt->close();
 
     echo json_encode(['status' => 'success', 'checkout_id' => $checkoutId, 'months' => $months]);
 } else {

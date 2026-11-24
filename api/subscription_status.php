@@ -16,25 +16,39 @@ if (!file_exists($dbPath)) {
     exit();
 }
 require_once $dbPath;
+require_once __DIR__ . '/../lib/subscription_payment.php';
 
 class SecureVault {
-    private static function vaultKey(): string { return (string) av_env('VAULT_KEY'); } 
     private const METHOD = 'aes-256-cbc';
 
+    private static function encryptionKey(): string {
+        $key = trim((string) av_env('VAULT_KEY'));
+        if (!preg_match('/^[a-fA-F0-9]{64}$/', $key)) {
+            throw new RuntimeException('A valid AvenPay VAULT_KEY is not configured.');
+        }
+        return hex2bin($key);
+    }
+
     public static function decrypt($data) {
-        if (empty($data)) return null;
-        $decoded = base64_decode($data);
+        if (!is_string($data) || $data === '') return null;
+        $decoded = base64_decode($data, true);
+        if ($decoded === false) return null;
         $ivLength = openssl_cipher_iv_length(self::METHOD);
-        if (strlen($decoded) < $ivLength) return $data;
+        if (strlen($decoded) <= $ivLength) return null;
         $iv = substr($decoded, 0, $ivLength);
         $ciphertext = substr($decoded, $ivLength);
-        $decrypted = openssl_decrypt($ciphertext, self::METHOD, self::vaultKey(), 0, $iv);
-        return $decrypted !== false ? trim($decrypted) : trim($data);
+        $decrypted = openssl_decrypt($ciphertext, self::METHOD, self::encryptionKey(), 0, $iv);
+        return $decrypted !== false ? trim($decrypted) : null;
     }
 }
 
-// Force user_id to 1
-$user_id = 1;
+// A user may only inspect transactions belonging to their own account.
+if (empty($_SESSION['user_id']) || (int) $_SESSION['user_id'] < 1) {
+    http_response_code(401);
+    echo json_encode(['status' => 'error', 'message' => 'Please sign in to check this transaction.']);
+    exit();
+}
+$user_id = (int) $_SESSION['user_id'];
 $checkoutID = trim($_GET['check_status'] ?? $_GET['checkout_id'] ?? '');
 
 if (empty($checkoutID)) {
@@ -51,7 +65,7 @@ $stmt->close();
 
 if (!$tx) {
     http_response_code(404);
-    echo json_encode(['status' => 'error', 'message' => 'Transaction not found for user ID 1']);
+    echo json_encode(['status' => 'error', 'message' => 'Transaction not found for your account.']);
     exit();
 }
 
@@ -97,14 +111,18 @@ if ($status === 'PENDING') {
         }
     }
 
-    if (!empty($consumerKey) && !empty($consumerSecret)) {
+    if (!empty($consumerKey) && !empty($consumerSecret) && !empty($passkey) && !empty($paybill)) {
         $credentials = base64_encode($consumerKey . ':' . $consumerSecret);
         $ch = curl_init('https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials');
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Authorization: Basic ' . $credentials]);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        $authRes = json_decode(curl_exec($ch), true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        $authBody = curl_exec($ch);
+        $authCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
+        $authRes = is_string($authBody) && $authCode >= 200 && $authCode < 300 ? json_decode($authBody, true) : null;
 
         $accessToken = $authRes['access_token'] ?? null;
         if ($accessToken) {
@@ -122,31 +140,40 @@ if ($status === 'PENDING') {
             curl_setopt($ch2, CURLOPT_HTTPHEADER, ['Authorization: Bearer ' . $accessToken, 'Content-Type: application/json']);
             curl_setopt($ch2, CURLOPT_POSTFIELDS, json_encode($queryData));
             curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch2, CURLOPT_SSL_VERIFYPEER, false);
-            $qRes = json_decode(curl_exec($ch2), true);
+            curl_setopt($ch2, CURLOPT_CONNECTTIMEOUT, 10);
+            curl_setopt($ch2, CURLOPT_TIMEOUT, 20);
+            curl_setopt($ch2, CURLOPT_SSL_VERIFYPEER, true);
+            $queryBody = curl_exec($ch2);
+            $queryHttpCode = (int) curl_getinfo($ch2, CURLINFO_HTTP_CODE);
             curl_close($ch2);
+            $qRes = is_string($queryBody) && $queryHttpCode >= 200 && $queryHttpCode < 300 ? json_decode($queryBody, true) : null;
 
             if (isset($qRes['ResultCode'])) {
                 $resCode = (string)$qRes['ResultCode'];
-                if ($resCode === '0') {
-                    $receipt = !empty($qRes['MpesaReceiptNumber']) ? $qRes['MpesaReceiptNumber'] : 'SUCCESS';
-                    
-                    $up = $conn->prepare("UPDATE mpesa_transactions SET status = 'SUCCESS', result_code = 0, mpesa_receipt_number = ? WHERE id = ?");
-                    $up->bind_param("si", $receipt, $tx['id']);
-                    $up->execute();
-                    $up->close();
-
-                    $status = 'SUCCESS';
-                    $tx['mpesa_receipt_number'] = $receipt;
-                } elseif ($resCode !== '4999') {
-                    $resultDesc = $qRes['ResultDesc'] ?? 'Transaction Failed';
-                    $up = $conn->prepare("UPDATE mpesa_transactions SET status = 'FAILED', result_code = ?, mpesa_receipt_number = ? WHERE id = ?");
-                    $up->bind_param("isi", $resCode, $resultDesc, $tx['id']);
-                    $up->execute();
-                    $up->close();
-
-                    $status = 'FAILED';
-                    $tx['mpesa_receipt_number'] = $resultDesc;
+                if (preg_match('/^-?\\d+$/', $resCode) && $resCode !== '4999') {
+                    $receipt = $resCode === '0' ? (string) ($qRes['MpesaReceiptNumber'] ?? '') : '';
+                    $resultDesc = (string) ($qRes['ResultDesc'] ?? '');
+                    // Use the same atomic finalizer as the asynchronous Daraja callback.
+                    // Never mark a payment successful without activating its owned settlement.
+                    try {
+                        $finalized = av_finalize_subscription_payment(
+                            $conn,
+                            $checkoutID,
+                            (int) $resCode,
+                            $receipt,
+                            $resultDesc
+                        );
+                        $status = $finalized['status'];
+                        $refresh = $conn->prepare("SELECT mpesa_receipt_number FROM mpesa_transactions WHERE id = ? AND user_id = ? LIMIT 1");
+                        $refresh->bind_param('ii', $tx['id'], $user_id);
+                        $refresh->execute();
+                        $fresh = $refresh->get_result()->fetch_assoc();
+                        $refresh->close();
+                        $tx['mpesa_receipt_number'] = $fresh['mpesa_receipt_number'] ?? null;
+                    } catch (Throwable $e) {
+                        // Keep the transaction pending so a later query or callback can retry safely.
+                        error_log('AvenPay subscription status finalization failed: ' . $e->getMessage());
+                    }
                 }
             }
         }
