@@ -27,8 +27,8 @@ session_start();
     <style id="avenpay-docs-readable-theme">
       html, body { background:#f4f7fb !important; color:#172033 !important; color-scheme:light; }
       main { color:#172033 !important; }
-      main [class*="rgba(15,23,42"], main [class*="bg-[#05080f]"],
-      main [class*="bg-slate-950"], main [class*="bg-gray-950"] {
+      main [class*="rgba(15,23,42"], main [class*="bg-slate-50"],
+      main [class*="bg-white"], main [class*="bg-white"] {
         background:#ffffff !important; border-color:#dbe3ed !important;
         box-shadow:0 8px 28px rgba(15,23,42,.06) !important;
       }
@@ -87,12 +87,12 @@ if (file_exists($header_path)) {
                 <p class="text-xs text-slate-600 leading-relaxed">
                     Enable your customers to pay you or deposit funds directly into your system using M-Pesa STK Push. Triggers payment prompts on mobile handsets and verifies status via webhooks.
                 </p>
-                <div class="text-[11px] text-slate-500 font-mono bg-[#05080f] p-2.5 rounded-sm border border-slate-200">
+                <div class="text-[11px] text-slate-500 font-mono bg-slate-50 p-2.5 rounded-sm border border-slate-200">
                     <span class="text-teal-600 font-bold">Authentication:</span> Uses merchant API key (<code class="text-amber-700">x_api_key</code>) in request payloads.
                 </div>
             </div>
             <div>
-                <a href="/api/docs/c2b" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 py-2.5 rounded-sm text-xs font-bold transition shadow-md flex items-center justify-center gap-2 cursor-pointer">
+                <a href="/api/docs/c2b.php" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 py-2.5 rounded-sm text-xs font-bold transition shadow-md flex items-center justify-center gap-2 cursor-pointer">
                     <i class="iclass fa-solid fa-code text-teal-600"></i> Visit C2B Documentation
                 </a>
             </div>
@@ -108,12 +108,12 @@ if (file_exists($header_path)) {
                 <p class="text-xs text-slate-600 leading-relaxed">
                     Send payouts, salaries, or rewards directly to mobile money recipients from your merchant wallet. Features dynamic fee calculation, multi-type payouts, and automated refunds.
                 </p>
-                <div class="text-[11px] text-slate-500 font-mono bg-[#05080f] p-2.5 rounded-sm border border-slate-200">
+                <div class="text-[11px] text-slate-500 font-mono bg-slate-50 p-2.5 rounded-sm border border-slate-200">
                     <span class="text-teal-600 font-bold">Authentication:</span> Uses header-based keys (<code class="text-amber-700">X-Wallet-ID</code> & <code class="text-amber-700">X-Security-Credential</code>).
                 </div>
             </div>
             <div>
-                <a href="/api/docs/b2c" class="w-full bg-teal-600 hover:bg-teal-500 text-white py-2.5 rounded-sm text-xs font-bold transition shadow-md flex items-center justify-center gap-2 cursor-pointer">
+                <a href="/api/docs/b2c.php" class="w-full bg-teal-600 hover:bg-teal-500 text-white py-2.5 rounded-sm text-xs font-bold transition shadow-md flex items-center justify-center gap-2 cursor-pointer">
                     <i class="iclass fa-solid fa-code text-teal-800"></i> Visit B2C Documentation
                 </a>
             </div>
@@ -128,7 +128,7 @@ if (file_exists($header_path)) {
                 </div>
                 <h2 class="text-sm font-black text-slate-900 uppercase tracking-wider">B2B (Pay Paybill / Till)</h2>
                 <p class="text-xs text-slate-600 leading-relaxed">Pay suppliers, utilities and merchants from your wallet. Funds are reserved first and refunded automatically if the payment fails.</p>
-                <div class="text-[11px] text-slate-500 font-mono bg-[#05080f] p-2.5 rounded-sm border border-slate-200">
+                <div class="text-[11px] text-slate-500 font-mono bg-slate-50 p-2.5 rounded-sm border border-slate-200">
                     <span class="text-teal-600 font-bold">Authentication:</span> Same wallet headers as B2C (<code class="text-amber-700">X-Wallet-ID</code> + <code class="text-amber-700">X-Security-Credential</code>).
                 </div>
             </div>

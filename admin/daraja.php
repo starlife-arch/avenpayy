@@ -39,60 +39,70 @@ foreach ($db_paths as $path) {
 // ============================================================
 class SecureVault
 {
-    private static function vaultKey(): string { return (string) av_env('VAULT_KEY'); }
     private const METHOD = 'aes-256-cbc';
 
-    public static function encrypt($plainText)
+    /**
+     * Current AvenPay key first, then the original PrintPay key for legacy
+     * ciphertext. PRINTPAY_LEGACY_VAULT_KEY may be set privately if the
+     * production PrintPay installation used a key different from its repo.
+     */
+    private static function vaultKeys(): array
     {
+        $keys = [
+            (string) av_env('VAULT_KEY'),
+            (string) av_env('PRINTPAY_LEGACY_VAULT_KEY', 'your-very-secret-long-random-key-here')
+        ];
+        $keys = array_values(array_unique(array_filter($keys, static fn($key) => $key !== '')));
+        return $keys;
+    }
+
+    private static function encryptionKey(): string
+    {
+        $keys = self::vaultKeys();
+        if (!$keys) {
+            throw new RuntimeException('No Daraja encryption key is configured.');
+        }
+        return $keys[0];
+    }
+
+    public static function encrypt(string $plainText): string
+    {
+        if ($plainText === '') return '';
+
         $ivLength = openssl_cipher_iv_length(self::METHOD);
         $iv = random_bytes($ivLength);
-
         $ciphertext = openssl_encrypt(
             $plainText,
             self::METHOD,
-            self::vaultKey(),
+            self::encryptionKey(),
             0,
             $iv
         );
-
         if ($ciphertext === false) {
-            throw new Exception('Encryption failed.');
+            throw new RuntimeException('Daraja credential encryption failed.');
         }
-
         return base64_encode($iv . $ciphertext);
     }
 
     public static function decrypt($data)
     {
-        if (empty($data)) {
-            return false;
-        }
-
+        if (!is_string($data) || $data === '') return null;
         $decoded = base64_decode($data, true);
-
-        if ($decoded === false) {
-            return false;
-        }
+        if ($decoded === false) return null;
 
         $ivLength = openssl_cipher_iv_length(self::METHOD);
-
-        if (strlen($decoded) <= $ivLength) {
-            return false;
-        }
+        if (strlen($decoded) <= $ivLength) return null;
 
         $iv = substr($decoded, 0, $ivLength);
         $ciphertext = substr($decoded, $ivLength);
 
-        return openssl_decrypt(
-            $ciphertext,
-            self::METHOD,
-            self::vaultKey(),
-            0,
-            $iv
-        );
+        foreach (self::vaultKeys() as $key) {
+            $plainText = openssl_decrypt($ciphertext, self::METHOD, $key, 0, $iv);
+            if ($plainText !== false) return trim($plainText);
+        }
+        return null;
     }
 }
-
 
 // ============================================================
 // POST / SAVE SETTINGS

@@ -9,15 +9,15 @@
                 <?php echo ucfirst(strtolower("AVENPAY")); ?>
             </span>
             <span class="text-slate-800">|</span>
-            <span class="text-slate-500">Designed by <span class="text-slate-500 font-semibold"><?php echo ucfirst(strtolower("KentahTech")); ?></span></span>
+            <span class="text-slate-500">Designed by <span class="text-slate-600 font-semibold">Leen Avenpay Solutions</span></span>
         </div>
         
         <!-- Updated Documentation Links -->
         <div class="flex items-center space-x-6 text-xs text-slate-500 font-medium">
-            <a href="/api/docs/c2b" class="hover:text-teal-600 transition-colors flex items-center gap-1.5">
+            <a href="/api/docs/c2b.php" class="hover:text-teal-600 transition-colors flex items-center gap-1.5">
                 <i class="iclass fa-solid fa-code text-teal-600 text-[11px]"></i> C2B Docs
             </a>
-            <a href="/api/docs/b2c" class="hover:text-teal-600 transition-colors flex items-center gap-1.5">
+            <a href="/api/docs/b2c.php" class="hover:text-teal-600 transition-colors flex items-center gap-1.5">
                 <i class="iclass fa-solid fa-money-bill-transfer text-emerald-600 text-[11px]"></i> B2C Docs
             </a>
         </div>

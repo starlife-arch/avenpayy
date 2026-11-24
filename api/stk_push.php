@@ -8,29 +8,70 @@ require_once __DIR__ . '/../lib/security.php';
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') { av_rate_limit_or_die('api_stk', 300, 60); }
 
 // --- SECURE DECRYPTION LOGIC ---
-class SecureVault {
-    private static function vaultKey(): string { return (string) av_env('VAULT_KEY'); }
+class SecureVault
+{
     private const METHOD = 'aes-256-cbc';
 
-    public static function decrypt($data) {
-        if (empty($data)) {
-            return null;
-        }
+    /**
+     * Current AvenPay key first, then the original PrintPay key for legacy
+     * ciphertext. PRINTPAY_LEGACY_VAULT_KEY may be set privately if the
+     * production PrintPay installation used a key different from its repo.
+     */
+    private static function vaultKeys(): array
+    {
+        $keys = [
+            (string) av_env('VAULT_KEY'),
+            (string) av_env('PRINTPAY_LEGACY_VAULT_KEY', 'your-very-secret-long-random-key-here')
+        ];
+        $keys = array_values(array_unique(array_filter($keys, static fn($key) => $key !== '')));
+        return $keys;
+    }
 
-        $data = base64_decode($data);
-        if ($data === false) {
-            return null;
+    private static function encryptionKey(): string
+    {
+        $keys = self::vaultKeys();
+        if (!$keys) {
+            throw new RuntimeException('No Daraja encryption key is configured.');
         }
+        return $keys[0];
+    }
+
+    public static function encrypt(string $plainText): string
+    {
+        if ($plainText === '') return '';
 
         $ivLength = openssl_cipher_iv_length(self::METHOD);
-        if (strlen($data) <= $ivLength) {
-            return null;
+        $iv = random_bytes($ivLength);
+        $ciphertext = openssl_encrypt(
+            $plainText,
+            self::METHOD,
+            self::encryptionKey(),
+            0,
+            $iv
+        );
+        if ($ciphertext === false) {
+            throw new RuntimeException('Daraja credential encryption failed.');
         }
+        return base64_encode($iv . $ciphertext);
+    }
 
-        $iv = substr($data, 0, $ivLength);
-        $ciphertext = substr($data, $ivLength);
+    public static function decrypt($data)
+    {
+        if (!is_string($data) || $data === '') return null;
+        $decoded = base64_decode($data, true);
+        if ($decoded === false) return null;
 
-        return openssl_decrypt($ciphertext, self::METHOD, self::vaultKey(), 0, $iv);
+        $ivLength = openssl_cipher_iv_length(self::METHOD);
+        if (strlen($decoded) <= $ivLength) return null;
+
+        $iv = substr($decoded, 0, $ivLength);
+        $ciphertext = substr($decoded, $ivLength);
+
+        foreach (self::vaultKeys() as $key) {
+            $plainText = openssl_decrypt($ciphertext, self::METHOD, $key, 0, $iv);
+            if ($plainText !== false) return trim($plainText);
+        }
+        return null;
     }
 }
 
@@ -73,7 +114,7 @@ function getDarajaConfig($conn, $user_id = null) {
                     }
                     $stmt2->close();
 
-                    if (!empty($customSettings['consumer_key'])) {
+                    if (!empty($customSettings['consumer_key']) && !empty($customSettings['consumer_secret']) && !empty($customSettings['paybill']) && !empty($customSettings['passkey'])) {
                         return [
                             'consumer_key'    => $customSettings['consumer_key'] ?? '',
                             'consumer_secret' => $customSettings['consumer_secret'] ?? '',
@@ -120,9 +161,14 @@ function getAccessToken($conn, $user_id = null) {
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
 
     $response = curl_exec($ch);
+    $curlError = curl_error($ch);
+    $httpCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
 
     $result = json_decode($response ?: '', true);
+    if (empty($result['access_token'])) {
+        error_log('AvenPay Daraja OAuth failed; HTTP ' . $httpCode . ($curlError !== '' ? '; cURL: ' . $curlError : '') . '; provider message: ' . (string)($result['errorMessage'] ?? $result['error'] ?? 'No access token returned'));
+    }
     return $result['access_token'] ?? '';
 }
 
@@ -591,9 +637,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($token === '') {
         http_response_code(502);
+        $config = getDarajaConfig($conn, $user_id);
+        $missing = [];
+        foreach (['consumer_key', 'consumer_secret', 'paybill', 'passkey'] as $requiredKey) {
+            if (empty($config[$requiredKey])) $missing[] = $requiredKey;
+        }
         echo json_encode([
             "status" => "error",
-            "message" => "Could not connect to the payment service. Please try again later."
+            "message" => $missing
+                ? "Daraja gateway credentials are incomplete. Please ask the administrator to check: " . implode(', ', $missing) . "."
+                : "Safaricom authentication is temporarily unavailable. Please try again later."
         ]);
         exit;
     }

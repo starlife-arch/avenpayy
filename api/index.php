@@ -129,20 +129,20 @@ $user_id = $_SESSION['user_id'];
             </form>
         </div>
 
-        <div id="statusCard" class="bg-zinc-900 border border-zinc-800 rounded-sm p-6 shadow-2xl hidden transition-all duration-300">
+        <div id="statusCard" class="bg-white border border-slate-200 rounded-sm p-6 shadow-2xl hidden transition-all duration-300">
             <div class="flex items-start gap-4">
-                <div id="statusIconWrap" class="w-12 h-12 rounded-sm flex items-center justify-center flex-shrink-0 text-xl bg-zinc-800 text-zinc-300">
+                <div id="statusIconWrap" class="w-12 h-12 rounded-sm flex items-center justify-center flex-shrink-0 text-xl bg-slate-100 text-slate-600">
                     <i class="iclass fa-solid fa-spinner fa-spin" id="statusIcon"></i>
                 </div>
                 <div class="flex-1 min-w-0">
                     <h3 id="statusTitle" class="text-sm font-bold text-slate-900 mb-1">Processing</h3>
-                    <p id="statusBody" class="text-xs text-zinc-400 leading-relaxed">Initializing connection profiles...</p>
+                    <p id="statusBody" class="text-xs text-slate-600 leading-relaxed">Initializing connection profiles...</p>
                     
-                    <div id="statusMeta" class="mt-4 pt-3 border-t border-zinc-800 text-[11px] font-mono text-zinc-400 space-y-1.5" style="display: none;">
+                    <div id="statusMeta" class="mt-4 pt-3 border-t border-slate-200 text-[11px] font-mono text-slate-600 space-y-1.5" style="display: none;">
                         <div class="flex justify-between gap-2">
                             <span>Ref: <strong id="metaRef" class="text-zinc-200">-</strong></span>
                         </div>
-                        <div class="flex justify-between gap-2 border-t border-zinc-800/60 pt-1.5">
+                        <div class="flex justify-between gap-2 border-t border-slate-200/60 pt-1.5">
                             <span>Amount: <strong id="metaAmount" class="text-emerald-600">-</strong></span>
                         </div>
                     </div>
@@ -175,7 +175,7 @@ function updateStatusCard(state, title, description, meta = null) {
     
     // Reset wrapper classes with near-sharp edges (rounded-sm)
     statusIconWrap.className = "w-12 h-12 rounded-sm flex items-center justify-center flex-shrink-0 text-xl";
-    statusCard.className = "bg-zinc-900 border rounded-sm p-6 shadow-2xl transition-all duration-300";
+    statusCard.className = "bg-white border rounded-sm p-6 shadow-2xl transition-all duration-300";
 
     if (state === 'processing') {
         statusCard.classList.add('border-teal-500/40');

@@ -1633,7 +1633,7 @@
                     </div>
 
                     <div class="hero-buttons">
-                        <a href="/api/docs/c2b" class="btn btn-primary" target="_blank" rel="noopener">
+                        <a href="/api/docs/c2b.php" class="btn btn-primary" target="_blank" rel="noopener">
                             <i class="fa-solid fa-book-open" aria-hidden="true"></i> Read C2B / STK Push docs
                         </a>
                     </div>
@@ -1676,7 +1676,7 @@
                     </div>
 
                     <div class="hero-buttons">
-                        <a href="/api/docs/b2c" class="btn btn-primary" target="_blank" rel="noopener">
+                        <a href="/api/docs/b2c.php" class="btn btn-primary" target="_blank" rel="noopener">
                             <i class="fa-solid fa-book-open" aria-hidden="true"></i> Read B2C payout docs
                         </a>
                     </div>
@@ -1757,19 +1757,19 @@
                         <div class="feature-icon"><i class="fa-solid fa-mobile-screen-button" aria-hidden="true"></i></div>
                         <h3>C2B / STK Push</h3>
                         <p>Learn how to initiate customer payment prompts and handle transaction results.</p>
-                        <a href="/api/docs/c2b" class="btn btn-primary" target="_blank" rel="noopener">Read C2B docs <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+                        <a href="/api/docs/c2b.php" class="btn btn-primary" target="_blank" rel="noopener">Read C2B docs <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
                     </article>
                     <article class="doc-card">
                         <div class="feature-icon"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></div>
                         <h3>B2C payouts</h3>
                         <p>Learn how to send supported business payouts and check their status.</p>
-                        <a href="/api/docs/b2c" class="btn btn-primary" target="_blank" rel="noopener">Read B2C docs <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+                        <a href="/api/docs/b2c.php" class="btn btn-primary" target="_blank" rel="noopener">Read B2C docs <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
                     </article>
                     <article class="doc-card">
                         <div class="feature-icon"><i class="fa-solid fa-headset" aria-hidden="true"></i></div>
                         <h3>Talk to us</h3>
                         <p>Contact our team about your integration, business requirements, or support needs.</p>
-                        <a href="mailto:support@avenpay.co.ke" class="btn btn-secondary">Email our team <i class="fa-solid fa-envelope" aria-hidden="true"></i></a>
+                        <a href="mailto:avenpayenterprises@gmail.com" class="btn btn-secondary">Email our team <i class="fa-solid fa-envelope" aria-hidden="true"></i></a>
                     </article>
                 </div>
             </div>
@@ -1827,7 +1827,7 @@
                     </a>
                     <p class="footer-description">Payment tools for businesses integrating M-PESA STK Push collections and B2C disbursement workflows.</p>
                     <div class="social-links">
-                        <a href="mailto:support@avenpay.co.ke" class="social-link" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+                        <a href="mailto:avenpayenterprises@gmail.com" class="social-link" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
                     </div>
                 </div>
 
@@ -1853,9 +1853,9 @@
                 <div class="footer-column">
                     <h3>Contact</h3>
                     <ul class="footer-links">
-                        <li><a href="mailto:support@avenpay.co.ke">Email support</a></li>
-                        <li><a href="tel:+254748600179">+254 748 600 179</a></li>
-                        <li><a href="https://api.whatsapp.com/send?phone=254748600179" target="_blank" rel="noopener">WhatsApp</a></li>
+                        <li><a href="mailto:avenpayenterprises@gmail.com">Email support</a></li>
+                        <li><a href="tel:+254106624924">+254106624924</a></li>
+                        <li><a href="https://api.whatsapp.com/send?phone=254106624924" target="_blank" rel="noopener">WhatsApp</a></li>
                     </ul>
                 </div>
             </div>
@@ -1905,9 +1905,9 @@
             </div>
 
             <div class="chat-contact" aria-label="Contact support">
-                <a href="mailto:support@avenpay.co.ke"><i class="fa-solid fa-envelope" aria-hidden="true"></i> Email</a>
-                <a href="tel:+254748600179"><i class="fa-solid fa-phone" aria-hidden="true"></i> Call</a>
-                <a href="https://api.whatsapp.com/send?phone=254748600179" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp</a>
+                <a href="mailto:avenpayenterprises@gmail.com"><i class="fa-solid fa-envelope" aria-hidden="true"></i> Email</a>
+                <a href="tel:+254106624924"><i class="fa-solid fa-phone" aria-hidden="true"></i> Call</a>
+                <a href="https://api.whatsapp.com/send?phone=254106624924" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp</a>
             </div>
 
             <form class="chat-input" id="chatForm">
@@ -2110,29 +2110,29 @@
                     text.includes('whatsapp');
 
                 if (asksContact) {
-                    return 'You can contact our support team by email at support@avenpay.co.ke, by phone at +254 748 600 179, or on WhatsApp using the WhatsApp button below. For API questions, include a short description of your integration and any relevant transaction reference. Please do not send passwords, PINs, or secret API credentials.';
+                    return 'You can contact our support team by email at avenpayenterprises@gmail.com, by phone at +254106624924, or on WhatsApp using the WhatsApp button below. For API questions, include a short description of your integration and any relevant transaction reference. Please do not send passwords, PINs, or secret API credentials.';
                 }
 
                 if (
                     (text.includes('difference') || text.includes('compare')) &&
                     (text.includes('c2b') || text.includes('b2c') || text.includes('stk'))
                 ) {
-                    return 'The simple difference: C2B/STK Push is money coming IN from your customer to your business. Your app requests payment, the customer approves it on their phone, and successful funds settle to your configured till, bank, or Paybill. Read the C2B / STK Push documentation at /api/docs/c2b. B2C is money going OUT from your business to a recipient, such as a supported refund or reward. Read the B2C documentation at /api/docs/b2c.';
+                    return 'The simple difference: C2B/STK Push is money coming IN from your customer to your business. Your app requests payment, the customer approves it on their phone, and successful funds settle to your configured till, bank, or Paybill. Read the C2B / STK Push documentation at /api/docs/c2b.php. B2C is money going OUT from your business to a recipient, such as a supported refund or reward. Read the B2C documentation at /api/docs/b2c.php.';
                 }
 
                 if (
                     text.includes('where') &&
                     (text.includes('fund') || text.includes('money') || text.includes('settle'))
                 ) {
-                    return 'For a successful C2B/STK Push transaction, funds settle to the M-PESA till, bank, or Paybill configured for your payment setup. Confirm the final transaction status through your callback or status-check endpoint. Read the C2B / STK Push documentation at /api/docs/c2b.';
+                    return 'For a successful C2B/STK Push transaction, funds settle to the M-PESA till, bank, or Paybill configured for your payment setup. Confirm the final transaction status through your callback or status-check endpoint. Read the C2B / STK Push documentation at /api/docs/c2b.php.';
                 }
 
                 if (asksC2B) {
-                    return 'C2B means customer-to-business: the customer pays your business. With STK Push, your app requests payment, an M-PESA prompt appears on the customer’s phone, and the customer enters their PIN to approve it. If successful, the money settles to your configured till, bank, or Paybill. Verify the final result before marking an order as paid. For the full integration steps, read the C2B / STK Push documentation at /api/docs/c2b.';
+                    return 'C2B means customer-to-business: the customer pays your business. With STK Push, your app requests payment, an M-PESA prompt appears on the customer’s phone, and the customer enters their PIN to approve it. If successful, the money settles to your configured till, bank, or Paybill. Verify the final result before marking an order as paid. For the full integration steps, read the C2B / STK Push documentation at /api/docs/c2b.php.';
                 }
 
                 if (asksB2C) {
-                    return 'B2C means business-to-customer: your business sends money to a recipient. It can be used for supported payouts such as refunds, rewards, or commissions. Your backend initiates the payout, then checks the final result using the response, callback, or status endpoint. For the full integration steps, read the B2C payout documentation at /api/docs/b2c.';
+                    return 'B2C means business-to-customer: your business sends money to a recipient. It can be used for supported payouts such as refunds, rewards, or commissions. Your backend initiates the payout, then checks the final result using the response, callback, or status endpoint. For the full integration steps, read the B2C payout documentation at /api/docs/b2c.php.';
                 }
 
                 if (
@@ -2142,7 +2142,7 @@
                     text.includes('confused') ||
                     text.includes('concept')
                 ) {
-                    return 'In simple terms: C2B is money coming IN from your customer to your business, usually through an STK Push the customer approves on their phone. B2C is money going OUT from your business to a recipient. For the technical steps, read the C2B documentation at /api/docs/c2b or the B2C documentation at /api/docs/b2c.';
+                    return 'In simple terms: C2B is money coming IN from your customer to your business, usually through an STK Push the customer approves on their phone. B2C is money going OUT from your business to a recipient. For the technical steps, read the C2B documentation at /api/docs/c2b.php or the B2C documentation at /api/docs/b2c.php.';
                 }
 
                 if (text.includes('api') || text.includes('integration') || text.includes('docs')) {
@@ -2150,10 +2150,10 @@
                 }
 
                 if (text.includes('price') || text.includes('pricing') || text.includes('quote')) {
-                    return 'For pricing or business questions, contact our team at support@avenpay.co.ke or call +254 748 600 179.';
+                    return 'For pricing or business questions, contact our team at avenpayenterprises@gmail.com or call +254106624924.';
                 }
 
-                return 'I can explain C2B/STK Push (a customer pays your business) or B2C (your business sends money to a recipient). Ask which one you’d like to learn about. You can also contact support by email at support@avenpay.co.ke, by phone at +254 748 600 179, or using the WhatsApp button below.';
+                return 'I can explain C2B/STK Push (a customer pays your business) or B2C (your business sends money to a recipient). Ask which one you’d like to learn about. You can also contact support by email at avenpayenterprises@gmail.com, by phone at +254106624924, or using the WhatsApp button below.';
             }
 
             function sendMessage(text) {

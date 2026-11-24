@@ -31,8 +31,8 @@ session_start();
     <style id="avenpay-docs-readable-theme">
       html, body { background:#f4f7fb !important; color:#172033 !important; color-scheme:light; }
       main { color:#172033 !important; }
-      main [class*="rgba(15,23,42"], main [class*="bg-[#05080f]"],
-      main [class*="bg-slate-950"], main [class*="bg-gray-950"] {
+      main [class*="rgba(15,23,42"], main [class*="bg-slate-50"],
+      main [class*="bg-white"], main [class*="bg-white"] {
         background:#ffffff !important; border-color:#dbe3ed !important;
         box-shadow:0 8px 28px rgba(15,23,42,.06) !important;
       }
@@ -85,10 +85,10 @@ if (file_exists($header_path)) {
             <p class="text-xs text-slate-500 mt-1">Automated B2C payouts, receiver name lookups, balance verification, status polling, and STK deposits.</p>
         </div>
         <div class="flex items-center gap-2">
-            <a href="/b2c/index" class="bg-teal-600 hover:bg-teal-500 text-white px-4 py-2 rounded-sm text-xs font-bold transition shadow-lg flex items-center gap-2">
+            <a href="/b2c/index.php" class="bg-teal-600 hover:bg-teal-500 text-white px-4 py-2 rounded-sm text-xs font-bold transition shadow-lg flex items-center gap-2">
                 <i class="iclass fa-solid fa-wallet"></i> B2C Dashboard
             </a>
-            <a href="/b2c/transactions" class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-4 py-2 rounded-sm text-xs font-bold transition flex items-center gap-2">
+            <a href="/b2c/transactions.php" class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-4 py-2 rounded-sm text-xs font-bold transition flex items-center gap-2">
                 <i class="iclass fa-solid fa-receipt text-teal-600"></i> History
             </a>
         </div>
@@ -178,11 +178,11 @@ if (file_exists($header_path)) {
             All API requests to AvenPay endpoints require server-to-server authentication headers:
         </p>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-            <div class="bg-[#05080f] p-4 border border-slate-200 rounded-sm space-y-2">
+            <div class="bg-slate-50 p-4 border border-slate-200 rounded-sm space-y-2">
                 <span class="text-teal-600 font-mono font-bold">X-Wallet-ID</span>
                 <p class="text-slate-600 text-[11px]">Your unique merchant wallet identifier from your dashboard sidebar.</p>
             </div>
-            <div class="bg-[#05080f] p-4 border border-slate-200 rounded-sm space-y-2">
+            <div class="bg-slate-50 p-4 border border-slate-200 rounded-sm space-y-2">
                 <span class="text-teal-600 font-mono font-bold">X-Security-Credential</span>
                 <p class="text-slate-600 text-[11px]">Your secret API security credential generated in your B2C wallet settings.</p>
             </div>
@@ -201,7 +201,7 @@ if (file_exists($header_path)) {
             <div class="space-y-1">
                 <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">Request Endpoint URL</label>
                 <div class="flex items-center gap-2">
-                    <input type="text" id="endpoint-bal" readonly class="w-full px-3.5 py-2 bg-[#05080f] border border-slate-200 rounded-sm text-xs font-mono text-teal-700 select-all">
+                    <input type="text" id="endpoint-bal" readonly class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-sm text-xs font-mono text-teal-700 select-all">
                     <button onclick="copyInput('endpoint-bal', 'Balance endpoint URL copied!')" class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-2 rounded-sm text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shrink-0">Copy</button>
                 </div>
             </div>
@@ -222,7 +222,7 @@ if (file_exists($header_path)) {
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
-                <div class="bg-[#05080f] border border-slate-200 p-3 rounded-sm space-y-1">
+                <div class="bg-slate-50 border border-slate-200 p-3 rounded-sm space-y-1">
                     <span class="text-[10px] uppercase font-bold text-emerald-600 tracking-wider">Example Success Response</span>
                     <div class="overflow-x-auto w-full">
                         <pre class="text-xs text-emerald-600 whitespace-pre">{
@@ -232,7 +232,7 @@ if (file_exists($header_path)) {
 }</pre>
                     </div>
                 </div>
-                <div class="bg-[#05080f] border border-slate-200 p-3 rounded-sm space-y-1">
+                <div class="bg-slate-50 border border-slate-200 p-3 rounded-sm space-y-1">
                     <span class="text-[10px] uppercase font-bold text-rose-600 tracking-wider">Example Failure & Reason</span>
                     <div class="overflow-x-auto w-full">
                         <pre class="text-xs text-rose-600 whitespace-pre">{
@@ -260,7 +260,7 @@ if (file_exists($header_path)) {
             <div class="space-y-1">
                 <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">Request Endpoint URL</label>
                 <div class="flex items-center gap-2">
-                    <input type="text" id="endpoint-lookup" readonly class="w-full px-3.5 py-2 bg-[#05080f] border border-slate-200 rounded-sm text-xs font-mono text-teal-700 select-all">
+                    <input type="text" id="endpoint-lookup" readonly class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-sm text-xs font-mono text-teal-700 select-all">
                     <button onclick="copyInput('endpoint-lookup', 'Lookup endpoint URL copied!')" class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-2 rounded-sm text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shrink-0">Copy</button>
                 </div>
             </div>
@@ -281,7 +281,7 @@ if (file_exists($header_path)) {
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
-                <div class="bg-[#05080f] border border-slate-200 p-3 rounded-sm space-y-1">
+                <div class="bg-slate-50 border border-slate-200 p-3 rounded-sm space-y-1">
                     <span class="text-[10px] uppercase font-bold text-emerald-600 tracking-wider">Example Success Response</span>
                     <div class="overflow-x-auto w-full">
                         <pre class="text-xs text-emerald-600 whitespace-pre">{
@@ -291,7 +291,7 @@ if (file_exists($header_path)) {
 }</pre>
                     </div>
                 </div>
-                <div class="bg-[#05080f] border border-slate-200 p-3 rounded-sm space-y-1">
+                <div class="bg-slate-50 border border-slate-200 p-3 rounded-sm space-y-1">
                     <span class="text-[10px] uppercase font-bold text-amber-600 tracking-wider">Example Not Found Response</span>
                     <div class="overflow-x-auto w-full">
                         <pre class="text-xs text-amber-600 whitespace-pre">{
@@ -317,7 +317,7 @@ if (file_exists($header_path)) {
             <div class="space-y-1">
                 <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">Request Endpoint URL</label>
                 <div class="flex items-center gap-2">
-                    <input type="text" id="endpoint-top" readonly class="w-full px-3.5 py-2 bg-[#05080f] border border-slate-200 rounded-sm text-xs font-mono text-teal-700 select-all">
+                    <input type="text" id="endpoint-top" readonly class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-sm text-xs font-mono text-teal-700 select-all">
                     <button onclick="copyInput('endpoint-top', 'Top-up endpoint URL copied!')" class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-2 rounded-sm text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shrink-0">Copy</button>
                 </div>
             </div>
@@ -338,7 +338,7 @@ if (file_exists($header_path)) {
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
-                <div class="bg-[#05080f] border border-slate-200 p-3 rounded-sm space-y-1">
+                <div class="bg-slate-50 border border-slate-200 p-3 rounded-sm space-y-1">
                     <span class="text-[10px] uppercase font-bold text-emerald-600 tracking-wider">Example Success Response</span>
                     <div class="overflow-x-auto w-full">
                         <pre class="text-xs text-emerald-600 whitespace-pre">{
@@ -348,7 +348,7 @@ if (file_exists($header_path)) {
 }</pre>
                     </div>
                 </div>
-                <div class="bg-[#05080f] border border-slate-200 p-3 rounded-sm space-y-1">
+                <div class="bg-slate-50 border border-slate-200 p-3 rounded-sm space-y-1">
                     <span class="text-[10px] uppercase font-bold text-rose-600 tracking-wider">Example Failure & Reason</span>
                     <div class="overflow-x-auto w-full">
                         <pre class="text-xs text-rose-600 whitespace-pre">{
@@ -373,7 +373,7 @@ if (file_exists($header_path)) {
             <div class="space-y-1">
                 <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">Request Endpoint URL</label>
                 <div class="flex items-center gap-2">
-                    <input type="text" id="endpoint-top-status" readonly class="w-full px-3.5 py-2 bg-[#05080f] border border-slate-200 rounded-sm text-xs font-mono text-teal-700 select-all">
+                    <input type="text" id="endpoint-top-status" readonly class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-sm text-xs font-mono text-teal-700 select-all">
                     <button onclick="copyInput('endpoint-top-status', 'Top-up status endpoint URL copied!')" class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-2 rounded-sm text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shrink-0">Copy</button>
                 </div>
             </div>
@@ -394,7 +394,7 @@ if (file_exists($header_path)) {
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
-                <div class="bg-[#05080f] border border-slate-200 p-3 rounded-sm space-y-1">
+                <div class="bg-slate-50 border border-slate-200 p-3 rounded-sm space-y-1">
                     <span class="text-[10px] uppercase font-bold text-emerald-600 tracking-wider">Example Success Response</span>
                     <div class="overflow-x-auto w-full">
                         <pre class="text-xs text-emerald-600 whitespace-pre">{
@@ -407,7 +407,7 @@ if (file_exists($header_path)) {
 }</pre>
                     </div>
                 </div>
-                <div class="bg-[#05080f] border border-slate-200 p-3 rounded-sm space-y-1">
+                <div class="bg-slate-50 border border-slate-200 p-3 rounded-sm space-y-1">
                     <span class="text-[10px] uppercase font-bold text-rose-600 tracking-wider">Example Failure & Reason</span>
                     <div class="overflow-x-auto w-full">
                         <pre class="text-xs text-rose-600 whitespace-pre">{
@@ -436,7 +436,7 @@ if (file_exists($header_path)) {
             <div class="space-y-1">
                 <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">Request Endpoint URL</label>
                 <div class="flex items-center gap-2">
-                    <input type="text" id="endpoint-pay" readonly class="w-full px-3.5 py-2 bg-[#05080f] border border-slate-200 rounded-sm text-xs font-mono text-teal-700 select-all">
+                    <input type="text" id="endpoint-pay" readonly class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-sm text-xs font-mono text-teal-700 select-all">
                     <button onclick="copyInput('endpoint-pay', 'Payout endpoint URL copied!')" class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-2 rounded-sm text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shrink-0">Copy</button>
                 </div>
             </div>
@@ -457,7 +457,7 @@ if (file_exists($header_path)) {
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
-                <div class="bg-[#05080f] border border-slate-200 p-3 rounded-sm space-y-1">
+                <div class="bg-slate-50 border border-slate-200 p-3 rounded-sm space-y-1">
                     <span class="text-[10px] uppercase font-bold text-emerald-600 tracking-wider">Example Success Response</span>
                     <div class="overflow-x-auto w-full">
                         <pre class="text-xs text-emerald-600 whitespace-pre">{
@@ -467,7 +467,7 @@ if (file_exists($header_path)) {
 }</pre>
                     </div>
                 </div>
-                <div class="bg-[#05080f] border border-slate-200 p-3 rounded-sm space-y-1">
+                <div class="bg-slate-50 border border-slate-200 p-3 rounded-sm space-y-1">
                     <span class="text-[10px] uppercase font-bold text-rose-600 tracking-wider">Example Insufficient Balance Error</span>
                     <div class="overflow-x-auto w-full">
                         <pre class="text-xs text-rose-600 whitespace-pre">{
@@ -493,7 +493,7 @@ if (file_exists($header_path)) {
             <div class="space-y-1">
                 <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">Request Endpoint URL</label>
                 <div class="flex items-center gap-2">
-                    <input type="text" id="endpoint-status" readonly class="w-full px-3.5 py-2 bg-[#05080f] border border-slate-200 rounded-sm text-xs font-mono text-teal-700 select-all">
+                    <input type="text" id="endpoint-status" readonly class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-sm text-xs font-mono text-teal-700 select-all">
                     <button onclick="copyInput('endpoint-status', 'Status endpoint URL copied!')" class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-2 rounded-sm text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shrink-0">Copy</button>
                 </div>
             </div>
@@ -514,7 +514,7 @@ if (file_exists($header_path)) {
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
-                <div class="bg-[#05080f] border border-slate-200 p-3 rounded-sm space-y-1">
+                <div class="bg-slate-50 border border-slate-200 p-3 rounded-sm space-y-1">
                     <span class="text-[10px] uppercase font-bold text-emerald-600 tracking-wider">Example Success Response</span>
                     <div class="overflow-x-auto w-full">
                         <pre class="text-xs text-emerald-600 whitespace-pre">{
@@ -526,7 +526,7 @@ if (file_exists($header_path)) {
 }</pre>
                     </div>
                 </div>
-                <div class="bg-[#05080f] border border-slate-200 p-3 rounded-sm space-y-1">
+                <div class="bg-slate-50 border border-slate-200 p-3 rounded-sm space-y-1">
                     <span class="text-[10px] uppercase font-bold text-rose-600 tracking-wider">Example Failed / Timeout Reason</span>
                     <div class="overflow-x-auto w-full">
                         <pre class="text-xs text-rose-600 whitespace-pre">{
@@ -555,7 +555,7 @@ if (file_exists($header_path)) {
         <div class="space-y-1">
             <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">Webhook Endpoint URL</label>
             <div class="flex items-center gap-2">
-                <input type="text" id="endpoint-result" readonly class="w-full px-3.5 py-2 bg-[#05080f] border border-slate-200 rounded-sm text-xs font-mono text-teal-700 select-all">
+                <input type="text" id="endpoint-result" readonly class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-sm text-xs font-mono text-teal-700 select-all">
                 <button onclick="copyInput('endpoint-result', 'Webhook URL copied!')" class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-2 rounded-sm text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shrink-0">Copy</button>
             </div>
         </div>

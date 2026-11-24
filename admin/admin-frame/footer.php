@@ -1,8 +1,8 @@
 <?php
 // frame/footer.php
 // Manually defined settings without database connection
-$siteName = 'PrinPay';
-$manageName = 'PrinPay Solutions';
+$siteName = 'AvenPay';
+$manageName = 'Leen Avenpay Solutions';
 ?>
 
     </main>

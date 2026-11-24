@@ -42,31 +42,68 @@ if (!$db_loaded || !isset($conn) || !($conn instanceof mysqli)) {
 // ============================================================
 class SecureVault
 {
-    private static function vaultKey(): string { return (string) av_env('VAULT_KEY'); }
     private const METHOD = 'aes-256-cbc';
+
+    /**
+     * Current AvenPay key first, then the original PrintPay key for legacy
+     * ciphertext. PRINTPAY_LEGACY_VAULT_KEY may be set privately if the
+     * production PrintPay installation used a key different from its repo.
+     */
+    private static function vaultKeys(): array
+    {
+        $keys = [
+            (string) av_env('VAULT_KEY'),
+            (string) av_env('PRINTPAY_LEGACY_VAULT_KEY', 'your-very-secret-long-random-key-here')
+        ];
+        $keys = array_values(array_unique(array_filter($keys, static fn($key) => $key !== '')));
+        return $keys;
+    }
+
+    private static function encryptionKey(): string
+    {
+        $keys = self::vaultKeys();
+        if (!$keys) {
+            throw new RuntimeException('No Daraja encryption key is configured.');
+        }
+        return $keys[0];
+    }
 
     public static function encrypt(string $plainText): string
     {
-        if ($plainText === '') {
-            return '';
-        }
+        if ($plainText === '') return '';
 
         $ivLength = openssl_cipher_iv_length(self::METHOD);
         $iv = random_bytes($ivLength);
-
         $ciphertext = openssl_encrypt(
             $plainText,
             self::METHOD,
-            self::vaultKey(),
+            self::encryptionKey(),
             0,
             $iv
         );
-
         if ($ciphertext === false) {
-            throw new Exception('Encryption failed.');
+            throw new RuntimeException('Daraja credential encryption failed.');
         }
-
         return base64_encode($iv . $ciphertext);
+    }
+
+    public static function decrypt($data)
+    {
+        if (!is_string($data) || $data === '') return null;
+        $decoded = base64_decode($data, true);
+        if ($decoded === false) return null;
+
+        $ivLength = openssl_cipher_iv_length(self::METHOD);
+        if (strlen($decoded) <= $ivLength) return null;
+
+        $iv = substr($decoded, 0, $ivLength);
+        $ciphertext = substr($decoded, $ivLength);
+
+        foreach (self::vaultKeys() as $key) {
+            $plainText = openssl_decrypt($ciphertext, self::METHOD, $key, 0, $iv);
+            if ($plainText !== false) return trim($plainText);
+        }
+        return null;
     }
 }
 
@@ -77,7 +114,6 @@ class SecureVault
 function syncGatewaySettings(mysqli $conn, array $gateway, string $target): void
 {
     if ($target === 'b2c') {
-        // Updates the first existing B2C settings row only.
         $stmt = $conn->prepare("
             UPDATE daraja_b2c_settings
             SET shortcode = ?,
@@ -89,7 +125,6 @@ function syncGatewaySettings(mysqli $conn, array $gateway, string $target): void
             ORDER BY id ASC
             LIMIT 1
         ");
-
         if (!$stmt) {
             throw new Exception('Could not prepare B2C payout update: ' . $conn->error);
         }
@@ -100,29 +135,28 @@ function syncGatewaySettings(mysqli $conn, array $gateway, string $target): void
         $consumerSecret = (string)($gateway['consumer_secret'] ?? '');
         $initiatorPassword = (string)($gateway['initiator_password'] ?? '');
 
-        $stmt->bind_param(
-            'sssss',
-            $shortcode,
-            $initiatorName,
-            $consumerKey,
-            $consumerSecret,
-            $initiatorPassword
-        );
+        if ($shortcode === '' || $consumerKey === '' || $consumerSecret === '' ||
+            $initiatorName === '' || $initiatorPassword === '') {
+            $stmt->close();
+            throw new Exception('Complete the B2C shortcode, consumer credentials, initiator name and initiator password before activating this gateway.');
+        }
 
+        $stmt->bind_param('sssss', $shortcode, $initiatorName, $consumerKey, $consumerSecret, $initiatorPassword);
         if (!$stmt->execute()) {
             $error = $stmt->error;
             $stmt->close();
             throw new Exception('Could not update B2C payout settings: ' . $error);
         }
-
-        if ($stmt->affected_rows === 0) {
-            $stmt->close();
-            throw new Exception(
-                'No existing B2C payout settings row was updated. Ensure the B2C payout setup already has a row.'
-            );
-        }
-
         $stmt->close();
+
+        // MySQL reports zero affected rows when values are unchanged. Only
+        // report a missing setup when no legacy settings row exists at all.
+        $check = $conn->query("SELECT id FROM daraja_b2c_settings ORDER BY id ASC LIMIT 1");
+        if (!$check || !$check->fetch_assoc()) {
+            if ($check) $check->free();
+            throw new Exception('No B2C payout settings row exists. Complete the existing B2C setup before activating this gateway.');
+        }
+        $check->free();
         return;
     }
 
@@ -130,7 +164,6 @@ function syncGatewaySettings(mysqli $conn, array $gateway, string $target): void
         throw new Exception('Invalid settings destination.');
     }
 
-    // These C2B setting names must already exist.
     $values = [
         'consumer_key'    => (string)($gateway['consumer_key'] ?? ''),
         'consumer_secret' => (string)($gateway['consumer_secret'] ?? ''),
@@ -138,32 +171,34 @@ function syncGatewaySettings(mysqli $conn, array $gateway, string $target): void
         'passkey'         => (string)($gateway['passkey'] ?? ''),
     ];
 
-    $stmt = $conn->prepare(
-        "UPDATE daraja_settings SET encrypted_value = ? WHERE key_name = ?"
-    );
-
-    if (!$stmt) {
-        throw new Exception('Could not prepare C2B STK update: ' . $conn->error);
-    }
-
     foreach ($values as $keyName => $value) {
-        $encryptedValue = SecureVault::encrypt($value);
-        $stmt->bind_param('ss', $encryptedValue, $keyName);
-
-        if (!$stmt->execute()) {
-            $error = $stmt->error;
-            $stmt->close();
-            throw new Exception('Could not update C2B STK settings: ' . $error);
-        }
-
-        if ($stmt->affected_rows === 0) {
-            $stmt->close();
-            throw new Exception(
-                "No existing C2B STK setting was updated for '{$keyName}'."
-            );
+        if ($value === '') {
+            throw new Exception("The active C2B gateway is missing the required '{$keyName}' value.");
         }
     }
 
+    // SecureVault uses VAULT_KEY when configured and the legacy PrintPay key otherwise.
+    $stmt = $conn->prepare("
+        INSERT INTO daraja_settings (key_name, encrypted_value)
+        VALUES (?, ?)
+        ON DUPLICATE KEY UPDATE encrypted_value = VALUES(encrypted_value)
+    ");
+    if (!$stmt) {
+        throw new Exception('Could not prepare C2B STK settings update: ' . $conn->error);
+    }
+
+    try {
+        foreach ($values as $keyName => $value) {
+            $encryptedValue = SecureVault::encrypt($value);
+            $stmt->bind_param('ss', $keyName, $encryptedValue);
+            if (!$stmt->execute()) {
+                throw new Exception("Could not save C2B STK setting '{$keyName}': " . $stmt->error);
+            }
+        }
+    } catch (Throwable $e) {
+        $stmt->close();
+        throw $e;
+    }
     $stmt->close();
 }
 

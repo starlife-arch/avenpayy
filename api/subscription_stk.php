@@ -17,19 +17,70 @@ if (!file_exists($dbPath)) {
 }
 require_once $dbPath;
 
-class SecureVault {
-    private static function vaultKey(): string { return (string) av_env('VAULT_KEY'); } 
+class SecureVault
+{
     private const METHOD = 'aes-256-cbc';
 
-    public static function decrypt($data) {
-        if (empty($data)) return null;
-        $decoded = base64_decode($data);
+    /**
+     * Current AvenPay key first, then the original PrintPay key for legacy
+     * ciphertext. PRINTPAY_LEGACY_VAULT_KEY may be set privately if the
+     * production PrintPay installation used a key different from its repo.
+     */
+    private static function vaultKeys(): array
+    {
+        $keys = [
+            (string) av_env('VAULT_KEY'),
+            (string) av_env('PRINTPAY_LEGACY_VAULT_KEY', 'your-very-secret-long-random-key-here')
+        ];
+        $keys = array_values(array_unique(array_filter($keys, static fn($key) => $key !== '')));
+        return $keys;
+    }
+
+    private static function encryptionKey(): string
+    {
+        $keys = self::vaultKeys();
+        if (!$keys) {
+            throw new RuntimeException('No Daraja encryption key is configured.');
+        }
+        return $keys[0];
+    }
+
+    public static function encrypt(string $plainText): string
+    {
+        if ($plainText === '') return '';
+
         $ivLength = openssl_cipher_iv_length(self::METHOD);
-        if (strlen($decoded) < $ivLength) return $data;
+        $iv = random_bytes($ivLength);
+        $ciphertext = openssl_encrypt(
+            $plainText,
+            self::METHOD,
+            self::encryptionKey(),
+            0,
+            $iv
+        );
+        if ($ciphertext === false) {
+            throw new RuntimeException('Daraja credential encryption failed.');
+        }
+        return base64_encode($iv . $ciphertext);
+    }
+
+    public static function decrypt($data)
+    {
+        if (!is_string($data) || $data === '') return null;
+        $decoded = base64_decode($data, true);
+        if ($decoded === false) return null;
+
+        $ivLength = openssl_cipher_iv_length(self::METHOD);
+        if (strlen($decoded) <= $ivLength) return null;
+
         $iv = substr($decoded, 0, $ivLength);
         $ciphertext = substr($decoded, $ivLength);
-        $decrypted = openssl_decrypt($ciphertext, self::METHOD, self::vaultKey(), 0, $iv);
-        return $decrypted !== false ? trim($decrypted) : trim($data);
+
+        foreach (self::vaultKeys() as $key) {
+            $plainText = openssl_decrypt($ciphertext, self::METHOD, $key, 0, $iv);
+            if ($plainText !== false) return trim($plainText);
+        }
+        return null;
     }
 }
 
@@ -113,7 +164,7 @@ if ($userRes && !empty($userRes['use_custom_mpesa'])) {
     $cStmt->close();
 }
 
-if (empty($consumerKey) || empty($consumerSecret)) {
+if (empty($consumerKey) || empty($consumerSecret) || empty($passkey) || empty($paybill)) {
     $gRes = $conn->query("SELECT key_name, encrypted_value FROM daraja_settings");
     if ($gRes) {
         while ($row = $gRes->fetch_assoc()) {
@@ -138,7 +189,9 @@ $credentials = base64_encode($consumerKey . ':' . $consumerSecret);
 $ch = curl_init('https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials');
 curl_setopt($ch, CURLOPT_HTTPHEADER, ['Authorization: Basic ' . $credentials]);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
 $authRes = json_decode(curl_exec($ch), true);
 curl_close($ch);
 
@@ -172,7 +225,9 @@ curl_setopt($ch2, CURLOPT_HTTPHEADER, ['Authorization: Bearer ' . $accessToken, 
 curl_setopt($ch2, CURLOPT_POST, true);
 curl_setopt($ch2, CURLOPT_POSTFIELDS, json_encode($stkData));
 curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch2, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($ch2, CURLOPT_CONNECTTIMEOUT, 10);
+curl_setopt($ch2, CURLOPT_TIMEOUT, 25);
+curl_setopt($ch2, CURLOPT_SSL_VERIFYPEER, true);
 $response = curl_exec($ch2);
 curl_close($ch2);
 
