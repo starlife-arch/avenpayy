@@ -41,10 +41,30 @@ if (!function_exists('av_finalize_mpesa_transaction')) {
             }
 
             if ((int) ($tx['processed'] ?? 0) === 1) {
+                // STK Query can confirm ResultCode=0 without returning MpesaReceiptNumber.
+                // If the later Safaricom callback includes the receipt, enrich the row
+                // instead of discarding it merely because the query finalized first.
+                $storedReceipt = trim((string) ($tx['mpesa_receipt_number'] ?? ''));
+                $incomingReceipt = ($resultCode === 0) ? trim($receiptOrDescription) : '';
+                if ($storedReceipt === '' && $incomingReceipt !== '') {
+                    $enrich = $conn->prepare(
+                        "UPDATE mpesa_transactions
+                         SET mpesa_receipt_number = ?,
+                             merchant_request_id = COALESCE(?, merchant_request_id)
+                         WHERE id = ? AND status = 'SUCCESS'"
+                    );
+                    if (!$enrich) {
+                        throw new RuntimeException('Could not prepare receipt enrichment: ' . $conn->error);
+                    }
+                    $enrich->bind_param('ssi', $incomingReceipt, $merchantRequestId, $tx['id']);
+                    $enrich->execute();
+                    $enrich->close();
+                    $storedReceipt = $incomingReceipt;
+                }
                 $conn->commit();
                 return [
                     'status' => strtoupper((string) ($tx['status'] ?? 'PENDING')),
-                    'receipt' => (string) ($tx['mpesa_receipt_number'] ?? ''),
+                    'receipt' => $storedReceipt,
                     'result_code' => $tx['result_code'] ?? null,
                     'already_processed' => true
                 ];
