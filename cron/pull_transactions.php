@@ -227,7 +227,10 @@ while ($configRow = $gatewaysResult->fetch_assoc()) {
                                 $stmt->execute();
                                 $stmt->close();
 
-                                $stmtUser = $conn->prepare("SELECT id FROM users WHERE wallet_id = ? LIMIT 1");
+                                // Lock the wallet row so callback and pull-sync cannot race
+                                // each other while reconciling the same receipt.
+                                $conn->begin_transaction();
+                                $stmtUser = $conn->prepare("SELECT id FROM users WHERE wallet_id = ? LIMIT 1 FOR UPDATE");
                                 $stmtUser->bind_param("s", $billRef);
                                 $stmtUser->execute();
                                 $resUser = $stmtUser->get_result();
@@ -236,7 +239,6 @@ while ($configRow = $gatewaysResult->fetch_assoc()) {
 
                                 if ($userRow) {
                                     $userId = (int) $userRow['id'];
-                                    $conn->begin_transaction();
                                     try {
                                         // Re-check under the transaction before recording the receipt.
                                         $stmtCheck = $conn->prepare(
@@ -299,6 +301,7 @@ while ($configRow = $gatewaysResult->fetch_assoc()) {
                                         throw $e;
                                     }
                                 } else {
+                                    $conn->commit();
                                     $walletCreditedStatus = "<span style='color: orange;'>Wallet not available</span>";
                                 }
 
