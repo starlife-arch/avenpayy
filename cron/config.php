@@ -23,21 +23,25 @@ function logMessage($filename, $message) {
  * Native SecureVault Decryption Logic
  */
 class SecureVault {
-    private static function vaultKey(): string { return (string) av_env('VAULT_KEY'); } // Match your app's secret key
+    private static function vaultKey(): string {
+        $key = trim((string) av_env('VAULT_KEY'));
+        if (!preg_match('/^[a-fA-F0-9]{64}$/', $key)) throw new RuntimeException('A valid AvenPay VAULT_KEY is not configured.');
+        return $key;
+    }
     private const METHOD = 'aes-256-cbc';
 
     public static function decrypt($data) {
         if (empty($data)) return '';
         $decoded = base64_decode($data, true);
-        if ($decoded === false) return trim((string)$data);
+        if ($decoded === false) return false;
         $ivLength = openssl_cipher_iv_length(self::METHOD);
         if ($ivLength === false || strlen($decoded) <= $ivLength) {
-            return trim((string)$data);
+            return false;
         }
         $iv = substr($decoded, 0, $ivLength);
         $ciphertext = substr($decoded, $ivLength);
         $decrypted = openssl_decrypt($ciphertext, self::METHOD, self::vaultKey(), 0, $iv);
-        return $decrypted !== false ? trim($decrypted) : trim((string)$data);
+        return $decrypted !== false ? trim($decrypted) : false;
     }
 }
 
@@ -61,8 +65,17 @@ function getDarajaB2CSetting($columnName) {
             $stmt->close();
         }
 
-        // Decrypt if value is encrypted or return plain string
-        return SecureVault::decrypt($val) ?: trim((string)$val);
+        if ($val === null || $val === '') return '';
+        // consumer_key, shortcode and initiator_name are stored as plaintext;
+        // only the two secret fields are encrypted in daraja_b2c_settings.
+        if (in_array($columnName, ['consumer_secret', 'initiator_password'], true)) {
+            $plain = SecureVault::decrypt($val);
+            if ($plain === false || $plain === '') {
+                throw new RuntimeException('Unable to decrypt stored B2C ' . $columnName . '. Re-enter it in AvenPay B2C settings.');
+            }
+            return $plain;
+        }
+        return trim((string)$val);
     } catch (Exception $e) {
         logMessage('error.log', "Error fetching B2C setting [{$columnName}]: " . $e->getMessage());
         return null;
