@@ -222,7 +222,7 @@ $hasPin = !empty($userData['b2c_withdrawal_pin']);
             </div>
 
             <?php if (!$hasPin): ?>
-                <div class="mb-5 p-4 rounded-xl bg-amber-950/40 border border-amber-500/30 text-amber-800 text-xs space-y-2">
+                <div class="mb-5 p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs space-y-2">
                     <div class="flex items-start space-x-2">
                         <i class="iclass fa-solid fa-triangle-exclamation mt-0.5 text-amber-600"></i>
                         <div>
@@ -237,7 +237,7 @@ $hasPin = !empty($userData['b2c_withdrawal_pin']);
                 </div>
             <?php else: ?>
                 <!-- Notice explaining security warning -->
-                <div class="mb-5 p-3 rounded-xl bg-amber-950/40 border border-amber-500/30 text-amber-800 text-xs space-y-1.5">
+                <div class="mb-5 p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs space-y-1.5">
                     <div class="flex items-start space-x-2">
                         <i class="iclass fa-solid fa-triangle-exclamation mt-0.5 text-amber-600"></i>
                         <span><strong>Important Notice:</strong> For security purposes, this credential starts with <strong>pk_0</strong> and is protected by your PIN. Copy it immediately upon generation.</span>

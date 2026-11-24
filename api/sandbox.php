@@ -183,7 +183,7 @@ if (file_exists($header_path)) include $header_path;
                 <div>
                     <label for="test_api_key" class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Settlement API Key (x_api_key)</label>
                     <div class="relative">
-                        <input type="text" id="test_api_key" name="test_api_key" placeholder="Paste your settlement x_api_key here..." required autocomplete="off" class="w-full px-3.5 py-2.5 bg-slate-50 border border-[#1e293b] rounded-sm text-xs font-mono text-slate-700">
+                        <input type="text" id="test_api_key" name="test_api_key" placeholder="Paste your settlement x_api_key here..." required autocomplete="off" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-sm text-xs font-mono text-slate-800">
                         <span id="keyStatusIndicator" class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-xs hidden">
                             <i class="iclass fa-solid fa-spinner fa-spin text-teal-600"></i>
                         </span>
@@ -191,7 +191,7 @@ if (file_exists($header_path)) include $header_path;
                 </div>
 
                 <!-- Account Verified Details Box -->
-                <div id="accountDetailsBox" class="bg-[#0b0f19] border border-teal-500/30 rounded-sm p-3.5 text-xs font-mono space-y-2 hidden">
+                <div id="accountDetailsBox" class="bg-teal-50 border border-teal-200 rounded-sm p-3.5 text-xs font-mono space-y-2 hidden">
                     <div class="flex justify-between items-center text-slate-500">
                         <span>Merchant Name:</span>
                         <strong id="resMerchantName" class="text-slate-900">-</strong>
@@ -212,12 +212,12 @@ if (file_exists($header_path)) include $header_path;
 
                 <div>
                     <label for="phone_number" class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Customer Phone Number</label>
-                    <input type="text" id="phone_number" name="phone_number" placeholder="07XXXXXXXX / 2547XXXXXXXX" required class="w-full px-3.5 py-2.5 bg-[#0b0f19] border border-[#1e293b] rounded-sm text-xs text-slate-700">
+                    <input type="text" id="phone_number" name="phone_number" placeholder="07XXXXXXXX / 2547XXXXXXXX" required class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-800">
                 </div>
 
                 <div>
                     <label for="amount" class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Amount (KES)</label>
-                    <input type="number" id="amount" name="amount" value="10" min="1" required class="w-full px-3.5 py-2.5 bg-[#0b0f19] border border-[#1e293b] rounded-sm text-xs text-slate-700">
+                    <input type="number" id="amount" name="amount" value="10" min="1" required class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-800">
                 </div>
 
                 <button type="button" id="simulateBtn" disabled class="w-full bg-teal-600 hover:bg-teal-500 active:bg-teal-700 text-white py-2.5 rounded-sm font-bold text-xs uppercase tracking-wider transition shadow-md cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
@@ -228,7 +228,7 @@ if (file_exists($header_path)) include $header_path;
     </div>
 
     <!-- Execution & Follow-up Status Card -->
-    <div id="statusCard" class="bg-[rgba(15,23,42,0.95)] border border-[rgba(255,255,255,0.08)] p-4 rounded-sm shadow-xl hidden transition-all duration-300">
+    <div id="statusCard" class="bg-white border border-slate-200 p-4 rounded-sm shadow-xl hidden transition-all duration-300">
         <div class="flex items-start gap-3">
             <div id="statusIconWrap" class="w-10 h-10 rounded-sm flex items-center justify-center flex-shrink-0 text-sm bg-slate-100 text-slate-600">
                 <i class="iclass fa-solid fa-spinner fa-spin" id="statusIcon"></i>
@@ -239,10 +239,10 @@ if (file_exists($header_path)) include $header_path;
                 
                 <div id="statusMeta" class="mt-3 pt-2.5 border-t border-slate-200 text-[11px] font-mono text-slate-500 space-y-1" style="display: none;">
                     <div class="flex justify-between gap-2">
-                        <span>Checkout ID: <strong id="metaCheckoutId" class="text-slate-700">-</strong></span>
+                        <span>Checkout ID: <strong id="metaCheckoutId" class="text-slate-800">-</strong></span>
                     </div>
                     <div class="flex justify-between gap-2">
-                        <span>Receipt: <strong id="metaRef" class="text-slate-700">-</strong></span>
+                        <span>Receipt: <strong id="metaRef" class="text-slate-800">-</strong></span>
                     </div>
                     <div class="flex justify-between gap-2 pt-1">
                         <span>Amount: <strong id="metaAmount" class="text-emerald-600">-</strong></span>
@@ -286,7 +286,7 @@ const metaAmount = document.getElementById('metaAmount');
 function updateStatusCard(state, title, description, meta = null) {
     statusCard.style.display = "block";
     statusIconWrap.className = "w-10 h-10 rounded-sm flex items-center justify-center flex-shrink-0 text-sm";
-    statusCard.className = "bg-[rgba(15,23,42,0.95)] border rounded-sm p-4 shadow-xl transition-all duration-300";
+    statusCard.className = "bg-white border border-slate-200 rounded-sm p-4 shadow-xl transition-all duration-300";
 
     if (state === 'processing') {
         statusCard.classList.add('border-teal-500/40');

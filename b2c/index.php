@@ -145,7 +145,7 @@ if (file_exists($header_path)) include $header_path;
 
     <!-- 3-Card Metrics Grid (Displaying B2C Wallet Balance directly) -->
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <div class="bg-[rgba(15,23,42,0.95)] border border-[rgba(255,255,255,0.08)] p-4 rounded-sm shadow-md">
+        <div class="bg-white border border-slate-200 p-4 rounded-sm shadow-md">
             <div class="flex items-center justify-between text-slate-500 mb-1">
                 <span class="text-[10px] uppercase font-bold tracking-wider">B2C Wallet Balance</span>
                 <i class="iclass fa-solid fa-wallet text-emerald-600 text-xs"></i>
@@ -156,7 +156,7 @@ if (file_exists($header_path)) include $header_path;
             <div class="text-[10px] text-slate-500 mt-0.5">On-hold: KES <?= number_format($on_hold_amount, 0) ?></div>
         </div>
 
-        <div class="bg-[rgba(15,23,42,0.95)] border border-[rgba(255,255,255,0.08)] p-4 rounded-sm shadow-md">
+        <div class="bg-white border border-slate-200 p-4 rounded-sm shadow-md">
             <div class="flex items-center justify-between text-slate-500 mb-1">
                 <span class="text-[10px] uppercase font-bold tracking-wider">Total Paid Out</span>
                 <i class="iclass fa-solid fa-paper-plane text-amber-600 text-xs"></i>
@@ -166,7 +166,7 @@ if (file_exists($header_path)) include $header_path;
             </div>
         </div>
 
-        <div class="bg-[rgba(15,23,42,0.95)] border border-[rgba(255,255,255,0.08)] p-4 rounded-sm shadow-md">
+        <div class="bg-white border border-slate-200 p-4 rounded-sm shadow-md">
             <div class="flex items-center justify-between text-slate-500 mb-1">
                 <span class="text-[10px] uppercase font-bold tracking-wider">Total Topped In</span>
                 <i class="iclass fa-solid fa-cloud-arrow-down text-teal-600 text-xs"></i>
@@ -178,7 +178,7 @@ if (file_exists($header_path)) include $header_path;
     </div>
 
     <!-- Main Card Wrapper -->
-    <div class="bg-[rgba(15,23,42,0.95)] border border-[rgba(255,255,255,0.08)] rounded-sm shadow-xl backdrop-blur-md overflow-hidden">
+    <div class="bg-white border border-slate-200 rounded-sm shadow-xl backdrop-blur-md overflow-hidden">
         
         <!-- Tab Switcher Header -->
         <div class="p-4 border-b border-slate-200/80 flex items-center justify-between gap-3">
@@ -186,7 +186,7 @@ if (file_exists($header_path)) include $header_path;
                 <i class="iclass fa-solid fa-wallet text-teal-600"></i> Top Up Wallet
             </h2>
 
-            <div class="flex items-center bg-[#0b0f19] border border-[#1e293b] p-1 rounded-sm">
+            <div class="flex items-center bg-white border border-slate-200 p-1 rounded-sm">
                 <button type="button" id="tabTopupBtn" onclick="switchTab('topup')" class="px-3 py-1.5 rounded-sm text-xs font-bold transition cursor-pointer bg-teal-600 text-white shadow-md">
                     Top Up
                 </button>
@@ -206,12 +206,12 @@ if (file_exists($header_path)) include $header_path;
                     <input type="text" name="fake_username" style="display:none !important;" tabindex="-1">
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">M-Pesa Phone Number</label>
-                        <input type="text" name="phone" placeholder="07XXXXXXXX / 01XXXXXXXX" required autocomplete="off" class="w-full px-3.5 py-2.5 bg-[#0b0f19] border border-[#1e293b] rounded-sm text-xs text-slate-700">
+                        <input type="text" name="phone" placeholder="07XXXXXXXX / 01XXXXXXXX" required autocomplete="off" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-800">
                     </div>
 
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Amount (KES)</label>
-                        <input type="number" name="amount" min="10" placeholder="e.g. 500" required autocomplete="off" class="w-full px-3.5 py-2.5 bg-[#0b0f19] border border-[#1e293b] rounded-sm text-xs text-slate-700">
+                        <input type="number" name="amount" min="10" placeholder="e.g. 500" required autocomplete="off" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-800">
                     </div>
 
                     <button type="submit" id="topupBtn" class="w-full bg-teal-600 hover:bg-teal-500 active:bg-teal-700 text-white py-2.5 rounded-sm font-bold text-xs uppercase tracking-wider transition shadow-md cursor-pointer flex items-center justify-center gap-2">
@@ -229,7 +229,7 @@ if (file_exists($header_path)) include $header_path;
 
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Payment Type (Command ID)</label>
-                        <select name="command_id" required class="w-full px-3.5 py-2.5 bg-[#0b0f19] border border-[#1e293b] rounded-sm text-xs text-slate-700 cursor-pointer">
+                        <select name="command_id" required class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-800 cursor-pointer">
                             <option value="BusinessPayment">Business Payment (Standard Payout)</option>
                             <option value="SalaryPayment">Salary Payment (Staff Disbursement)</option>
                             <option value="PromotionPayment">Promotion Payment (Bonus / Reward)</option>
@@ -238,14 +238,14 @@ if (file_exists($header_path)) include $header_path;
 
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Recipient Phone Number</label>
-                        <input type="text" id="recipientPhone" name="phone" placeholder="07XXXXXXXX / 01XXXXXXXX" required autocomplete="off" class="w-full px-3.5 py-2.5 bg-[#0b0f19] border border-[#1e293b] rounded-sm text-xs text-slate-700">
+                        <input type="text" id="recipientPhone" name="phone" placeholder="07XXXXXXXX / 01XXXXXXXX" required autocomplete="off" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-800">
                         <!-- Dynamic Receiver Name Feedback Badge -->
                         <div id="receiverFeedback" class="mt-1.5 text-[11px] font-bold text-emerald-600 hidden"></div>
                     </div>
 
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Payout Amount (KES)</label>
-                        <input type="number" name="amount" min="10" placeholder="e.g. 1000" required autocomplete="off" class="w-full px-3.5 py-2.5 bg-[#0b0f19] border border-[#1e293b] rounded-sm text-xs text-slate-700">
+                        <input type="number" name="amount" min="10" placeholder="e.g. 1000" required autocomplete="off" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-800">
                     </div>
 
                     <div>
@@ -253,7 +253,7 @@ if (file_exists($header_path)) include $header_path;
                         <input type="password" name="pin" placeholder="Enter your 4-digit security PIN" required maxlength="4" 
                                autocomplete="one-time-code" inputmode="numeric" data-lpignore="true" 
                                readonly onfocus="this.removeAttribute('readonly');"
-                               class="w-full px-3.5 py-2.5 bg-[#0b0f19] border border-[#1e293b] rounded-sm text-xs text-slate-700">
+                               class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-800">
                     </div>
 
                     <button type="submit" id="paymentBtn" class="w-full bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white py-2.5 rounded-sm font-bold text-xs uppercase tracking-wider transition shadow-md cursor-pointer flex items-center justify-center gap-2">
@@ -268,26 +268,26 @@ if (file_exists($header_path)) include $header_path;
                 <form id="billForm" class="space-y-4" autocomplete="off">
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Pay To</label>
-                        <select name="command_id" id="billType" onchange="toggleBillAccount()" class="w-full px-3.5 py-2.5 bg-[#0b0f19] border border-[#1e293b] rounded-sm text-xs text-slate-700 cursor-pointer">
+                        <select name="command_id" id="billType" onchange="toggleBillAccount()" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-800 cursor-pointer">
                             <option value="BusinessPayBill">Paybill (needs account number)</option>
                             <option value="BusinessBuyGoods">Till Number (Buy Goods)</option>
                         </select>
                     </div>
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Paybill / Till Number</label>
-                        <input type="text" name="party_b" inputmode="numeric" maxlength="7" placeholder="e.g. 247247" required autocomplete="off" class="w-full px-3.5 py-2.5 bg-[#0b0f19] border border-[#1e293b] rounded-sm text-xs text-slate-700">
+                        <input type="text" name="party_b" inputmode="numeric" maxlength="7" placeholder="e.g. 247247" required autocomplete="off" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-800">
                     </div>
                     <div id="billAccountWrap">
                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Account Number / Reference</label>
-                        <input type="text" name="account_reference" maxlength="20" placeholder="e.g. invoice or account no." autocomplete="off" class="w-full px-3.5 py-2.5 bg-[#0b0f19] border border-[#1e293b] rounded-sm text-xs text-slate-700">
+                        <input type="text" name="account_reference" maxlength="20" placeholder="e.g. invoice or account no." autocomplete="off" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-800">
                     </div>
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Amount (KES)</label>
-                        <input type="number" name="amount" min="10" placeholder="e.g. 2500" required autocomplete="off" class="w-full px-3.5 py-2.5 bg-[#0b0f19] border border-[#1e293b] rounded-sm text-xs text-slate-700">
+                        <input type="number" name="amount" min="10" placeholder="e.g. 2500" required autocomplete="off" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-800">
                     </div>
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Withdrawal PIN</label>
-                        <input type="password" name="pin" placeholder="Enter your 4-digit security PIN" required maxlength="4" autocomplete="one-time-code" inputmode="numeric" data-lpignore="true" readonly onfocus="this.removeAttribute('readonly');" class="w-full px-3.5 py-2.5 bg-[#0b0f19] border border-[#1e293b] rounded-sm text-xs text-slate-700">
+                        <input type="password" name="pin" placeholder="Enter your 4-digit security PIN" required maxlength="4" autocomplete="one-time-code" inputmode="numeric" data-lpignore="true" readonly onfocus="this.removeAttribute('readonly');" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-800">
                     </div>
                     <button type="submit" id="billBtn" class="w-full bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white py-2.5 rounded-sm font-bold text-xs uppercase tracking-wider transition flex items-center justify-center gap-2 cursor-pointer">
                         <i class="iclass fa-solid fa-building-columns"></i> Pay Bill / Till
