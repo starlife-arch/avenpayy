@@ -10,7 +10,7 @@ ErrorDocument 404 /404.php
     Deny from all
 </FilesMatch>
 
-<FilesMatch "\.(env|ini|log|sh|sql|json)$">
+<FilesMatch "^(?!manifest\.json$).+\.(env|ini|log|sh|sql|json)$">
     Order allow,deny
     Deny from all
 </FilesMatch>
