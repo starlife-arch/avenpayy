@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../lib/callback_auth.php';
 require_once __DIR__ . '/../database_config/env.php';
+require_once __DIR__ . '/../lib/daraja_environment.php';
 // stk_push.php
 
 require_once 'database_config/db.php';
@@ -143,7 +144,7 @@ function getAccessToken($conn, $user_id = null) {
     }
 
     $ch = curl_init(
-        'https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'
+        av_daraja_oauth_url()
     );
 
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
@@ -202,7 +203,7 @@ function initiateSTK($phone, $amount, $settlement, $token, $conn, $user_id = nul
     ];
 
     $ch = curl_init(
-        'https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest'
+        av_daraja_endpoint('mpesa/stkpush/v1/processrequest')
     );
 
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
@@ -234,7 +235,7 @@ function checkStatus($checkoutRequestID, $token, $conn, $user_id = null) {
     ];
 
     $ch = curl_init(
-        'https://api.safaricom.co.ke/mpesa/stkpushquery/v1/query'
+        av_daraja_endpoint('mpesa/stkpushquery/v1/query')
     );
 
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
