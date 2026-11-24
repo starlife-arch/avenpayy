@@ -606,7 +606,7 @@ function renderSnippets() {
     const lookupUrl = currentDomain + "/b2c/api/v1/lookup_receiver";
     const lookupSnippets = {
         php: `\x3C?php\n$ch = curl_init("${lookupUrl}");\ncurl_setopt_array($ch, [\n    CURLOPT_POST            => true,\n    CURLOPT_POSTFIELDS       => json_encode(['phone' => '0712345678']),\n    CURLOPT_RETURNTRANSFER => true,\n    CURLOPT_HTTPHEADER     => [\n        'Content-Type: application/json'\n    ],\n]);\n$response = curl_exec($ch);\ncurl_close($ch);\necho $response;\n?>`,
-        node: `const fetch = require('node-fetch');\nasync function lookupReceiver() {\n    const res = await fetch('${lookupUrl}', {\n        method: 'POST',\n        headers: { 'Content-Type': 'application/json' },\n        body: JSON.stringify({ api_key: 'YOUR_USER_API_KEY', phone: '0712345678' })\n    });\n    console.log(await res.json());\n}\nlookupReceiver();`,
+        node: `const fetch = require('node-fetch');\nasync function lookupReceiver() {\n    const res = await fetch('${lookupUrl}', {\n        method: 'POST',\n        headers: { 'X-Wallet-ID': 'WALLET_XYZ123', 'X-Security-Credential': 'your_api_key', 'Content-Type': 'application/json' },\n        body: JSON.stringify({ phone: '0712345678' })\n    });\n    console.log(await res.json());\n}\nlookupReceiver();`,
         py: `import requests\nres = requests.post('${lookupUrl}', json={'phone': '0712345678'}, headers={'X-Wallet-ID': 'WALLET_XYZ123', 'X-Security-Credential': 'your_api_key'})\nprint(res.json())`,
         curl: `curl -X POST "${lookupUrl}" \\\n  -H "X-Wallet-ID: WALLET_XYZ123" \\\n  -H "X-Security-Credential: your_api_key" \\\n  -H "Content-Type: application/json" \\\n  -d '{"phone": "0712345678"}'`
     };
