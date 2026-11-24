@@ -15,18 +15,51 @@ if (!file_exists($dbPath)) {
     exit();
 }
 require_once $dbPath;
+require_once __DIR__ . '/../../database_config/env.php';
 
 $userId = null;
 
+/**
+ * Decrypt B2C API credentials using the same AvenPay vault format as
+ * b2c/topup/stk_push.php and admin credential storage.
+ */
+final class B2CTopupCredentialVault {
+    private const METHOD = 'aes-256-cbc';
+
+    private static function encryptionKey(): string {
+        $key = trim((string) av_env('VAULT_KEY'));
+        if (!preg_match('/^[a-fA-F0-9]{64}$/', $key)) {
+            throw new RuntimeException('A valid AvenPay VAULT_KEY is not configured.');
+        }
+        return hex2bin($key);
+    }
+
+    public static function decrypt($data): ?string {
+        if (!is_string($data) || $data === '') return null;
+        $decoded = base64_decode($data, true);
+        if ($decoded === false) return null;
+
+        $ivLength = openssl_cipher_iv_length(self::METHOD);
+        if (strlen($decoded) <= $ivLength) return null;
+
+        $iv = substr($decoded, 0, $ivLength);
+        $ciphertext = substr($decoded, $ivLength);
+        $plainText = openssl_decrypt($ciphertext, self::METHOD, self::encryptionKey(), 0, $iv);
+
+        return $plainText !== false ? trim($plainText) : null;
+    }
+}
+
 // 1. Dual Authentication: Check Dashboard Session OR API Headers (X-Wallet-ID & X-Security-Credential)
-$headers = getallheaders();
+$headers = function_exists('getallheaders') ? getallheaders() : [];
 $apiWalletId = $headers['X-Wallet-ID'] ?? $headers['x-wallet-id'] ?? $_GET['wallet_id'] ?? '';
 $apiSecurityKey = $headers['X-Security-Credential'] ?? $headers['x-security-credential'] ?? $_GET['security_credential'] ?? '';
 
 if (!empty($apiWalletId) && !empty($apiSecurityKey)) {
     // API Mode: Authenticate via credentials
-    // Note: If you use SecureVault decryption for security credentials, make sure to decrypt or compare accordingly matching your stk_push.php logic
+    // Match stk_push.php: stored B2C credentials are encrypted with the AvenPay vault.
     $stmt = $conn->prepare("SELECT id, b2c_security_credential FROM users WHERE wallet_id = ? LIMIT 1");
+    $userRes = null;
     if ($stmt) {
         $stmt->bind_param("s", $apiWalletId);
         $stmt->execute();
@@ -40,9 +73,16 @@ if (!empty($apiWalletId) && !empty($apiSecurityKey)) {
         exit();
     }
 
-    // Direct match or secure comparison with stored credential
-    $storedCred = $userRes['b2c_security_credential'] ?? '';
-    if (empty($storedCred) || (hash_equals($storedCred, $apiSecurityKey) === false && $storedCred !== $apiSecurityKey)) {
+    try {
+        $storedCred = B2CTopupCredentialVault::decrypt($userRes['b2c_security_credential'] ?? '');
+    } catch (Throwable $e) {
+        error_log('AvenPay B2C status credential vault error: ' . $e->getMessage());
+        http_response_code(500);
+        echo json_encode(['status' => 'error', 'message' => 'Credential verification is temporarily unavailable.']);
+        exit();
+    }
+
+    if (!is_string($storedCred) || $storedCred === '' || !hash_equals($storedCred, (string)$apiSecurityKey)) {
         http_response_code(401);
         echo json_encode(['status' => 'error', 'message' => 'Unauthorized: Invalid Security Credential']);
         exit();
