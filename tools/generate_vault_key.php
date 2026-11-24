@@ -42,7 +42,7 @@ try {
         throw new RuntimeException('Could not read the private environment file.');
     }
 
-    foreach (preg_split('/\\r?\\n/', $contents) as $line) {
+    foreach (preg_split('/\r?\n/', $contents) as $line) {
         if (preg_match('/^\\s*VAULT_KEY\\s*=/', $line)) {
             throw new RuntimeException('VAULT_KEY is already configured. No changes were made.');
         }
@@ -53,7 +53,7 @@ try {
     }
 
     $secret = bin2hex(random_bytes(32));
-    $newContents = rtrim($contents, "\\r\\n");
+    $newContents = rtrim($contents, "\r\n");
     if ($newContents !== '') {
         $newContents .= PHP_EOL;
     }
