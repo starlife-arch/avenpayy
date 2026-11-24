@@ -161,15 +161,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $currentWalletId === '') {
     <script>
         const activeToken = <?= json_encode($currentWalletId, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
 
-        function copyActiveToken() {
-            if (activeToken) {
-                navigator.clipboard.writeText(activeToken).then(() => showToast('Wallet ID copied to clipboard!', 'success')).catch(() => showToast('Could not copy automatically. Please select and copy the ID.', 'error'));
-                const icon = document.getElementById('copyIcon');
-                icon.className = 'iclass fa-solid fa-check text-emerald-600';
-                setTimeout(() => {
-                    icon.className = 'iclass fa-regular fa-copy';
-                }, 2000);
+        async function copyActiveToken() {
+            if (!activeToken) return;
+
+            let copied = false;
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(activeToken);
+                    copied = true;
+                }
+            } catch (error) {
+                copied = false;
             }
+
+            // Fallback for browsers or permission policies that block Clipboard API.
+            if (!copied) {
+                const field = document.createElement('textarea');
+                field.value = activeToken;
+                field.setAttribute('readonly', '');
+                field.style.position = 'fixed';
+                field.style.opacity = '0';
+                field.style.pointerEvents = 'none';
+                document.body.appendChild(field);
+                field.focus();
+                field.select();
+                field.setSelectionRange(0, field.value.length);
+                try {
+                    copied = document.execCommand('copy');
+                } catch (error) {
+                    copied = false;
+                }
+                field.remove();
+            }
+
+            const icon = document.getElementById('copyIcon');
+            if (copied) {
+                icon.className = 'iclass fa-solid fa-check text-emerald-600';
+                showToast('Wallet ID copied to clipboard!', 'success');
+            } else {
+                icon.className = 'iclass fa-regular fa-copy';
+                showToast('Copy was blocked. Select the Wallet ID and copy it manually.', 'error');
+            }
+            setTimeout(() => {
+                icon.className = 'iclass fa-regular fa-copy';
+            }, 2000);
         }
 
         function showToast(message, type = 'success') {
