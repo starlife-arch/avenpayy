@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../lib/callback_auth.php';
 require_once __DIR__ . '/../database_config/env.php';
 require_once __DIR__ . '/../lib/daraja_environment.php';
+require_once __DIR__ . '/../lib/mpesa_finalizer.php';
 // stk_push.php
 
 require_once 'database_config/db.php';
@@ -290,83 +291,30 @@ if (isset($_GET['check_status'])) {
                 $statusRes = checkStatus($checkoutID, $token, $conn, $user_id);
 
                 if (isset($statusRes['ResultCode'])) {
-                    $resCode = (string) $statusRes['ResultCode'];
+                    $resCode = filter_var($statusRes['ResultCode'], FILTER_VALIDATE_INT);
+                    if ($resCode !== false && $resCode !== null && $resCode !== 4999) {
+                        $receipt = $resCode === 0
+                            ? (string) ($statusRes['MpesaReceiptNumber'] ?? '')
+                            : (string) ($statusRes['ResultDesc'] ?? 'Transaction failed or returned an unknown error.');
+                        $merchantId = isset($statusRes['MerchantRequestID'])
+                            ? (string) $statusRes['MerchantRequestID']
+                            : null;
 
-                    if ($resCode === '0') {
-                        $receipt = !empty($statusRes['MpesaReceiptNumber'])
-                            ? $statusRes['MpesaReceiptNumber']
-                            : 'SUCCESS';
-
-                        $updateStmt = $conn->prepare(
-                            "UPDATE mpesa_transactions
-                             SET status = 'SUCCESS',
-                                 result_code = 0,
-                                 mpesa_receipt_number = ?
-                             WHERE checkout_request_id = ?"
-                        );
-
-                        if ($updateStmt) {
-                            $updateStmt->bind_param("ss", $receipt, $checkoutID);
-                            $updateStmt->execute();
-                            $updateStmt->close();
-                        }
-
-                        $data['status'] = 'SUCCESS';
-                        $data['mpesa_receipt_number'] = $receipt;
-                        $data['result_code'] = 0;
-
-                        $queueStmt = $conn->prepare(
-                            "INSERT IGNORE INTO mpesa_stream_queue
-                             (transaction_id, stream_status)
-                             VALUES (?, 'sent')"
-                        );
-
-                        if ($queueStmt) {
-                            $txId = (int) $data['id'];
-                            $queueStmt->bind_param("i", $txId);
-                            $queueStmt->execute();
-                            $queueStmt->close();
-                        }
-                    } elseif ($resCode !== '4999' && $resCode !== '') {
-                        $resultDesc = !empty($statusRes['ResultDesc'])
-                            ? $statusRes['ResultDesc']
-                            : 'Transaction failed or returned an unknown error.';
-                        $resultCode = (int) $resCode;
-
-                        $updateStmt = $conn->prepare(
-                            "UPDATE mpesa_transactions
-                             SET status = 'FAILED',
-                                 result_code = ?,
-                                 mpesa_receipt_number = ?
-                             WHERE checkout_request_id = ?"
-                        );
-
-                        if ($updateStmt) {
-                            $updateStmt->bind_param(
-                                "iss",
-                                $resultCode,
-                                $resultDesc,
-                                $checkoutID
+                        try {
+                            // Use the same locked finalizer as the Safaricom callback.
+                            $finalized = av_finalize_mpesa_transaction(
+                                $conn,
+                                $checkoutID,
+                                (int) $resCode,
+                                $receipt,
+                                $merchantId
                             );
-                            $updateStmt->execute();
-                            $updateStmt->close();
-                        }
-
-                        $data['status'] = 'FAILED';
-                        $data['mpesa_receipt_number'] = $resultDesc;
-                        $data['result_code'] = $resultCode;
-
-                        $queueStmt = $conn->prepare(
-                            "INSERT IGNORE INTO mpesa_stream_queue
-                             (transaction_id, stream_status)
-                             VALUES (?, 'sent')"
-                        );
-
-                        if ($queueStmt) {
-                            $txId = (int) $data['id'];
-                            $queueStmt->bind_param("i", $txId);
-                            $queueStmt->execute();
-                            $queueStmt->close();
+                            $data['status'] = $finalized['status'];
+                            $data['mpesa_receipt_number'] = $finalized['receipt'];
+                            $data['result_code'] = $finalized['result_code'];
+                        } catch (Throwable $e) {
+                            // Leave the last known state untouched so the callback or next poll can retry.
+                            error_log('AvenPay STK status finalization failed: ' . $e->getMessage());
                         }
                     }
                 }
