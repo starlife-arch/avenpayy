@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../lib/logger.php';
 require_once __DIR__ . '/../database_config/env.php';
+require_once __DIR__ . '/../lib/daraja_environment.php';
 // Pull in centralized database configuration layer from root
 require_once __DIR__ . '/../database_config/db.php'; // Adjust path to point to your actual db.php
 
@@ -93,7 +94,7 @@ define('INITIATOR_PASSWORD', getDarajaB2CSetting('initiator_password'));
  * Generate OAuth Access Token with error logging
  */
 function getAccessToken() {
-    $url = 'https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
+    $url = av_daraja_oauth_url();
     $credentials = base64_encode(CONSUMER_KEY . ':' . CONSUMER_SECRET);
 
     $ch = curl_init($url);

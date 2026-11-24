@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../database_config/env.php';
+require_once __DIR__ . '/../lib/daraja_environment.php';
 // /api/subscription_status.php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -113,7 +114,7 @@ if ($status === 'PENDING') {
 
     if (!empty($consumerKey) && !empty($consumerSecret) && !empty($passkey) && !empty($paybill)) {
         $credentials = base64_encode($consumerKey . ':' . $consumerSecret);
-        $ch = curl_init('https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials');
+        $ch = curl_init(av_daraja_oauth_url());
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Authorization: Basic ' . $credentials]);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
@@ -136,7 +137,7 @@ if ($status === 'PENDING') {
                 'CheckoutRequestID' => $checkoutID
             ];
 
-            $ch2 = curl_init('https://api.safaricom.co.ke/mpesa/stkpushquery/v1/query');
+            $ch2 = curl_init(av_daraja_endpoint('mpesa/stkpushquery/v1/query'));
             curl_setopt($ch2, CURLOPT_HTTPHEADER, ['Authorization: Bearer ' . $accessToken, 'Content-Type: application/json']);
             curl_setopt($ch2, CURLOPT_POSTFIELDS, json_encode($queryData));
             curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);

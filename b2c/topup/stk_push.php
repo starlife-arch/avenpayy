@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../../lib/callback_auth.php';
 require_once __DIR__ . '/../../database_config/env.php';
+require_once __DIR__ . '/../../lib/daraja_environment.php';
 // b2c/topup/stk_push.php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -183,14 +184,14 @@ if (empty($consumerKey) || empty($consumerSecret)) {
     exit();
 }
 
-$baseUrl = 'https://api.safaricom.co.ke';
+$baseUrl = av_daraja_base_url();
 
 // 6. Generate Production Access Token
 $credentials = base64_encode($consumerKey . ':' . $consumerSecret);
 $ch = curl_init($baseUrl . '/oauth/v1/generate?grant_type=client_credentials');
 curl_setopt($ch, CURLOPT_HTTPHEADER, ['Authorization: Basic ' . $credentials]);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
 curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
 $response = curl_exec($ch);
 
@@ -236,7 +237,7 @@ curl_setopt($ch2, CURLOPT_HTTPHEADER, ['Authorization: Bearer ' . $accessToken, 
 curl_setopt($ch2, CURLOPT_POST, true);
 curl_setopt($ch2, CURLOPT_POSTFIELDS, json_encode($stkData));
 curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch2, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($ch2, CURLOPT_SSL_VERIFYPEER, true);
 $stkResponse = curl_exec($ch2);
 curl_close($ch2);
 $stkResData = json_decode($stkResponse, true);

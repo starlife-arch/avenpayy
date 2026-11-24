@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../../lib/ledger.php';
 require_once __DIR__ . '/../../lib/callback_auth.php';
 require_once __DIR__ . '/../../database_config/env.php';
+require_once __DIR__ . '/../../lib/daraja_environment.php';
 // b2c/payout/b2b_pay.php  - merchant B2B: pay a Paybill or Till from the B2C wallet
 session_start(); // <-- Added session_start() to allow session authentication from fetch requests
 
@@ -353,21 +354,29 @@ if (empty($consumerKey) || empty($consumerSecret) || empty($initiatorName) || em
     exit();
 }
 
+$configuredCertificate = trim((string) av_env('DARAJA_B2C_CERT_PATH'));
+if (av_daraja_environment() === 'sandbox' && ($configuredCertificate === '' || !is_readable($configuredCertificate))) {
+    http_response_code(503);
+    echo json_encode(['status' => 'error', 'message' => 'B2C sandbox certificate is not configured. Set DARAJA_B2C_CERT_PATH to a readable Safaricom sandbox certificate file outside the public web root.']);
+    exit();
+}
+$certificatePath = $configuredCertificate !== '' ? $configuredCertificate : __DIR__ . '/ProductionCertificate.cer';
+
 $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
 $domainName = $_SERVER['HTTP_HOST'] ?? 'yourdomain.com';
 $baseUrl = $protocol . $domainName;
 
 $config = [
-    'env' => 'production',
+    'env' => av_daraja_environment(),
     'consumer_key' => $consumerKey,
     'consumer_secret' => $consumerSecret,
     'short_code' => $shortcode,
     'initiator_name' => $initiatorName,
     'initiator_password' => $plainInitiatorPassword,
-    'cert_path' => __DIR__ . '/ProductionCertificate.cer',
-    'base_url' => 'https://api.safaricom.co.ke',
-    'token_url' => 'https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials',
-    'b2c_url' => 'https://api.safaricom.co.ke/mpesa/b2b/v1/paymentrequest',
+    'cert_path' => $certificatePath,
+    'base_url' => av_daraja_base_url(),
+    'token_url' => av_daraja_oauth_url(),
+    'b2c_url' => av_daraja_endpoint('mpesa/b2b/v1/paymentrequest'),
     'result_url' => av_callback_url('/b2c/payout/b2b_result.php', 'b2b_result'),
     'timeout_url' => av_callback_url('/b2c/payout/b2b_timeout.php', 'b2b_timeout'),
 ];
