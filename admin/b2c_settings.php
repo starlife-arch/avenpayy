@@ -46,7 +46,7 @@ class SecureVault
         if (!preg_match('/^[a-fA-F0-9]{64}$/', $key)) {
             throw new RuntimeException('A valid 64-character AvenPay VAULT_KEY is not configured.');
         }
-        return $key;
+        return hex2bin($key);
     }
     private const METHOD = 'aes-256-cbc';
 
