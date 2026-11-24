@@ -43,7 +43,7 @@ try {
     }
 
     foreach (preg_split('/\r?\n/', $contents) as $line) {
-        if (preg_match('/^\\s*VAULT_KEY\\s*=/', $line)) {
+        if (preg_match('/^\s*VAULT_KEY\s*=/', $line)) {
             throw new RuntimeException('VAULT_KEY is already configured. No changes were made.');
         }
     }
