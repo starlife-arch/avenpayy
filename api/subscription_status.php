@@ -19,18 +19,26 @@ if (!file_exists($dbPath)) {
 require_once $dbPath;
 
 class SecureVault {
-    private static function vaultKey(): string { return (string) av_env('VAULT_KEY'); } 
     private const METHOD = 'aes-256-cbc';
 
+    private static function encryptionKey(): string {
+        $key = trim((string) av_env('VAULT_KEY'));
+        if (!preg_match('/^[a-fA-F0-9]{64}$/', $key)) {
+            throw new RuntimeException('A valid AvenPay VAULT_KEY is not configured.');
+        }
+        return hex2bin($key);
+    }
+
     public static function decrypt($data) {
-        if (empty($data)) return null;
-        $decoded = base64_decode($data);
+        if (!is_string($data) || $data === '') return null;
+        $decoded = base64_decode($data, true);
+        if ($decoded === false) return null;
         $ivLength = openssl_cipher_iv_length(self::METHOD);
-        if (strlen($decoded) < $ivLength) return $data;
+        if (strlen($decoded) <= $ivLength) return null;
         $iv = substr($decoded, 0, $ivLength);
         $ciphertext = substr($decoded, $ivLength);
-        $decrypted = openssl_decrypt($ciphertext, self::METHOD, self::vaultKey(), 0, $iv);
-        return $decrypted !== false ? trim($decrypted) : trim($data);
+        $decrypted = openssl_decrypt($ciphertext, self::METHOD, self::encryptionKey(), 0, $iv);
+        return $decrypted !== false ? trim($decrypted) : null;
     }
 }
 
