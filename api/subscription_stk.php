@@ -28,7 +28,7 @@ class SecureVault
         if (!preg_match('/^[a-fA-F0-9]{64}$/', $key)) {
             throw new RuntimeException('VAULT_KEY must be a 64-character hexadecimal AvenPay key.');
         }
-        return [$key];
+        return [hex2bin($key)];
     }
 
     private static function encryptionKey(): string
