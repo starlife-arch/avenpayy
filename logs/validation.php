@@ -8,24 +8,25 @@ ini_set('display_errors', '0');
 error_reporting(E_ALL);
 
 $payload = json_decode(file_get_contents('php://input'), true);
-$walletId = strtoupper(trim((string) ($payload['BillRefNumber'] ?? '')));
 $receipt = trim((string) ($payload['TransID'] ?? ''));
-$amount = (float) ($payload['TransAmount'] ?? 0);
+$walletId = trim((string) ($payload['BillRefNumber'] ?? ''));
+$amount = filter_var($payload['TransAmount'] ?? null, FILTER_VALIDATE_FLOAT);
 
-$accepted = false;
-if ($walletId !== '' && $receipt !== '' && $amount > 0) {
-    $stmt = $conn->prepare("SELECT id FROM users WHERE wallet_id = ? LIMIT 1");
-    $stmt->bind_param('s', $walletId);
-    $stmt->execute();
-    $accepted = (bool) $stmt->get_result()->fetch_assoc();
-    $stmt->close();
+// Match the original PrintPay validation policy: accept structurally valid
+// Paybill payments, then reconcile known wallet references in confirmation.php.
+// Rejecting an unknown wallet here can cause Safaricom to reject a real payment.
+$valid = is_array($payload)
+    && $receipt !== ''
+    && $walletId !== ''
+    && $amount !== false
+    && $amount > 0;
+
+if (!$valid) {
+    error_log('AvenPay C2B validation rejected malformed transaction details.');
 }
 
-if (!$accepted) {
-    error_log('AvenPay C2B validation rejected unknown wallet reference or invalid transaction.');
-}
 echo json_encode([
-    'ResultCode' => $accepted ? 0 : 1,
-    'ResultDesc' => $accepted ? 'Accepted' : 'Unknown wallet ID or invalid payment details'
+    'ResultCode' => $valid ? 0 : 1,
+    'ResultDesc' => $valid ? 'Accepted' : 'Invalid payment details'
 ]);
 exit();
