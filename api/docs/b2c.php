@@ -85,10 +85,10 @@ if (file_exists($header_path)) {
             <p class="text-xs text-slate-500 mt-1">Automated B2C payouts, receiver name lookups, balance verification, status polling, and STK deposits.</p>
         </div>
         <div class="flex items-center gap-2">
-            <a href="/b2c/index" class="bg-teal-600 hover:bg-teal-500 text-white px-4 py-2 rounded-sm text-xs font-bold transition shadow-lg flex items-center gap-2">
+            <a href="/b2c/index.php" class="bg-teal-600 hover:bg-teal-500 text-white px-4 py-2 rounded-sm text-xs font-bold transition shadow-lg flex items-center gap-2">
                 <i class="iclass fa-solid fa-wallet"></i> B2C Dashboard
             </a>
-            <a href="/b2c/transactions" class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-4 py-2 rounded-sm text-xs font-bold transition flex items-center gap-2">
+            <a href="/b2c/transactions.php" class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-4 py-2 rounded-sm text-xs font-bold transition flex items-center gap-2">
                 <i class="iclass fa-solid fa-receipt text-teal-600"></i> History
             </a>
         </div>
