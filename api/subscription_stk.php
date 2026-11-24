@@ -133,6 +133,9 @@ $expiryDate = $settlement['expiry_date'] ?? '';
 
 $isCurrentlyActive = ($isActive === 1 && $status !== 'expired' && !empty($expiryDate) && strtotime($expiryDate) > $now);
 $transactionDesc = $isCurrentlyActive ? 'API RENEWAL PLAN' : 'API SUBSCRIPTION PLAN';
+if ($plan === 'custom') {
+    $transactionDesc .= ' - ' . $months . ' MONTHS';
+}
 
 // Format Phone Number (2547XXXXXXXX)
 $phone = preg_replace('/[^0-9]/', '', $phoneInput);
@@ -144,7 +147,7 @@ if (!preg_match('/^254[17][0-9]{8}$/', $phone)) {
     exit();
 }
 
-// Resolve Daraja Credentials for user_id = 1 (Default Paybill: 4022787)
+// Resolve the authenticated merchant's Daraja credentials, with the configured platform gateway as fallback.
 $consumerKey = ''; $consumerSecret = ''; $passkey = ''; $paybill = '4022787';
 
 $uStmt = $conn->prepare("SELECT use_custom_mpesa FROM users WHERE id = ?");
