@@ -112,10 +112,17 @@ if (!$settlement) {
     exit();
 }
 
-// Determine pricing and duration on the server; never trust the browser's displayed total.
-$months = 0;
+// Uniform subscription pricing for every merchant. Custom days use a 30-day
+// pricing month; activation still uses the exact number of requested days.
+$months = 1;
 $days = 0;
-$amount = 0;
+$amount = 200;
+$discountForMonths = static function (float $durationMonths): float {
+    if ($durationMonths >= 12) return 0.15;
+    if ($durationMonths >= 6) return 0.10;
+    if ($durationMonths >= 3) return 0.05;
+    return 0.0;
+};
 
 if ($plan === 'monthly') {
     $months = 1;
@@ -126,24 +133,26 @@ if ($plan === 'monthly') {
 } elseif ($plan === 'yearly' || $plan === '1 year') {
     $months = 12;
     $amount = 2040;
-} elseif ($plan === 'custom_months') {
-    if ($customMonths < 1 || $customMonths > 120) {
+} elseif ($plan === 'custom_months' || $plan === 'custom') {
+    $months = $customMonths > 0 ? $customMonths : 0;
+    if ($months < 1 || $months > 120) {
         http_response_code(400);
-        exit(json_encode(['status' => 'error', 'message' => 'Choose a custom duration between 1 and 120 months.']));
+        echo json_encode(['status' => 'error', 'message' => 'Choose between 1 and 120 custom months.']);
+        exit();
     }
-    $months = $customMonths;
-    $discount = $months >= 12 ? 0.15 : ($months >= 6 ? 0.10 : ($months >= 3 ? 0.05 : 0));
-    $amount = (int) round($months * 200 * (1 - $discount));
+    $amount = (int) round(200 * $months * (1 - $discountForMonths((float) $months)));
 } elseif ($plan === 'custom_days') {
-    if ($customDays < 1 || $customDays > 3650) {
-        http_response_code(400);
-        exit(json_encode(['status' => 'error', 'message' => 'Choose a custom duration between 1 and 3650 days.']));
-    }
     $days = $customDays;
-    $amount = $days * 7;
-} else {
+    if ($days < 1 || $days > 3650) {
+        http_response_code(400);
+        echo json_encode(['status' => 'error', 'message' => 'Choose between 1 and 3,650 custom days.']);
+        exit();
+    }
+    $amount = max(1, (int) round((200 * $days / 30) * (1 - $discountForMonths($days / 30))));
+} elseif ($plan !== 'monthly') {
     http_response_code(400);
-    exit(json_encode(['status' => 'error', 'message' => 'Select a valid API subscription duration.']));
+    echo json_encode(['status' => 'error', 'message' => 'Invalid subscription plan.']);
+    exit();
 }
 
 // Determine Description: Active = Renewal Plan, Inactive/Expired = Subscription Plan
@@ -154,7 +163,11 @@ $expiryDate = $settlement['expiry_date'] ?? '';
 
 $isCurrentlyActive = ($isActive === 1 && $status !== 'expired' && !empty($expiryDate) && strtotime($expiryDate) > $now);
 $transactionDesc = $isCurrentlyActive ? 'API RENEWAL PLAN' : 'API SUBSCRIPTION PLAN';
-$transactionDesc .= $days > 0 ? ' - ' . $days . ' DAYS' : ' - ' . $months . ' MONTHS';
+if ($days > 0) {
+    $transactionDesc .= ' - ' . $days . ' DAYS';
+} else {
+    $transactionDesc .= ' - ' . $months . ' MONTHS';
+}
 
 // Format Phone Number (2547XXXXXXXX)
 $phone = preg_replace('/[^0-9]/', '', $phoneInput);

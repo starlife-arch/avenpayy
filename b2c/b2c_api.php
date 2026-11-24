@@ -197,17 +197,17 @@ if (file_exists($header_path)) include$header_path;
 
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">B2C Security Credential / API Key</label>
-                        <input type="password" name="security_credential" placeholder="Enter your B2C security credential" required autocomplete="new-password" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-800">
+                        <input type="password" name="security_credential" placeholder="Enter your B2C security credential" required autocomplete="new-password" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-700">
                     </div>
 
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">M-Pesa Phone Number</label>
-                        <input type="text" name="phone" placeholder="07XXXXXXXX / 01XXXXXXXX" required autocomplete="off" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-800">
+                        <input type="text" name="phone" placeholder="07XXXXXXXX / 01XXXXXXXX" required autocomplete="off" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-700">
                     </div>
 
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Amount (KES)</label>
-                        <input type="number" name="amount" min="10" placeholder="e.g. 500" required autocomplete="off" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-800">
+                        <input type="number" name="amount" min="10" placeholder="e.g. 500" required autocomplete="off" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-700">
                     </div>
 
                     <button type="submit" id="topupBtn" class="w-full bg-teal-600 hover:bg-teal-500 active:bg-teal-700 text-white py-2.5 rounded-sm font-bold text-xs uppercase tracking-wider transition shadow-md cursor-pointer flex items-center justify-center gap-2">
@@ -231,13 +231,13 @@ if (file_exists($header_path)) include$header_path;
 
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">B2C Security Credential / API Key</label>
-                        <input type="password" name="security_credential" placeholder="Enter your B2C security credential" required autocomplete="new-password" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-800">
+                        <input type="password" name="security_credential" placeholder="Enter your B2C security credential" required autocomplete="new-password" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-700">
                     </div>
 
                     <!-- Command ID / Withdrawal Type Selection -->
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Payment Type (Command ID)</label>
-                        <select name="command_id" required class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-800 cursor-pointer">
+                        <select name="command_id" required class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-700 cursor-pointer">
                             <option value="BusinessPayment">Business Payment (Standard Payout)</option>
                             <option value="SalaryPayment">Salary Payment (Staff Disbursement)</option>
                             <option value="PromotionPayment">Promotion Payment (Bonus / Reward)</option>
@@ -246,12 +246,12 @@ if (file_exists($header_path)) include$header_path;
 
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Recipient Phone Number</label>
-                        <input type="text" name="phone" placeholder="07XXXXXXXX / 01XXXXXXXX" required autocomplete="off" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-800">
+                        <input type="text" name="phone" placeholder="07XXXXXXXX / 01XXXXXXXX" required autocomplete="off" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-700">
                     </div>
 
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Payout Amount (KES)</label>
-                        <input type="number" name="amount" min="10" placeholder="e.g. 1000" required autocomplete="off" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-800">
+                        <input type="number" name="amount" min="10" placeholder="e.g. 1000" required autocomplete="off" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-700">
                     </div>
 
                     <div>
@@ -260,7 +260,7 @@ if (file_exists($header_path)) include$header_path;
                         <input type="password" name="pin" placeholder="Enter your 4-digit security PIN" required maxlength="4" 
                                autocomplete="one-time-code" inputmode="numeric" data-lpignore="true" 
                                readonly onfocus="this.removeAttribute('readonly');"
-                               class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-800">
+                               class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-700">
                     </div>
 
                     <button type="submit" id="paymentBtn" class="w-full bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white py-2.5 rounded-sm font-bold text-xs uppercase tracking-wider transition shadow-md cursor-pointer flex items-center justify-center gap-2">

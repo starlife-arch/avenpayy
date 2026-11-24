@@ -183,7 +183,7 @@ if (file_exists($header_path)) include $header_path;
                 <div>
                     <label for="test_api_key" class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Settlement API Key (x_api_key)</label>
                     <div class="relative">
-                        <input type="text" id="test_api_key" name="test_api_key" placeholder="Paste your settlement x_api_key here..." required autocomplete="off" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-sm text-xs font-mono text-slate-800">
+                        <input type="text" id="test_api_key" name="test_api_key" placeholder="Paste your settlement x_api_key here..." required autocomplete="off" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-sm text-xs font-mono text-slate-700">
                         <span id="keyStatusIndicator" class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-xs hidden">
                             <i class="iclass fa-solid fa-spinner fa-spin text-teal-600"></i>
                         </span>
@@ -191,7 +191,7 @@ if (file_exists($header_path)) include $header_path;
                 </div>
 
                 <!-- Account Verified Details Box -->
-                <div id="accountDetailsBox" class="bg-teal-50 border border-teal-200 rounded-sm p-3.5 text-xs font-mono space-y-2 hidden">
+                <div id="accountDetailsBox" class="bg-white border border-teal-500/30 rounded-sm p-3.5 text-xs font-mono space-y-2 hidden">
                     <div class="flex justify-between items-center text-slate-500">
                         <span>Merchant Name:</span>
                         <strong id="resMerchantName" class="text-slate-900">-</strong>

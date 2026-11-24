@@ -1,7 +1,8 @@
 <?php
 session_start();
 // Default user_id to 1 if not set in session for standalone development/testing
-$user_id = isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : 1;
+if (empty($_SESSION['user_id'])) { header('Location: /login'); exit(); }
+$user_id = (int) $_SESSION['user_id'];
 require_once $_SERVER['DOCUMENT_ROOT'] . '/database_config/db.php';
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
@@ -73,30 +74,25 @@ include $_SERVER['DOCUMENT_ROOT'] . '/frame/header.php';
         <form id="paymentForm" class="space-y-4">
             <input type="hidden" name="id" value="<?= $id ?>">
             
-            <!-- Plan Grid -->
+            <!-- One subscription price for every merchant -->
             <div class="grid grid-cols-2 gap-2">
-                <?php foreach(['monthly'=>200, 'quarterly'=>570, 'yearly'=>2040, 'custom_months'=>0, 'custom_days'=>0] as $plan => $price): ?>
+                <?php foreach(['monthly'=>200, '3 months'=>570, 'yearly'=>2040, 'custom_months'=>0, 'custom_days'=>0] as $plan => $price): ?>
                 <label class="cursor-pointer group">
                     <input type="radio" name="plan" value="<?= $plan ?>" class="peer sr-only" <?= $plan === 'monthly' ? 'checked' : '' ?> onchange="toggleCustom('<?= $plan ?>', <?= $price ?>)">
-                    <div class="p-3 bg-slate-50/70 border border-slate-200 rounded-lg group-hover:border-slate-300 peer-checked:border-teal-500 peer-checked:bg-teal-50 transition-all text-center h-full">
-                        <div class="text-[11px] font-semibold uppercase tracking-wider text-slate-600 group-hover:text-slate-700 peer-checked:text-teal-700"><?= $plan === 'custom_months' ? 'Custom Months' : ($plan === 'custom_days' ? 'Custom Days' : ucfirst($plan)) ?></div>
-                        <div class="text-xs font-bold text-slate-800 mt-1"><?= $plan === 'custom_months' ? 'Choose months' : ($plan === 'custom_days' ? 'Choose days' : 'KES '.number_format($price)) ?></div>
-                        <?php if ($plan === 'quarterly'): ?><div class="text-[10px] text-emerald-700 mt-1">5% off</div><?php elseif ($plan === 'yearly'): ?><div class="text-[10px] text-emerald-700 mt-1">Save KES 360 · 15% off</div><?php endif; ?>
+                    <div class="p-3 bg-slate-50 border border-slate-200 rounded group-hover:border-slate-300 peer-checked:border-teal-500 peer-checked:bg-teal-50 transition-all text-center">
+                        <div class="text-[11px] font-semibold uppercase tracking-wider text-slate-600 peer-checked:text-teal-700"><?= $plan === '3 months' ? 'Quarterly' : ($plan === 'custom_months' ? 'Custom Months' : ($plan === 'custom_days' ? 'Custom Days' : ucfirst($plan))) ?></div>
+                        <div class="text-xs font-bold text-slate-800 mt-1"><?= $plan === 'custom_months' || $plan === 'custom_days' ? 'Choose duration' : 'KES '.number_format($price) ?></div>
                     </div>
                 </label>
                 <?php endforeach; ?>
             </div>
 
-            <!-- Custom subscription duration -->
-            <div id="customMonthsDiv" class="hidden space-y-1">
-                <input type="number" name="custom_months" id="custom_months" placeholder="Number of months" min="1" max="120" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded text-sm text-slate-700 outline-none focus:border-teal-500 transition" oninput="calculateCustom()">
-                <div class="text-[10px] text-slate-500">Discounts: 5% for 3–5 months, 10% for 6–11 months, 15% for 12+ months.</div>
-                <div id="customSummary" class="hidden text-right text-[11px] font-medium text-teal-700 px-1"></div>
-            </div>
-            <div id="customDaysDiv" class="hidden space-y-1">
-                <input type="number" name="custom_days" id="custom_days" placeholder="Number of days" min="1" max="3650" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded text-sm text-slate-700 outline-none focus:border-teal-500 transition" oninput="calculateCustom()">
-                <div class="text-[10px] text-slate-500">KES 7 per day. Your API access expires after the selected number of days.</div>
-                <div id="customDaysSummary" class="hidden text-right text-[11px] font-medium text-teal-700 px-1"></div>
+            <div id="customDurationDiv" class="hidden space-y-2">
+                <label id="customDurationLabel" class="block text-[11px] font-medium text-slate-600">Choose duration</label>
+                <input type="number" id="custom_duration" min="1" max="3650" placeholder="Enter duration" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded text-sm text-slate-800 outline-none focus:border-teal-500 transition" oninput="calculateCustom()">
+                <input type="hidden" name="custom_months" id="custom_months">
+                <input type="hidden" name="custom_days" id="custom_days">
+                <div id="customSummary" class="text-right text-[11px] font-medium text-teal-700"></div>
             </div>
 
             <!-- Phone Number Input -->
@@ -116,49 +112,35 @@ include $_SERVER['DOCUMENT_ROOT'] . '/frame/header.php';
 </main>
 
 <script>
-function calculateMonthPrice(months) {
-    const discount = months >= 12 ? 0.15 : (months >= 6 ? 0.10 : (months >= 3 ? 0.05 : 0));
-    return Math.round(months * 200 * (1 - discount));
+function discountForMonths(months) {
+    if (months >= 12) return 0.15;
+    if (months >= 6) return 0.10;
+    if (months >= 3) return 0.05;
+    return 0;
 }
-
 function toggleCustom(plan, price) {
-    const isCustomMonths = plan === 'custom_months';
-    const isCustomDays = plan === 'custom_days';
-    document.getElementById('customMonthsDiv').style.display = isCustomMonths ? 'block' : 'none';
-    document.getElementById('customDaysDiv').style.display = isCustomDays ? 'block' : 'none';
-
-    if (!isCustomMonths) {
-        document.getElementById('custom_months').value = '';
-        document.getElementById('customSummary').style.display = 'none';
-    }
-    if (!isCustomDays) {
-        document.getElementById('custom_days').value = '';
-        document.getElementById('customDaysSummary').style.display = 'none';
-    }
-    document.getElementById('displayAmount').innerText = (isCustomMonths || isCustomDays ? 0 : price).toLocaleString();
+    const custom = plan === 'custom_months' || plan === 'custom_days';
+    document.getElementById('customDurationDiv').style.display = custom ? 'block' : 'none';
+    document.getElementById('customDurationLabel').textContent = plan === 'custom_days' ? 'Number of days' : 'Number of months';
+    document.getElementById('custom_duration').value = '';
+    document.getElementById('custom_months').value = '';
+    document.getElementById('custom_days').value = '';
+    document.getElementById('customSummary').textContent = '';
+    document.getElementById('displayAmount').textContent = Number(price).toLocaleString();
 }
-
 function calculateCustom() {
-    const months = parseInt(document.getElementById('custom_months').value, 10) || 0;
-    const days = parseInt(document.getElementById('custom_days').value, 10) || 0;
-    const monthSummary = document.getElementById('customSummary');
-    const daySummary = document.getElementById('customDaysSummary');
-    if (months > 0 && months <= 120) {
-        const amount = calculateMonthPrice(months);
-        monthSummary.innerText = 'Total: KES ' + amount.toLocaleString();
-        monthSummary.style.display = 'block';
-        document.getElementById('displayAmount').innerText = amount.toLocaleString();
-    } else {
-        monthSummary.style.display = 'none';
+    const plan = document.querySelector('input[name="plan"]:checked').value;
+    const n = Math.max(0, parseInt(document.getElementById('custom_duration').value, 10) || 0);
+    let amount = 0, months = 0, days = 0;
+    if (plan === 'custom_months' && n > 0 && n <= 120) {
+        months = n; amount = Math.round(200 * n * (1 - discountForMonths(n)));
+        document.getElementById('custom_months').value = n;
+    } else if (plan === 'custom_days' && n > 0 && n <= 3650) {
+        days = n; amount = Math.max(1, Math.round((200 * n / 30) * (1 - discountForMonths(n / 30))));
+        document.getElementById('custom_days').value = n;
     }
-    if (days > 0 && days <= 3650) {
-        const amount = days * 7;
-        daySummary.innerText = 'Total: KES ' + amount.toLocaleString();
-        daySummary.style.display = 'block';
-        document.getElementById('displayAmount').innerText = amount.toLocaleString();
-    } else {
-        daySummary.style.display = 'none';
-    }
+    document.getElementById('customSummary').textContent = amount ? `Total: KES ${amount.toLocaleString()} • ${n} ${plan === 'custom_days' ? 'days' : 'months'}` : 'Enter a valid duration (max 120 months or 3,650 days).';
+    document.getElementById('displayAmount').textContent = amount.toLocaleString();
 }
 
 document.getElementById('paymentForm').addEventListener('submit', function(e) {
@@ -169,15 +151,11 @@ document.getElementById('paymentForm').addEventListener('submit', function(e) {
     const plan = document.querySelector('input[name="plan"]:checked').value;
     const months = document.getElementById('custom_months').value;
     const days = document.getElementById('custom_days').value;
-
-    if (plan === 'custom_months' && (!Number.isInteger(Number(months)) || Number(months) < 1 || Number(months) > 120)) {
+    const duration = document.getElementById('custom_duration').value;
+    
+    if ((plan === 'custom_months' && (!months || parseInt(months) < 1 || parseInt(months) > 120)) || (plan === 'custom_days' && (!days || parseInt(days) < 1 || parseInt(days) > 3650))) {
         statusDiv.className = "mt-3 text-center text-rose-600 text-xs";
-        statusDiv.innerText = "Choose a duration between 1 and 120 months.";
-        return;
-    }
-    if (plan === 'custom_days' && (!Number.isInteger(Number(days)) || Number(days) < 1 || Number(days) > 3650)) {
-        statusDiv.className = "mt-3 text-center text-rose-600 text-xs";
-        statusDiv.innerText = "Choose a duration between 1 and 3650 days.";
+        statusDiv.innerText = "Please specify a valid custom duration.";
         return;
     }
 

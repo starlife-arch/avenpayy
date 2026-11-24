@@ -79,7 +79,6 @@ require_once __DIR__ . '/frame/header.php';
     <meta name="theme-color" content="#ffffff">
     <meta charset="UTF-8">
     <title>Transactions - AvenPay</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus {

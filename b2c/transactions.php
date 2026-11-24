@@ -123,7 +123,7 @@ if (file_exists($header_path)) include$header_path;
                 <span class="absolute inset-y-0 left-0 flex items-center pl-2.5 pointer-events-none text-slate-500">
                     <i class="iclass fa-solid fa-magnifying-glass text-xs"></i>
                 </span>
-                <input type="text" id="searchInput" onkeyup="filterTransactions()" placeholder="Search ID or Phone..." class="bg-white border border-slate-200 text-slate-900 text-xs rounded-sm pl-8 pr-3 py-1.5 focus:outline-none focus:border-teal-500 w-44 md:w-52 transition">
+                <input type="text" id="searchInput" onkeyup="filterTransactions()" placeholder="Search ID or Phone..." class="bg-white border border-slate-200 text-slate-800 text-xs rounded-sm pl-8 pr-3 py-1.5 focus:outline-none focus:border-teal-500 w-44 md:w-52 transition">
             </div>
 
             <a href="/b2c/index.php" class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-1.5 rounded-sm text-xs font-bold transition flex items-center gap-1.5 shadow-md">
@@ -131,7 +131,7 @@ if (file_exists($header_path)) include$header_path;
             </a>
 
             <!-- Toggle Filter Switcher -->
-            <div class="flex items-center bg-white border border-slate-200 p-1 rounded-sm">
+            <div class="flex items-center bg-slate-50 border border-slate-200 p-1 rounded-sm">
                 <button type="button" id="btnAll" onclick="setTabFilter('all')" class="px-2.5 py-1 rounded-sm text-xs font-bold transition cursor-pointer bg-teal-600 text-white shadow-md">
                     All
                 </button>

@@ -43,8 +43,7 @@ function outlineIcon($name, $classes = '', $id = '')
 
     $svg = $icons[$name] ?? $icons['dot'];
 
-    $idAttribute = $id !== '' ? ' id="' . htmlspecialchars($id, ENT_QUOTES, 'UTF-8') . '"' : '';
-    return '<span' . $idAttribute . ' class="icon-outline ' . htmlspecialchars($classes, ENT_QUOTES, 'UTF-8') . '" aria-hidden="true">'
+    return '<span' . ($id !== '' ? ' id="' . htmlspecialchars($id, ENT_QUOTES, 'UTF-8') . '"' : '') . ' class="icon-outline ' . htmlspecialchars($classes, ENT_QUOTES, 'UTF-8') . '" aria-hidden="true">'
         . '<svg viewBox="0 0 24 24">' . $svg . '</svg>'
         . '</span>';
 }
@@ -505,20 +504,12 @@ function navItem($href, $icon, $label, $currentUri, $iconColor = 'text-teal-600'
         function toggleSubMenu(targetMenuId, targetChevronId) {
             const targetMenu = document.getElementById(targetMenuId);
             const targetChevron = document.getElementById(targetChevronId);
-
-            // Some pages may not render every navigation group. Never let a missing
-            // optional menu element break the rest of the page's JavaScript.
-            if (!targetMenu) {
-                console.warn('AvenPay navigation submenu is missing:', targetMenuId);
-                return;
-            }
+            if (!targetMenu) return;
 
             const isCurrentlyHidden = targetMenu.classList.contains('hidden');
-
             document.querySelectorAll('.submenu-dropdown').forEach(function (menu) {
                 menu.classList.add('hidden');
             });
-
             document.querySelectorAll('.submenu-chevron').forEach(function (chevron) {
                 chevron.classList.remove('rotate-180');
             });
