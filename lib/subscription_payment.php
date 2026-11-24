@@ -60,10 +60,23 @@ if (!function_exists('av_finalize_subscription_payment')) {
                 $settle->close();
                 if (!$settlement) throw new RuntimeException('The related settlement account was not found.');
 
-                // Preserve the existing AvenPay subscription price-to-duration rules.
-                if ($amount >= 3500) $months = 12;
-                elseif ($amount >= 950) $months = 3;
-                else $months = max(1, (int) round($amount / 350));
+                // Custom plans store their exact duration in transaction_desc.
+                // Fixed plans retain the original discounted pricing rules.
+                $descriptionStmt = $conn->prepare("SELECT transaction_desc FROM mpesa_transactions WHERE id = ? LIMIT 1");
+                $descriptionStmt->bind_param('i', $txId);
+                $descriptionStmt->execute();
+                $descriptionRow = $descriptionStmt->get_result()->fetch_assoc();
+                $descriptionStmt->close();
+                $description = (string) ($descriptionRow['transaction_desc'] ?? '');
+                if (preg_match('/\\b(\\d{1,3})\\s+MONTHS?\\b/i', $description, $match)) {
+                    $months = max(1, min(120, (int) $match[1]));
+                } elseif ($amount >= 3500) {
+                    $months = 12;
+                } elseif ($amount >= 950) {
+                    $months = 3;
+                } else {
+                    $months = max(1, (int) round($amount / 350));
+                }
 
                 $expiry = !empty($settlement['expiry_date']) ? strtotime($settlement['expiry_date']) : false;
                 $base = ($expiry !== false && $expiry > time()) ? $expiry : time();
