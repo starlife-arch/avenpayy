@@ -1,6 +1,6 @@
 <?php
 /**
- * One-time AvenPay vault-key generator.
+ * One-time AvenPay vault-key generator. Validated by the PHP CI workflow.
  *
  * Run from cPanel Terminal/SSH:
  *   php /home/ACCOUNT/public_html/tools/generate_vault_key.php
