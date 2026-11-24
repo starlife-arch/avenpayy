@@ -90,7 +90,8 @@ $user_id = (int) $_SESSION['user_id'];
 $settlement_id = (int)($_POST['id'] ?? 0);
 $phoneInput = trim($_POST['phone'] ?? '');
 $plan = strtolower(trim($_POST['plan'] ?? 'monthly'));
-$customMonths = (int)($_POST['custom_months'] ?? 1);
+$customMonths = (int)($_POST['custom_months'] ?? 0);
+$customDays = (int)($_POST['custom_days'] ?? 0);
 
 if ($settlement_id <= 0 || empty($phoneInput)) {
     http_response_code(400);
@@ -111,19 +112,38 @@ if (!$settlement) {
     exit();
 }
 
-// Determine Pricing & Duration
-$months = 1;
-$amount = 350;
+// Determine pricing and duration on the server; never trust the browser's displayed total.
+$months = 0;
+$days = 0;
+$amount = 0;
 
-if ($plan === '3 months') {
+if ($plan === 'monthly') {
+    $months = 1;
+    $amount = 200;
+} elseif ($plan === 'quarterly' || $plan === '3 months') {
     $months = 3;
-    $amount = 950;
+    $amount = 570;
 } elseif ($plan === 'yearly' || $plan === '1 year') {
     $months = 12;
-    $amount = 3500;
-} elseif ($plan === 'custom') {
-    $months = max(1, $customMonths);
-    $amount = $months * 350;
+    $amount = 2040;
+} elseif ($plan === 'custom_months') {
+    if ($customMonths < 1 || $customMonths > 120) {
+        http_response_code(400);
+        exit(json_encode(['status' => 'error', 'message' => 'Choose a custom duration between 1 and 120 months.']));
+    }
+    $months = $customMonths;
+    $discount = $months >= 12 ? 0.15 : ($months >= 6 ? 0.10 : ($months >= 3 ? 0.05 : 0));
+    $amount = (int) round($months * 200 * (1 - $discount));
+} elseif ($plan === 'custom_days') {
+    if ($customDays < 1 || $customDays > 3650) {
+        http_response_code(400);
+        exit(json_encode(['status' => 'error', 'message' => 'Choose a custom duration between 1 and 3650 days.']));
+    }
+    $days = $customDays;
+    $amount = $days * 7;
+} else {
+    http_response_code(400);
+    exit(json_encode(['status' => 'error', 'message' => 'Select a valid API subscription duration.']));
 }
 
 // Determine Description: Active = Renewal Plan, Inactive/Expired = Subscription Plan
@@ -134,9 +154,7 @@ $expiryDate = $settlement['expiry_date'] ?? '';
 
 $isCurrentlyActive = ($isActive === 1 && $status !== 'expired' && !empty($expiryDate) && strtotime($expiryDate) > $now);
 $transactionDesc = $isCurrentlyActive ? 'API RENEWAL PLAN' : 'API SUBSCRIPTION PLAN';
-if ($plan === 'custom') {
-    $transactionDesc .= ' - ' . $months . ' MONTHS';
-}
+$transactionDesc .= $days > 0 ? ' - ' . $days . ' DAYS' : ' - ' . $months . ' MONTHS';
 
 // Format Phone Number (2547XXXXXXXX)
 $phone = preg_replace('/[^0-9]/', '', $phoneInput);
@@ -278,7 +296,7 @@ if (isset($res['CheckoutRequestID'])) {
     }
     $stmt->close();
 
-    echo json_encode(['status' => 'success', 'checkout_id' => $checkoutId, 'months' => $months]);
+    echo json_encode(['status' => 'success', 'checkout_id' => $checkoutId, 'months' => $months, 'days' => $days, 'amount' => $amount]);
 } else {
     $errorMsg = $res['errorMessage'] ?? $res['ResponseDescription'] ?? 'STK Push Initialization Failed';
     echo json_encode(['status' => 'error', 'message' => $errorMsg]);
