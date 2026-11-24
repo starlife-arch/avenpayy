@@ -180,7 +180,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/frame/header.php';
 
         .toc-title {
             padding: 0 10px 10px;
-            color: #77859a;
+            color: #64748b;
             font-size: 10px;
             font-weight: 800;
             letter-spacing: 0.13em;
@@ -253,8 +253,8 @@ include $_SERVER['DOCUMENT_ROOT'] . '/frame/header.php';
             place-items: center;
             border: 1px solid #e2e8f0;
             border-radius: 11px;
-            background: #153b3d;
-            color: var(--accent);
+            background: #e6f7f2;
+            color: #087f67;
             font-size: 14px;
         }
 
@@ -292,7 +292,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/frame/header.php';
         th {
             padding: 12px 14px;
             background: #f1f5f9;
-            color: #a5b1c1;
+            color: #475569;
             font-size: 10px;
             font-weight: 800;
             letter-spacing: 0.08em;
@@ -333,13 +333,13 @@ include $_SERVER['DOCUMENT_ROOT'] . '/frame/header.php';
         }
 
         .method-post {
-            background: #14382e;
-            color: #6ee7a8;
+            background: #dcfce7;
+            color: #166534;
         }
 
         .method-get {
-            background: #115745;
-            color: #8efce1;
+            background: #ccfbf1;
+            color: #0f766e;
         }
 
         .endpoint-bar {
@@ -367,7 +367,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/frame/header.php';
             border: 1px solid #e2e8f0;
             border-radius: 7px;
             background: #f1f5f9;
-            color: #bac5d3;
+            color: #475569;
             padding: 6px 9px;
             font-size: 10px;
             font-weight: 700;
