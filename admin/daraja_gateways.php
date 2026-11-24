@@ -77,7 +77,6 @@ class SecureVault
 function syncGatewaySettings(mysqli $conn, array $gateway, string $target): void
 {
     if ($target === 'b2c') {
-        // Updates the first existing B2C settings row only.
         $stmt = $conn->prepare("
             UPDATE daraja_b2c_settings
             SET shortcode = ?,
@@ -89,7 +88,6 @@ function syncGatewaySettings(mysqli $conn, array $gateway, string $target): void
             ORDER BY id ASC
             LIMIT 1
         ");
-
         if (!$stmt) {
             throw new Exception('Could not prepare B2C payout update: ' . $conn->error);
         }
@@ -100,29 +98,28 @@ function syncGatewaySettings(mysqli $conn, array $gateway, string $target): void
         $consumerSecret = (string)($gateway['consumer_secret'] ?? '');
         $initiatorPassword = (string)($gateway['initiator_password'] ?? '');
 
-        $stmt->bind_param(
-            'sssss',
-            $shortcode,
-            $initiatorName,
-            $consumerKey,
-            $consumerSecret,
-            $initiatorPassword
-        );
+        if ($shortcode === '' || $consumerKey === '' || $consumerSecret === '' ||
+            $initiatorName === '' || $initiatorPassword === '') {
+            $stmt->close();
+            throw new Exception('Complete the B2C shortcode, consumer credentials, initiator name and initiator password before activating this gateway.');
+        }
 
+        $stmt->bind_param('sssss', $shortcode, $initiatorName, $consumerKey, $consumerSecret, $initiatorPassword);
         if (!$stmt->execute()) {
             $error = $stmt->error;
             $stmt->close();
             throw new Exception('Could not update B2C payout settings: ' . $error);
         }
-
-        if ($stmt->affected_rows === 0) {
-            $stmt->close();
-            throw new Exception(
-                'No existing B2C payout settings row was updated. Ensure the B2C payout setup already has a row.'
-            );
-        }
-
         $stmt->close();
+
+        // MySQL reports zero affected rows when values are unchanged. Only
+        // report a missing setup when no legacy settings row exists at all.
+        $check = $conn->query("SELECT id FROM daraja_b2c_settings ORDER BY id ASC LIMIT 1");
+        if (!$check || !$check->fetch_assoc()) {
+            if ($check) $check->free();
+            throw new Exception('No B2C payout settings row exists. Complete the existing B2C setup before activating this gateway.');
+        }
+        $check->free();
         return;
     }
 
@@ -130,7 +127,6 @@ function syncGatewaySettings(mysqli $conn, array $gateway, string $target): void
         throw new Exception('Invalid settings destination.');
     }
 
-    // These C2B setting names must already exist.
     $values = [
         'consumer_key'    => (string)($gateway['consumer_key'] ?? ''),
         'consumer_secret' => (string)($gateway['consumer_secret'] ?? ''),
@@ -138,32 +134,39 @@ function syncGatewaySettings(mysqli $conn, array $gateway, string $target): void
         'passkey'         => (string)($gateway['passkey'] ?? ''),
     ];
 
-    $stmt = $conn->prepare(
-        "UPDATE daraja_settings SET encrypted_value = ? WHERE key_name = ?"
-    );
-
-    if (!$stmt) {
-        throw new Exception('Could not prepare C2B STK update: ' . $conn->error);
-    }
-
     foreach ($values as $keyName => $value) {
-        $encryptedValue = SecureVault::encrypt($value);
-        $stmt->bind_param('ss', $encryptedValue, $keyName);
-
-        if (!$stmt->execute()) {
-            $error = $stmt->error;
-            $stmt->close();
-            throw new Exception('Could not update C2B STK settings: ' . $error);
-        }
-
-        if ($stmt->affected_rows === 0) {
-            $stmt->close();
-            throw new Exception(
-                "No existing C2B STK setting was updated for '{$keyName}'."
-            );
+        if ($value === '') {
+            throw new Exception("The active C2B gateway is missing the required '{$keyName}' value.");
         }
     }
 
+    // Use the same VAULT_KEY as the legacy AvenPay/PrintPay decryption code.
+    // Never fall back to a new key: doing so would make existing ciphertext unreadable.
+    if ((string) av_env('VAULT_KEY') === '') {
+        throw new Exception('VAULT_KEY is not configured. Existing Daraja credentials have not been changed.');
+    }
+
+    $stmt = $conn->prepare("
+        INSERT INTO daraja_settings (key_name, encrypted_value)
+        VALUES (?, ?)
+        ON DUPLICATE KEY UPDATE encrypted_value = VALUES(encrypted_value)
+    ");
+    if (!$stmt) {
+        throw new Exception('Could not prepare C2B STK settings update: ' . $conn->error);
+    }
+
+    try {
+        foreach ($values as $keyName => $value) {
+            $encryptedValue = SecureVault::encrypt($value);
+            $stmt->bind_param('ss', $keyName, $encryptedValue);
+            if (!$stmt->execute()) {
+                throw new Exception("Could not save C2B STK setting '{$keyName}': " . $stmt->error);
+            }
+        }
+    } catch (Throwable $e) {
+        $stmt->close();
+        throw $e;
+    }
     $stmt->close();
 }
 
