@@ -79,8 +79,13 @@ class SecureVault
     }
 }
 
-// Force user_id to 1 (using session as fallback if available)
-$user_id = isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : 1;
+// Subscription purchases must belong to the authenticated merchant.
+if (empty($_SESSION['user_id']) || (int) $_SESSION['user_id'] < 1) {
+    http_response_code(401);
+    echo json_encode(['status' => 'error', 'message' => 'Please sign in to continue.']);
+    exit();
+}
+$user_id = (int) $_SESSION['user_id'];
 $settlement_id = (int)($_POST['id'] ?? 0);
 $phoneInput = trim($_POST['phone'] ?? '');
 $plan = strtolower(trim($_POST['plan'] ?? 'monthly'));
@@ -101,7 +106,7 @@ $stmt->close();
 
 if (!$settlement) {
     http_response_code(404);
-    echo json_encode(['status' => 'error', 'message' => 'Settlement account not found for user ID 1.']);
+    echo json_encode(['status' => 'error', 'message' => 'Settlement account not found for your account.']);
     exit();
 }
 
