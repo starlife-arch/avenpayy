@@ -123,7 +123,7 @@ if (file_exists($header_path)) include$header_path;
                 <span class="absolute inset-y-0 left-0 flex items-center pl-2.5 pointer-events-none text-slate-500">
                     <i class="iclass fa-solid fa-magnifying-glass text-xs"></i>
                 </span>
-                <input type="text" id="searchInput" onkeyup="filterTransactions()" placeholder="Search ID or Phone..." class="bg-[#0b0f19] border border-[#1e293b] text-slate-900 text-xs rounded-sm pl-8 pr-3 py-1.5 focus:outline-none focus:border-teal-500 w-44 md:w-52 transition">
+                <input type="text" id="searchInput" onkeyup="filterTransactions()" placeholder="Search ID or Phone..." class="bg-white border border-slate-200 text-slate-900 text-xs rounded-sm pl-8 pr-3 py-1.5 focus:outline-none focus:border-teal-500 w-44 md:w-52 transition">
             </div>
 
             <a href="/b2c/index.php" class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-1.5 rounded-sm text-xs font-bold transition flex items-center gap-1.5 shadow-md">
@@ -131,7 +131,7 @@ if (file_exists($header_path)) include$header_path;
             </a>
 
             <!-- Toggle Filter Switcher -->
-            <div class="flex items-center bg-[#0b0f19] border border-[#1e293b] p-1 rounded-sm">
+            <div class="flex items-center bg-white border border-slate-200 p-1 rounded-sm">
                 <button type="button" id="btnAll" onclick="setTabFilter('all')" class="px-2.5 py-1 rounded-sm text-xs font-bold transition cursor-pointer bg-teal-600 text-white shadow-md">
                     All
                 </button>
@@ -146,7 +146,7 @@ if (file_exists($header_path)) include$header_path;
     </div>
 
     <!-- Transactions Table Card -->
-    <div class="bg-[rgba(15,23,42,0.95)] border border-[rgba(255,255,255,0.08)] rounded-sm shadow-xl backdrop-blur-md overflow-hidden">
+    <div class="bg-white border border-slate-200 rounded-sm shadow-xl backdrop-blur-md overflow-hidden">
         <div class="p-4 border-b border-slate-200/80 flex items-center justify-between">
             <h2 id="tableHeaderTitle" class="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-2">
                 <i class="iclass fa-solid fa-list text-teal-600"></i> All Wallet Activity
@@ -182,7 +182,7 @@ if (file_exists($header_path)) include$header_path;
                                     <?php endif; ?>
                                 </td>
                                 <td class="p-3">
-                                    <div class="font-mono text-slate-700"><?= htmlspecialchars($tx['phone'] ?? 'N/A') ?></div>
+                                    <div class="font-mono text-slate-800"><?= htmlspecialchars($tx['phone'] ?? 'N/A') ?></div>
                                     <?php if (!empty($tx['recipient'])): ?>
                                         <div class="text-[10px] text-slate-500"><?= htmlspecialchars($tx['recipient']) ?></div>
                                     <?php endif; ?>
