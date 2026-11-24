@@ -15,7 +15,7 @@ if ($currentUri === '') {
 /**
  * Render an outlined SVG navigation icon.
  */
-function outlineIcon($name, $classes = '')
+function outlineIcon($name, $classes = '', $id = '')
 {
     $icons = [
         'bell' => '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/>',
@@ -43,7 +43,8 @@ function outlineIcon($name, $classes = '')
 
     $svg = $icons[$name] ?? $icons['dot'];
 
-    return '<span class="icon-outline ' . htmlspecialchars($classes, ENT_QUOTES, 'UTF-8') . '" aria-hidden="true">'
+    $idAttribute = $id !== '' ? ' id="' . htmlspecialchars($id, ENT_QUOTES, 'UTF-8') . '"' : '';
+    return '<span' . $idAttribute . ' class="icon-outline ' . htmlspecialchars($classes, ENT_QUOTES, 'UTF-8') . '" aria-hidden="true">'
         . '<svg viewBox="0 0 24 24">' . $svg . '</svg>'
         . '</span>';
 }
@@ -280,7 +281,7 @@ function navItem($href, $icon, $label, $currentUri, $iconColor = 'text-teal-600'
                             <?= outlineIcon('wallet', 'text-teal-600 w-3.5 text-xs') ?>
                             <span class="font-medium">B2C Wallet</span>
                         </div>
-                        <?= outlineIcon('chevron-down', 'submenu-chevron text-slate-500 transition-transform') ?>
+                        <?= outlineIcon('chevron-down', 'submenu-chevron text-slate-500 transition-transform', 'b2cChevron') ?>
                     </button>
 
                     <div id="b2cSubMenu" class="submenu-dropdown hidden pl-7 space-y-1 mt-1">
@@ -326,7 +327,7 @@ function navItem($href, $icon, $label, $currentUri, $iconColor = 'text-teal-600'
                             <?= outlineIcon('code', 'text-teal-600 w-3.5 text-xs') ?>
                             <span class="font-medium">Sandbox Mode</span>
                         </div>
-                        <?= outlineIcon('chevron-down', 'submenu-chevron text-slate-500 transition-transform') ?>
+                        <?= outlineIcon('chevron-down', 'submenu-chevron text-slate-500 transition-transform', 'sandboxChevron') ?>
                     </button>
 
                     <div id="sandboxSubMenu" class="submenu-dropdown hidden pl-7 space-y-1 mt-1">
@@ -352,7 +353,7 @@ function navItem($href, $icon, $label, $currentUri, $iconColor = 'text-teal-600'
                             <?= outlineIcon('book', 'text-amber-600 w-3.5 text-xs') ?>
                             <span class="font-medium">Documentation</span>
                         </div>
-                        <?= outlineIcon('chevron-down', 'submenu-chevron text-slate-500 transition-transform') ?>
+                        <?= outlineIcon('chevron-down', 'submenu-chevron text-slate-500 transition-transform', 'docChevron') ?>
                     </button>
 
                     <div id="docSubMenu" class="submenu-dropdown hidden pl-7 space-y-1 mt-1">
