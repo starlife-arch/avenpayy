@@ -121,6 +121,8 @@ include __DIR__ . '/admin-frame/header.php';
     html, body { background-color: #f8fafc !important; color: #0f172a !important; }
     input, select, textarea { color: #0f172a !important; background-color: #ffffff !important; }
     input::placeholder, textarea::placeholder { color: #64748b !important; opacity: 1; }
+        [class~="text-slate-400"] { color: #64748b !important; }
+        [class~="text-slate-500"] { color: #475569 !important; }
 </style>
 
 
