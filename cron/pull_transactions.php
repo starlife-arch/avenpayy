@@ -268,14 +268,14 @@ while ($configRow = $gatewaysResult->fetch_assoc()) {
                                             $insertTopup->execute();
                                             $insertTopup->close();
 
+                                            $ledgerReason = null;
                                             if ($netCreditAmount > 0) {
-                                                $ledgerReason = null;
                                                 $applied = av_wallet_apply(
                                                     $conn,
                                                     $userId,
                                                     (float) $netCreditAmount,
                                                     'topup_credit',
-                                                    'pull',
+                                                    'c2b_manual',
                                                     (string) $transId,
                                                     'Gateway pull credit ' . $transId,
                                                     false,
