@@ -75,21 +75,28 @@ include $_SERVER['DOCUMENT_ROOT'] . '/frame/header.php';
             
             <!-- Plan Grid -->
             <div class="grid grid-cols-2 gap-2">
-                <?php foreach(['monthly'=>350, '3 months'=>950, 'yearly'=>3500, 'custom'=>0] as $plan => $price): ?>
+                <?php foreach(['monthly'=>200, 'quarterly'=>570, 'yearly'=>2040, 'custom_months'=>0, 'custom_days'=>0] as $plan => $price): ?>
                 <label class="cursor-pointer group">
-                    <input type="radio" name="plan" value="<?= $plan ?>" class="peer sr-only" <?= $plan == 'monthly' ? 'checked' : '' ?> onchange="toggleCustom('<?= $plan ?>', <?= $price ?>)">
-                    <div class="p-3 bg-slate-50/40 border border-slate-200 rounded group-hover:border-slate-300 peer-checked:border-teal-500 peer-checked:bg-teal-950/20 transition-all text-center">
-                        <div class="text-[11px] font-semibold uppercase tracking-wider text-slate-500 group-hover:text-slate-600 peer-checked:text-teal-600"><?= ucfirst($plan) ?></div>
-                        <div class="text-xs font-bold text-slate-700 mt-1"><?= $plan !== 'custom' ? 'Ksh '.number_format($price) : 'Custom Months' ?></div>
+                    <input type="radio" name="plan" value="<?= $plan ?>" class="peer sr-only" <?= $plan === 'monthly' ? 'checked' : '' ?> onchange="toggleCustom('<?= $plan ?>', <?= $price ?>)">
+                    <div class="p-3 bg-slate-50/70 border border-slate-200 rounded-lg group-hover:border-slate-300 peer-checked:border-teal-500 peer-checked:bg-teal-50 transition-all text-center h-full">
+                        <div class="text-[11px] font-semibold uppercase tracking-wider text-slate-600 group-hover:text-slate-700 peer-checked:text-teal-700"><?= $plan === 'custom_months' ? 'Custom Months' : ($plan === 'custom_days' ? 'Custom Days' : ucfirst($plan)) ?></div>
+                        <div class="text-xs font-bold text-slate-800 mt-1"><?= $plan === 'custom_months' ? 'Choose months' : ($plan === 'custom_days' ? 'Choose days' : 'KES '.number_format($price)) ?></div>
+                        <?php if ($plan === 'quarterly'): ?><div class="text-[10px] text-emerald-700 mt-1">5% off</div><?php elseif ($plan === 'yearly'): ?><div class="text-[10px] text-emerald-700 mt-1">Save KES 360 · 15% off</div><?php endif; ?>
                     </div>
                 </label>
                 <?php endforeach; ?>
             </div>
 
-            <!-- Custom Months Input -->
+            <!-- Custom subscription duration -->
             <div id="customMonthsDiv" class="hidden space-y-1">
-                <input type="number" name="custom_months" id="custom_months" placeholder="Number of months" min="1" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded text-sm text-slate-700 outline-none focus:border-teal-500 transition" oninput="calculateCustom()">
-                <div id="customSummary" class="hidden text-right text-[11px] font-medium text-teal-600 px-1"></div>
+                <input type="number" name="custom_months" id="custom_months" placeholder="Number of months" min="1" max="120" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded text-sm text-slate-700 outline-none focus:border-teal-500 transition" oninput="calculateCustom()">
+                <div class="text-[10px] text-slate-500">Discounts: 5% for 3–5 months, 10% for 6–11 months, 15% for 12+ months.</div>
+                <div id="customSummary" class="hidden text-right text-[11px] font-medium text-teal-700 px-1"></div>
+            </div>
+            <div id="customDaysDiv" class="hidden space-y-1">
+                <input type="number" name="custom_days" id="custom_days" placeholder="Number of days" min="1" max="3650" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded text-sm text-slate-700 outline-none focus:border-teal-500 transition" oninput="calculateCustom()">
+                <div class="text-[10px] text-slate-500">KES 7 per day. Your API access expires after the selected number of days.</div>
+                <div id="customDaysSummary" class="hidden text-right text-[11px] font-medium text-teal-700 px-1"></div>
             </div>
 
             <!-- Phone Number Input -->
@@ -109,34 +116,48 @@ include $_SERVER['DOCUMENT_ROOT'] . '/frame/header.php';
 </main>
 
 <script>
+function calculateMonthPrice(months) {
+    const discount = months >= 12 ? 0.15 : (months >= 6 ? 0.10 : (months >= 3 ? 0.05 : 0));
+    return Math.round(months * 200 * (1 - discount));
+}
+
 function toggleCustom(plan, price) {
-    const isCustom = (plan === 'custom');
-    const customDiv = document.getElementById('customMonthsDiv');
-    
-    if (customDiv) customDiv.style.display = isCustom ? 'block' : 'none';
-    
-    const displayAmount = isCustom ? 0 : price;
-    document.getElementById('displayAmount').innerText = displayAmount.toLocaleString();
-    
-    if (!isCustom) {
-        document.getElementById('custom_months').value = "";
+    const isCustomMonths = plan === 'custom_months';
+    const isCustomDays = plan === 'custom_days';
+    document.getElementById('customMonthsDiv').style.display = isCustomMonths ? 'block' : 'none';
+    document.getElementById('customDaysDiv').style.display = isCustomDays ? 'block' : 'none';
+
+    if (!isCustomMonths) {
+        document.getElementById('custom_months').value = '';
         document.getElementById('customSummary').style.display = 'none';
     }
+    if (!isCustomDays) {
+        document.getElementById('custom_days').value = '';
+        document.getElementById('customDaysSummary').style.display = 'none';
+    }
+    document.getElementById('displayAmount').innerText = (isCustomMonths || isCustomDays ? 0 : price).toLocaleString();
 }
 
 function calculateCustom() {
-    const monthsInput = document.getElementById('custom_months');
-    const months = parseInt(monthsInput.value) || 0;
-    const amount = months * 350;
-    
-    const summary = document.getElementById('customSummary');
-    if (summary) {
-        summary.innerText = months > 0 ? `Total: KES ${amount.toLocaleString()}` : "";
-        summary.style.display = months > 0 ? 'block' : 'none';
-    }
-    
-    if (months > 0) {
+    const months = parseInt(document.getElementById('custom_months').value, 10) || 0;
+    const days = parseInt(document.getElementById('custom_days').value, 10) || 0;
+    const monthSummary = document.getElementById('customSummary');
+    const daySummary = document.getElementById('customDaysSummary');
+    if (months > 0 && months <= 120) {
+        const amount = calculateMonthPrice(months);
+        monthSummary.innerText = 'Total: KES ' + amount.toLocaleString();
+        monthSummary.style.display = 'block';
         document.getElementById('displayAmount').innerText = amount.toLocaleString();
+    } else {
+        monthSummary.style.display = 'none';
+    }
+    if (days > 0 && days <= 3650) {
+        const amount = days * 7;
+        daySummary.innerText = 'Total: KES ' + amount.toLocaleString();
+        daySummary.style.display = 'block';
+        document.getElementById('displayAmount').innerText = amount.toLocaleString();
+    } else {
+        daySummary.style.display = 'none';
     }
 }
 
@@ -147,10 +168,16 @@ document.getElementById('paymentForm').addEventListener('submit', function(e) {
     
     const plan = document.querySelector('input[name="plan"]:checked').value;
     const months = document.getElementById('custom_months').value;
-    
-    if (plan === 'custom' && (parseInt(months) < 1 || !months)) {
+    const days = document.getElementById('custom_days').value;
+
+    if (plan === 'custom_months' && (!Number.isInteger(Number(months)) || Number(months) < 1 || Number(months) > 120)) {
         statusDiv.className = "mt-3 text-center text-rose-600 text-xs";
-        statusDiv.innerText = "Please specify a valid number of months.";
+        statusDiv.innerText = "Choose a duration between 1 and 120 months.";
+        return;
+    }
+    if (plan === 'custom_days' && (!Number.isInteger(Number(days)) || Number(days) < 1 || Number(days) > 3650)) {
+        statusDiv.className = "mt-3 text-center text-rose-600 text-xs";
+        statusDiv.innerText = "Choose a duration between 1 and 3650 days.";
         return;
     }
 
