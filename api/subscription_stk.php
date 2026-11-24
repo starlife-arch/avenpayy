@@ -29,7 +29,7 @@ class SecureVault {
         $iv = substr($decoded, 0, $ivLength);
         $ciphertext = substr($decoded, $ivLength);
         $decrypted = openssl_decrypt($ciphertext, self::METHOD, self::vaultKey(), 0, $iv);
-        return $decrypted !== false ? trim($decrypted) : trim($data);
+        return $decrypted !== false ? trim($decrypted) : null;
     }
 }
 
@@ -113,7 +113,7 @@ if ($userRes && !empty($userRes['use_custom_mpesa'])) {
     $cStmt->close();
 }
 
-if (empty($consumerKey) || empty($consumerSecret)) {
+if (empty($consumerKey) || empty($consumerSecret) || empty($passkey) || empty($paybill)) {
     $gRes = $conn->query("SELECT key_name, encrypted_value FROM daraja_settings");
     if ($gRes) {
         while ($row = $gRes->fetch_assoc()) {
@@ -138,7 +138,9 @@ $credentials = base64_encode($consumerKey . ':' . $consumerSecret);
 $ch = curl_init('https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials');
 curl_setopt($ch, CURLOPT_HTTPHEADER, ['Authorization: Basic ' . $credentials]);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
 $authRes = json_decode(curl_exec($ch), true);
 curl_close($ch);
 
@@ -172,7 +174,9 @@ curl_setopt($ch2, CURLOPT_HTTPHEADER, ['Authorization: Bearer ' . $accessToken, 
 curl_setopt($ch2, CURLOPT_POST, true);
 curl_setopt($ch2, CURLOPT_POSTFIELDS, json_encode($stkData));
 curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch2, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($ch2, CURLOPT_CONNECTTIMEOUT, 10);
+curl_setopt($ch2, CURLOPT_TIMEOUT, 25);
+curl_setopt($ch2, CURLOPT_SSL_VERIFYPEER, true);
 $response = curl_exec($ch2);
 curl_close($ch2);
 
