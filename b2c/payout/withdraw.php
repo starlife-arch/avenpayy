@@ -16,7 +16,11 @@ require_once __DIR__ . '/../../lib/security.php';
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') { av_rate_limit_or_die('withdraw', 20, 60); }
 
 class SecureVault {
-    private static function vaultKey(): string { return (string) av_env('VAULT_KEY'); } 
+    private static function vaultKey(): string {
+        $key = trim((string) av_env('VAULT_KEY'));
+        if (!preg_match('/^[a-fA-F0-9]{64}$/', $key)) throw new RuntimeException('A valid AvenPay VAULT_KEY is not configured.');
+        return $key;
+    } 
     private const METHOD = 'aes-256-cbc';
 
     public static function decrypt($data) {
