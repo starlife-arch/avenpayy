@@ -135,7 +135,7 @@ if (file_exists($header_path)) include$header_path;
 
     <!-- 3-Card Metrics Grid (Whole Numbers) -->
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <div class="bg-[rgba(15,23,42,0.95)] border border-[rgba(255,255,255,0.08)] p-4 rounded-sm shadow-md">
+        <div class="bg-white border border-slate-200 p-4 rounded-sm shadow-md">
             <div class="flex items-center justify-between text-slate-500 mb-1">
                 <span class="text-[10px] uppercase font-bold tracking-wider">Current Balance</span>
                 <i class="iclass fa-solid fa-wallet text-emerald-600 text-xs"></i>
@@ -145,7 +145,7 @@ if (file_exists($header_path)) include$header_path;
             </div>
         </div>
 
-        <div class="bg-[rgba(15,23,42,0.95)] border border-[rgba(255,255,255,0.08)] p-4 rounded-sm shadow-md">
+        <div class="bg-white border border-slate-200 p-4 rounded-sm shadow-md">
             <div class="flex items-center justify-between text-slate-500 mb-1">
                 <span class="text-[10px] uppercase font-bold tracking-wider">Total Paid Out</span>
                 <i class="iclass fa-solid fa-paper-plane text-amber-600 text-xs"></i>
@@ -155,7 +155,7 @@ if (file_exists($header_path)) include$header_path;
             </div>
         </div>
 
-        <div class="bg-[rgba(15,23,42,0.95)] border border-[rgba(255,255,255,0.08)] p-4 rounded-sm shadow-md">
+        <div class="bg-white border border-slate-200 p-4 rounded-sm shadow-md">
             <div class="flex items-center justify-between text-slate-500 mb-1">
                 <span class="text-[10px] uppercase font-bold tracking-wider">Total Topped In</span>
                 <i class="iclass fa-solid fa-cloud-arrow-down text-teal-600 text-xs"></i>
@@ -167,14 +167,14 @@ if (file_exists($header_path)) include$header_path;
     </div>
 
     <!-- Main Card Wrapper -->
-    <div class="bg-[rgba(15,23,42,0.95)] border border-[rgba(255,255,255,0.08)] rounded-sm shadow-xl backdrop-blur-md overflow-hidden">
+    <div class="bg-white border border-slate-200 rounded-sm shadow-xl backdrop-blur-md overflow-hidden">
         
         <div class="p-4 border-b border-slate-200/80 flex items-center justify-between gap-3">
             <h2 id="formTitle" class="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-2">
                 <i class="iclass fa-solid fa-wallet text-teal-600"></i> Top Up Wallet
             </h2>
 
-            <div class="flex items-center bg-[#0b0f19] border border-[#1e293b] p-1 rounded-sm">
+            <div class="flex items-center bg-white border border-slate-200 p-1 rounded-sm">
                 <button type="button" id="tabTopupBtn" onclick="switchTab('topup')" class="px-3 py-1.5 rounded-sm text-xs font-bold transition cursor-pointer bg-teal-600 text-white shadow-md">
                     Top Up
                 </button>
@@ -192,22 +192,22 @@ if (file_exists($header_path)) include$header_path;
                     
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Wallet ID (Locked)</label>
-                        <input type="text" name="wallet_id" value="<?= htmlspecialchars($user_wallet_id) ?>" readonly class="w-full px-3.5 py-2.5 bg-[#05080f] border border-[#1e293b]/60 rounded-sm text-xs text-slate-500 font-mono cursor-not-allowed select-none">
+                        <input type="text" name="wallet_id" value="<?= htmlspecialchars($user_wallet_id) ?>" readonly class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-sm text-xs text-slate-500 font-mono cursor-not-allowed select-none">
                     </div>
 
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">B2C Security Credential / API Key</label>
-                        <input type="password" name="security_credential" placeholder="Enter your B2C security credential" required autocomplete="new-password" class="w-full px-3.5 py-2.5 bg-[#0b0f19] border border-[#1e293b] rounded-sm text-xs text-slate-700">
+                        <input type="password" name="security_credential" placeholder="Enter your B2C security credential" required autocomplete="new-password" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-800">
                     </div>
 
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">M-Pesa Phone Number</label>
-                        <input type="text" name="phone" placeholder="07XXXXXXXX / 01XXXXXXXX" required autocomplete="off" class="w-full px-3.5 py-2.5 bg-[#0b0f19] border border-[#1e293b] rounded-sm text-xs text-slate-700">
+                        <input type="text" name="phone" placeholder="07XXXXXXXX / 01XXXXXXXX" required autocomplete="off" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-800">
                     </div>
 
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Amount (KES)</label>
-                        <input type="number" name="amount" min="10" placeholder="e.g. 500" required autocomplete="off" class="w-full px-3.5 py-2.5 bg-[#0b0f19] border border-[#1e293b] rounded-sm text-xs text-slate-700">
+                        <input type="number" name="amount" min="10" placeholder="e.g. 500" required autocomplete="off" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-800">
                     </div>
 
                     <button type="submit" id="topupBtn" class="w-full bg-teal-600 hover:bg-teal-500 active:bg-teal-700 text-white py-2.5 rounded-sm font-bold text-xs uppercase tracking-wider transition shadow-md cursor-pointer flex items-center justify-center gap-2">
@@ -226,18 +226,18 @@ if (file_exists($header_path)) include$header_path;
 
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Wallet ID (Locked)</label>
-                        <input type="text" name="wallet_id" value="<?= htmlspecialchars($user_wallet_id) ?>" readonly class="w-full px-3.5 py-2.5 bg-[#05080f] border border-[#1e293b]/60 rounded-sm text-xs text-slate-500 font-mono cursor-not-allowed select-none">
+                        <input type="text" name="wallet_id" value="<?= htmlspecialchars($user_wallet_id) ?>" readonly class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-sm text-xs text-slate-500 font-mono cursor-not-allowed select-none">
                     </div>
 
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">B2C Security Credential / API Key</label>
-                        <input type="password" name="security_credential" placeholder="Enter your B2C security credential" required autocomplete="new-password" class="w-full px-3.5 py-2.5 bg-[#0b0f19] border border-[#1e293b] rounded-sm text-xs text-slate-700">
+                        <input type="password" name="security_credential" placeholder="Enter your B2C security credential" required autocomplete="new-password" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-800">
                     </div>
 
                     <!-- Command ID / Withdrawal Type Selection -->
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Payment Type (Command ID)</label>
-                        <select name="command_id" required class="w-full px-3.5 py-2.5 bg-[#0b0f19] border border-[#1e293b] rounded-sm text-xs text-slate-700 cursor-pointer">
+                        <select name="command_id" required class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-800 cursor-pointer">
                             <option value="BusinessPayment">Business Payment (Standard Payout)</option>
                             <option value="SalaryPayment">Salary Payment (Staff Disbursement)</option>
                             <option value="PromotionPayment">Promotion Payment (Bonus / Reward)</option>
@@ -246,12 +246,12 @@ if (file_exists($header_path)) include$header_path;
 
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Recipient Phone Number</label>
-                        <input type="text" name="phone" placeholder="07XXXXXXXX / 01XXXXXXXX" required autocomplete="off" class="w-full px-3.5 py-2.5 bg-[#0b0f19] border border-[#1e293b] rounded-sm text-xs text-slate-700">
+                        <input type="text" name="phone" placeholder="07XXXXXXXX / 01XXXXXXXX" required autocomplete="off" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-800">
                     </div>
 
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Payout Amount (KES)</label>
-                        <input type="number" name="amount" min="10" placeholder="e.g. 1000" required autocomplete="off" class="w-full px-3.5 py-2.5 bg-[#0b0f19] border border-[#1e293b] rounded-sm text-xs text-slate-700">
+                        <input type="number" name="amount" min="10" placeholder="e.g. 1000" required autocomplete="off" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-800">
                     </div>
 
                     <div>
@@ -260,7 +260,7 @@ if (file_exists($header_path)) include$header_path;
                         <input type="password" name="pin" placeholder="Enter your 4-digit security PIN" required maxlength="4" 
                                autocomplete="one-time-code" inputmode="numeric" data-lpignore="true" 
                                readonly onfocus="this.removeAttribute('readonly');"
-                               class="w-full px-3.5 py-2.5 bg-[#0b0f19] border border-[#1e293b] rounded-sm text-xs text-slate-700">
+                               class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-sm text-xs text-slate-800">
                     </div>
 
                     <button type="submit" id="paymentBtn" class="w-full bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white py-2.5 rounded-sm font-bold text-xs uppercase tracking-wider transition shadow-md cursor-pointer flex items-center justify-center gap-2">
