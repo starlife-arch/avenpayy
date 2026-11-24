@@ -2,9 +2,13 @@
 // api/sandbox.php
 session_start();
 
-$db_config_path = $_SERVER['DOCUMENT_ROOT'] . '/database_config/db.php';
-if (file_exists($db_config_path)) {
+$db_config_path = __DIR__ . '/../database_config/db.php';
+if (is_file($db_config_path)) {
     require_once $db_config_path;
+} elseif (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
+    http_response_code(500);
+    header('Content-Type: application/json; charset=utf-8');
+    exit(json_encode(['status' => 'error', 'message' => 'AvenPay database configuration file is missing.']));
 }
 
 if (!isset($conn)) {
