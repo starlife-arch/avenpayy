@@ -103,14 +103,18 @@ if ($status === 'PENDING') {
         }
     }
 
-    if (!empty($consumerKey) && !empty($consumerSecret)) {
+    if (!empty($consumerKey) && !empty($consumerSecret) && !empty($passkey) && !empty($paybill)) {
         $credentials = base64_encode($consumerKey . ':' . $consumerSecret);
         $ch = curl_init('https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials');
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Authorization: Basic ' . $credentials]);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        $authRes = json_decode(curl_exec($ch), true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        $authBody = curl_exec($ch);
+        $authCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
+        $authRes = is_string($authBody) && $authCode >= 200 && $authCode < 300 ? json_decode($authBody, true) : null;
 
         $accessToken = $authRes['access_token'] ?? null;
         if ($accessToken) {
@@ -128,9 +132,13 @@ if ($status === 'PENDING') {
             curl_setopt($ch2, CURLOPT_HTTPHEADER, ['Authorization: Bearer ' . $accessToken, 'Content-Type: application/json']);
             curl_setopt($ch2, CURLOPT_POSTFIELDS, json_encode($queryData));
             curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch2, CURLOPT_SSL_VERIFYPEER, false);
-            $qRes = json_decode(curl_exec($ch2), true);
+            curl_setopt($ch2, CURLOPT_CONNECTTIMEOUT, 10);
+            curl_setopt($ch2, CURLOPT_TIMEOUT, 20);
+            curl_setopt($ch2, CURLOPT_SSL_VERIFYPEER, true);
+            $queryBody = curl_exec($ch2);
+            $queryHttpCode = (int) curl_getinfo($ch2, CURLINFO_HTTP_CODE);
             curl_close($ch2);
+            $qRes = is_string($queryBody) && $queryHttpCode >= 200 && $queryHttpCode < 300 ? json_decode($queryBody, true) : null;
 
             if (isset($qRes['ResultCode'])) {
                 $resCode = (string)$qRes['ResultCode'];
@@ -139,20 +147,25 @@ if ($status === 'PENDING') {
                     $resultDesc = (string) ($qRes['ResultDesc'] ?? '');
                     // Use the same atomic finalizer as the asynchronous Daraja callback.
                     // Never mark a payment successful without activating its owned settlement.
-                    $finalized = av_finalize_subscription_payment(
-                        $conn,
-                        $checkoutID,
-                        (int) $resCode,
-                        $receipt,
-                        $resultDesc
-                    );
-                    $status = $finalized['status'];
-                    $refresh = $conn->prepare("SELECT mpesa_receipt_number FROM mpesa_transactions WHERE id = ? AND user_id = ? LIMIT 1");
-                    $refresh->bind_param('ii', $tx['id'], $user_id);
-                    $refresh->execute();
-                    $fresh = $refresh->get_result()->fetch_assoc();
-                    $refresh->close();
-                    $tx['mpesa_receipt_number'] = $fresh['mpesa_receipt_number'] ?? null;
+                    try {
+                        $finalized = av_finalize_subscription_payment(
+                            $conn,
+                            $checkoutID,
+                            (int) $resCode,
+                            $receipt,
+                            $resultDesc
+                        );
+                        $status = $finalized['status'];
+                        $refresh = $conn->prepare("SELECT mpesa_receipt_number FROM mpesa_transactions WHERE id = ? AND user_id = ? LIMIT 1");
+                        $refresh->bind_param('ii', $tx['id'], $user_id);
+                        $refresh->execute();
+                        $fresh = $refresh->get_result()->fetch_assoc();
+                        $refresh->close();
+                        $tx['mpesa_receipt_number'] = $fresh['mpesa_receipt_number'] ?? null;
+                    } catch (Throwable $e) {
+                        // Keep the transaction pending so a later query or callback can retry safely.
+                        error_log('AvenPay subscription status finalization failed: ' . $e->getMessage());
+                    }
                 }
             }
         }
