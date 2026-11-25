@@ -52,6 +52,16 @@ try {
         $receiptNumber,
         $resultDesc
     );
+    if (!$result['already_processed'] && $result['status'] === 'FAILED' && $subscriptionTx) {
+        $ownerStmt = $conn->prepare("SELECT email, username FROM users WHERE id = ? LIMIT 1");
+        $ownerStmt->bind_param('i', $subscriptionTx['user_id']);
+        $ownerStmt->execute();
+        $owner = $ownerStmt->get_result()->fetch_assoc();
+        $ownerStmt->close();
+        if ($owner) {
+            av_notify_lifecycle((string)$owner['email'], (string)$owner['username'], 'AvenPay subscription payment was not completed', 'Subscription payment unsuccessful', 'Safaricom reported that your subscription payment did not complete. Your subscription has not been extended. You can try again from your AvenPay dashboard.', ['Amount attempted' => 'KES ' . number_format((float)$subscriptionTx['amount'], 2), 'Result' => $resultDesc], 'billing', 'Review subscription', 'https://avenpay.co.ke/dashboard');
+        }
+    }
     if (!$result['already_processed'] && $result['status'] === 'SUCCESS' && $subscriptionTx) {
         $ownerStmt = $conn->prepare("SELECT u.email, u.username, s.expiry_date FROM users u JOIN settlements s ON s.user_id = u.id WHERE u.id = ? AND s.id = ? LIMIT 1");
         $ownerStmt->bind_param('ii', $subscriptionTx['user_id'], $subscriptionTx['settlement_id']);
