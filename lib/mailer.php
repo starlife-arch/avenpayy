@@ -33,7 +33,7 @@ function av_send_mail(string $toEmail, string $toName, string $subject, string $
         $m->send();
         return true;
     } catch (Throwable $e) {
-        $mailError = ($m instanceof PHPMailer\\PHPMailer\\PHPMailer && $m->ErrorInfo !== '') ? $m->ErrorInfo : $e->getMessage();
+        $mailError = ($m instanceof \\PHPMailer\\PHPMailer\\PHPMailer && $m->ErrorInfo !== '') ? $m->ErrorInfo : $e->getMessage();
         $error = substr(preg_replace('/[\\r\\n\\t]+/', ' ', (string) $mailError), 0, 1000);
         error_log('AvenPay mail failed: ' . $error);
         return false;
