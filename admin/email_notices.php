@@ -11,7 +11,7 @@ $error_message = '';
 if (empty($_SESSION['email_notice_csrf'])) $_SESSION['email_notice_csrf'] = bin2hex(random_bytes(32));
 $csrf = (string) $_SESSION['email_notice_csrf'];
 $senderHost = parse_url((string) av_env('APP_URL', 'https://avenpay.co.ke'), PHP_URL_HOST) ?: 'avenpay.co.ke';
-$senderEmail = (string) av_env('MAIL_FROM', 'no-reply@' . $senderHost);
+$senderEmail = av_mail_sender_address('hello');
 $replyToEmail = (string) av_env('SUPPORT_EMAIL', 'avenpayenterprises@gmail.com');
 $historyTableReady = false;
 try { $tableCheck = $conn->query("SHOW TABLES LIKE 'email_notification_history'"); $historyTableReady = $tableCheck && $tableCheck->num_rows > 0; } catch (Throwable $ignored) { $historyTableReady = false; }
@@ -69,7 +69,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && ($_POST['action'] ?? '')
                     $insert->close();
 
                     $mailError = null;
-                    $ok = av_send_mail($recipient['email'], $recipient['name'], $subject, '<div style="font-family:Arial,sans-serif;line-height:1.65;color:#172033">' . $htmlMessage . '<hr><p style="font-size:12px;color:#64748b">AvenPay</p></div>', $mailError);
+                    $ok = av_send_mail($recipient['email'], $recipient['name'], $subject, '<div style="font-family:Arial,sans-serif;line-height:1.65;color:#172033">' . $htmlMessage . '<hr><p style="font-size:12px;color:#64748b">AvenPay</p></div>', $mailError, 'hello');
                     $status = $ok ? 'sent' : 'failed';
                     $safeError = $ok ? null : substr((string) ($mailError ?: 'SMTP delivery failed. Check the server mail log.'), 0, 1000);
                     $sentAt = $ok ? date('Y-m-d H:i:s') : null;
