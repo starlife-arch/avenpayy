@@ -6,6 +6,7 @@ require_once __DIR__ . '/lib/password_reset.php';
 
 if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
     av_rate_limit_or_die('forgot', 5, 3600);
+    if (!av_reset_csrf_valid()) { $_SESSION['error'] = 'Your session expired. Please try again.'; header('Location: /forgot-password'); exit(); }
     $_SESSION['success'] = 'If an account exists for that email, a password reset link will be sent shortly.';
     $email = trim((string) ($_POST['email'] ?? ''));
     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
