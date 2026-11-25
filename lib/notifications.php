@@ -19,10 +19,22 @@ function av_notification_html(string $title, string $intro, array $details = [],
 }
 
 function av_notify_lifecycle(string $to, string $name, string $subject, string $title, string $intro, array $details, string $profile, string $ctaLabel = '', string $ctaUrl = ''): bool {
+    global $conn;
     if (!filter_var($to, FILTER_VALIDATE_EMAIL)) return false;
-    $error = null;
+    if (!isset($conn) || !($conn instanceof mysqli) || $conn->connect_error) {
+        error_log('AvenPay lifecycle notification could not be queued: database unavailable.');
+        return false;
+    }
     $html = av_notification_html($title, $intro, $details, $ctaLabel, $ctaUrl);
-    $ok = av_send_mail($to, $name, $subject, $html, $error, $profile);
-    if (!$ok) error_log('AvenPay lifecycle notification delivery failed ['.$profile.']: '.(string)$error);
-    return $ok;
+    $eventKey = hash('sha256', $profile . '|' . strtolower($to) . '|' . $subject . '|' . microtime(true) . '|' . bin2hex(random_bytes(8)));
+    $stmt = $conn->prepare("INSERT INTO email_notification_history (recipient_email, recipient_name, subject, status, created_at, sender_profile, html_body, attempts, next_attempt_at, event_key) VALUES (?, ?, ?, 'pending', NOW(), ?, ?, 0, NULL, ?)");
+    if (!$stmt) {
+        error_log('AvenPay lifecycle notification queue unavailable. Apply the email notification queue migration: ' . $conn->error);
+        return false;
+    }
+    $stmt->bind_param('ssssss', $to, $name, $subject, $profile, $html, $eventKey);
+    $queued = $stmt->execute();
+    if (!$queued) error_log('AvenPay lifecycle notification enqueue failed: ' . $stmt->error);
+    $stmt->close();
+    return $queued;
 }
