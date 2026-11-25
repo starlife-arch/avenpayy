@@ -19,6 +19,9 @@ $lockRow = $lock ? $lock->fetch_assoc() : null;
 if ((int)($lockRow['acquired'] ?? 0) !== 1) exit(0);
 
 try {
+    // Recover jobs left in 'sending' after a worker crash.
+    $conn->query("UPDATE email_notification_history SET status='pending' WHERE status='sending' AND created_at < DATE_SUB(NOW(), INTERVAL 15 MINUTE)");
+
     $stmt = $conn->prepare("SELECT id, recipient_email, recipient_name, subject, sender_profile, html_body, attempts FROM email_notification_history WHERE status IN ('pending','failed') AND (next_attempt_at IS NULL OR next_attempt_at <= NOW()) AND attempts < 5 AND html_body IS NOT NULL ORDER BY created_at ASC LIMIT 25");
     if (!$stmt) throw new RuntimeException('Could not prepare email queue query: ' . $conn->error);
     $stmt->execute();
