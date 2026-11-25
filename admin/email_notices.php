@@ -37,10 +37,8 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && ($_POST['action'] ?? '')
                 if (!$ids || count($ids) > 50) {
                     $error_message = 'Select between 1 and 50 merchant accounts per send.';
                 } else {
-                    $marks = implode(',', array_fill(0, count($ids), '?'));
-                    $types = str_repeat('i', count($ids));
-                    $stmt = $conn->prepare("SELECT id, username, email FROM users WHERE id IN ($marks) AND email IS NOT NULL AND email <> ''");
-                    $stmt->bind_param($types, ...$ids);
+                    $safeIds = implode(',', $ids); // Values were cast to positive integers above.
+                    $stmt = $conn->prepare("SELECT id, username, email FROM users WHERE id IN ($safeIds) AND email IS NOT NULL AND email <> ''");
                     $stmt->execute();
                     $result = $stmt->get_result();
                     while ($row = $result->fetch_assoc()) {
