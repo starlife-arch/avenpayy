@@ -13,6 +13,8 @@ $csrf = (string) $_SESSION['email_notice_csrf'];
 $senderHost = parse_url((string) av_env('APP_URL', 'https://avenpay.co.ke'), PHP_URL_HOST) ?: 'avenpay.co.ke';
 $senderEmail = (string) av_env('MAIL_FROM', 'no-reply@' . $senderHost);
 $replyToEmail = (string) av_env('SUPPORT_EMAIL', 'avenpayenterprises@gmail.com');
+$historyTableReady = false;
+try { $tableCheck = $conn->query("SHOW TABLES LIKE 'email_notification_history'"); $historyTableReady = $tableCheck && $tableCheck->num_rows > 0; } catch (Throwable $ignored) { $historyTableReady = false; }
 
 if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && ($_POST['action'] ?? '') === 'send_email_notice') {
     av_rate_limit_or_die('admin_email_notice_send', 3, 300);
@@ -23,7 +25,9 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && ($_POST['action'] ?? '')
         $subject = trim((string) ($_POST['subject'] ?? ''));
         $message = trim((string) ($_POST['message'] ?? ''));
         $mode = (string) ($_POST['recipient_mode'] ?? 'selected');
-        if ($subject === '' || strlen($subject) > 180 || $message === '' || strlen($message) > 10000) {
+        if (!$historyTableReady) {
+            $error_message = 'Email history storage is not installed. Apply the email notification history migration before sending notices.';
+        } elseif ($subject === '' || strlen($subject) > 180 || $message === '' || strlen($message) > 10000) {
             $error_message = 'Enter a subject (up to 180 characters) and message (up to 10,000 characters).';
         } else {
             $recipients = [];
@@ -115,8 +119,9 @@ input,select,textarea{background:#fff!important;color:#0f172a!important}
     <div><label class="block text-xs font-semibold mb-1">Recipient email</label><input type="email" name="custom_email" class="w-full border border-slate-300 rounded-sm p-2 text-sm" placeholder="name@example.com"></div>
     <div><label class="block text-xs font-semibold mb-1">Recipient name (optional)</label><input type="text" name="custom_name" class="w-full border border-slate-300 rounded-sm p-2 text-sm" maxlength="190"></div>
    </div>
-   <div><label class="block text-xs font-semibold mb-1">Subject</label><input type="text" name="subject" required maxlength="180" class="w-full border border-slate-300 rounded-sm p-2 text-sm" placeholder="AvenPay account notice"></div>
-   <div><label class="block text-xs font-semibold mb-1">Message</label><textarea name="message" required maxlength="10000" rows="8" class="w-full border border-slate-300 rounded-sm p-3 text-sm" placeholder="Write your email message..."></textarea><p class="text-[10px] text-slate-500 mt-1">Text-only message formatting. HTML is escaped before sending.</p></div>
+   <div><label class="block text-xs font-semibold mb-1">Email template</label><select id="emailTemplate" class="w-full border border-slate-300 rounded-sm p-2 text-sm" onchange="applyEmailTemplate()"><option value="custom">Custom message</option><option value="service">Service update</option><option value="maintenance">Scheduled maintenance</option><option value="security">Account security notice</option></select></div>
+   <div><label class="block text-xs font-semibold mb-1">Subject</label><input id="emailSubject" type="text" name="subject" required maxlength="180" class="w-full border border-slate-300 rounded-sm p-2 text-sm" placeholder="AvenPay account notice"></div>
+   <div><label class="block text-xs font-semibold mb-1">Message</label><textarea id="emailMessage" name="message" required maxlength="10000" rows="8" class="w-full border border-slate-300 rounded-sm p-3 text-sm" placeholder="Write your email message..."></textarea><p class="text-[10px] text-slate-500 mt-1">Text-only message formatting. HTML is escaped before sending.</p></div>
    <button type="submit" class="px-4 py-2 bg-teal-700 hover:bg-teal-800 text-white rounded-sm text-xs font-bold">Send email notice</button>
   </form>
  </section>
@@ -133,4 +138,10 @@ input,select,textarea{background:#fff!important;color:#0f172a!important}
 <script>
 function toggleRecipientMode(){const custom=document.querySelector('input[name="recipient_mode"]:checked')?.value==='custom';document.getElementById('selectedRecipients').classList.toggle('hidden',custom);document.getElementById('customRecipient').classList.toggle('hidden',!custom);}
 function toggleAllRecipients(value){document.querySelectorAll('.recipient-check').forEach((el)=>el.checked=value);}
+const emailTemplates={
+ service:{subject:'AvenPay service update',message:'Hello,\\n\\nWe are writing to share an important update about AvenPay services.\\n\\n[Add your update here]\\n\\nThank you,\\nAvenPay Support'},
+ maintenance:{subject:'AvenPay scheduled maintenance notice',message:'Hello,\\n\\nAvenPay will undergo scheduled maintenance on [date/time]. Some services may be temporarily unavailable during this period.\\n\\nWe apologise for any inconvenience.\\n\\nAvenPay Support'},
+ security:{subject:'AvenPay account security notice',message:'Hello,\\n\\nThis is an account security notice from AvenPay. [Add the relevant details here.]\\n\\nIf you need assistance, contact AvenPay Support.'}
+};
+function applyEmailTemplate(){const key=document.getElementById('emailTemplate').value;if(!emailTemplates[key])return;document.getElementById('emailSubject').value=emailTemplates[key].subject;document.getElementById('emailMessage').value=emailTemplates[key].message;}
 </script>
