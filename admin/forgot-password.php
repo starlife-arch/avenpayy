@@ -1,132 +1,29 @@
 <?php
-require_once __DIR__ . '/../database_config/env.php';
-session_start();
-
-// Load PHPMailer manually from vendor/PHPMailer/src/ folder since Composer autoloader isn't used
-$phpmailer_paths = [
-    __DIR__ . '/vendor/PHPMailer/src/PHPMailer.php',
-    __DIR__ . '/vendor/PHPMailer/PHPMailer.php',
-    $_SERVER['DOCUMENT_ROOT'] . '/vendor/PHPMailer/src/PHPMailer.php',
-    $_SERVER['DOCUMENT_ROOT'] . '/vendor/PHPMailer/PHPMailer.php'
-];
-
-$mailer_loaded = false;
-foreach ($phpmailer_paths as $path) {
-    if (file_exists($path)) {
-        $base_dir = dirname($path);
-        // Load required PHPMailer files in order
-        require_once $base_dir . '/Exception.php';
-        require_once $base_dir . '/PHPMailer.php';
-        require_once $base_dir . '/SMTP.php';
-        $mailer_loaded = true;
-        break;
-    }
+require_once __DIR__.'/../database_config/env.php'; session_start();
+require_once __DIR__.'/../database_config/db.php'; require_once __DIR__.'/../lib/password_reset.php';
+$error='';$success='';
+if(($_SERVER['REQUEST_METHOD']??'GET')==='POST'){
+ av_rate_limit_or_die('admin_forgot',5,3600);
+ if(!av_reset_csrf_valid()){$error='Your session expired. Please try again.';} else {
+ $success='If an administrator account exists for that email, a password reset link will be sent shortly.';
+ $email=trim((string)($_POST['email']??''));
+ if(filter_var($email,FILTER_VALIDATE_EMAIL)){
+  try{
+   $stmt=$conn->prepare('SELECT id, username, email FROM admins WHERE email = ? LIMIT 1');$stmt->bind_param('s',$email);$stmt->execute();$admin=$stmt->get_result()->fetch_assoc();$stmt->close();
+   if($admin){
+    $token=bin2hex(random_bytes(32));$tokenHash=av_reset_token_hash($token);$expiresAt=date('Y-m-d H:i:s',time()+3600);
+    $save=$conn->prepare('INSERT INTO admin_password_resets (email, token, expires_at) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE token = VALUES(token), expires_at = VALUES(expires_at)');
+    $save->bind_param('sss',$email,$tokenHash,$expiresAt);$save->execute();$save->close();
+    $link=av_reset_base_url().'/admin/reset-password.php?token='.rawurlencode($token);
+    if(!av_reset_mail($email,(string)($admin['username']??''),$link,true))error_log('AvenPay admin password reset email could not be sent.');
+   }
+  }catch(Throwable $e){error_log('AvenPay admin password reset request failed: '.$e->getMessage());}
+ }
+ }
 }
-
-if (!$mailer_loaded) {
-    die("<strong>Fatal Error:</strong> PHPMailer manual files not found in the vendor/PHPMailer directory.");
-}
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
-// Locate database configuration file
-$db_paths = [
-    __DIR__ . '/database_config/db.php',
-    __DIR__ . '/../database_config/db.php',
-    'database_config/db.php'
-];
-
-$db_found = false;
-foreach ($db_paths as $path) {
-    if (file_exists($path)) {
-        require_once $path;
-require_once __DIR__ . '/../lib/security.php';
-if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') { av_rate_limit_or_die('admin_forgot', 5, 3600); }
-        $db_found = true;
-        break;
-    }
-}
-
-if (!$db_found) {
-    die("Database configuration file not found. Please check your folder structure.");
-}
-
-$error = '';
-$success = '';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = trim($_POST['email'] ?? '');
-
-    if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $stmt = $conn->prepare("SELECT id, username, email FROM admins WHERE email = ?");
-        if ($stmt) {
-            $stmt->bind_param("s", $email);
-            $stmt->execute();
-            $result = $stmt->get_result();
-
-            if ($result && $result->num_rows === 1) {
-                $admin = $result->fetch_assoc();
-                
-                $token = bin2hex(random_bytes(32));
-                $expires_at = date("Y-m-d H:i:s", strtotime("+1 hour"));
-
-                $token_stmt = $conn->prepare("INSERT INTO admin_password_resets (email, token, expires_at) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE token = ?, expires_at = ?");
-                if ($token_stmt) {
-                    $token_stmt->bind_param("sssss", $email, $token, $expires_at, $token, $expires_at);
-                    $token_stmt->execute();
-                    $token_stmt->close();
-                }
-
-                $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-                $host = $_SERVER['HTTP_HOST'];
-                $reset_link = $protocol . $host . "/admin/reset-password.php?token=" . $token;
-
-                $mail = new PHPMailer(true);
-                try {
-                    $mail->isSMTP();
-                    $mail->Host       = 'mail.avenpay.co.ke';
-                    $mail->SMTPAuth   = true;
-                    $mail->Username   = 'no-reply@avenpay.co.ke';
-                    $mail->Password   = av_env('SMTP_PASSWORD');
-                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-                    $mail->Port       = 465;
-
-                    $mail->setFrom('no-reply@avenpay.co.ke', 'AvenPay');
-                    $mail->addAddress($email, $admin['username']);
-
-                    $mail->isHTML(true);
-                    $mail->Subject = 'Password Recovery Request - AvenPay Admin';
-                    $mail->Body    = '
-                        <div style="font-family: Arial, sans-serif; background-color: #080b11; color: #f8fafc; padding: 30px; border-radius: 4px;">
-                            <h2 style="color: #3df3c6; margin-top: 0;">Password Recovery</h2>
-                            <p>Hello <strong>' . htmlspecialchars($admin['username']) . '</strong>,</p>
-                            <p>We received a request to reset your admin password for the AVENPAY portal. Click the button below to proceed:</p>
-                            <p style="margin: 25px 0;">
-                                <a href="' . $reset_link . '" style="background: linear-gradient(to right, #0cae85, #0bcf9e); color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 4px; font-weight: bold; display: inline-block;">Reset Password</a>
-                            </p>
-                            <p style="font-size: 12px; color: #94a3b8;">If you did not request this password reset, please ignore this email. This link expires in 1 hour.</p>
-                        </div>
-                    ';
-                    $mail->AltBody = "Hello " . $admin['username'] . ",\n\nWe received a request to reset your admin password. Copy and paste this link into your browser to reset it:\n" . $reset_link . "\n\nIf you did not request this, ignore this email.";
-
-                    $mail->send();
-                    $success = "Password reset instructions have been successfully sent to " . htmlspecialchars($email);
-                } catch (Exception $e) {
-                    $error = "Failed to send email. Mailer Error: {$mail->ErrorInfo}";
-                }
-            } else {
-                $error = "No administrator account found with that email address.";
-            }
-            $stmt->close();
-        } else {
-            $error = "Database query error. Please try again.";
-        }
-    } else {
-        $error = "Please enter a valid email address.";
-    }
-}
+$resetCsrf=av_reset_csrf_token();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -293,6 +190,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <form action="" method="POST" class="space-y-5">
+<input type="hidden" name="csrf_token" value="<?= htmlspecialchars($resetCsrf, ENT_QUOTES, 'UTF-8') ?>">
             <div>
                 <label class="block text-[11px] uppercase font-bold tracking-wider text-slate-600 dark:text-slate-400 mb-2">Admin Email Address</label>
                 <div class="relative">

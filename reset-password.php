@@ -1,88 +1,37 @@
 <?php
 session_start();
-require_once 'database_config/db.php';
-
-$token = trim($_GET['token'] ?? $_POST['token'] ?? '');
-
-if (empty($token)) {
-    $_SESSION['error'] = 'Invalid or missing password reset token.';
-    header('Location: /login');
-    exit();
+require_once __DIR__ . '/database_config/db.php';
+require_once __DIR__ . '/lib/password_reset.php';
+$token = trim((string) ($_GET['token'] ?? $_POST['token'] ?? ''));
+if (!preg_match('/^[a-f0-9]{64}$/i', $token)) { $_SESSION['error']='Invalid or expired password reset token.'; header('Location: /forgot-password'); exit(); }
+$tokenHash = av_reset_token_hash($token);
+$stmt=$conn->prepare('SELECT user_id, expiry_date FROM password_resets WHERE token IN (?, ?) LIMIT 1');
+$stmt->bind_param('ss',$tokenHash,$token); $stmt->execute(); $resetRequest=$stmt->get_result()->fetch_assoc(); $stmt->close();
+if (!$resetRequest || strtotime((string)$resetRequest['expiry_date'])<=time()) {
+ if($resetRequest){$del=$conn->prepare('DELETE FROM password_resets WHERE token IN (?, ?)');$del->bind_param('ss',$tokenHash,$token);$del->execute();$del->close();}
+ $_SESSION['error']='Invalid or expired password reset token. Please request a new link.'; header('Location: /forgot-password'); exit();
 }
-
-// Verify token validity and expiration
-$stmt = $conn->prepare("SELECT user_id, expiry_date FROM password_resets WHERE token = ? LIMIT 1");
-$stmt->bind_param("s", $token);
-$stmt->execute();
-$result = $stmt->get_result();
-
-if (!$result || $result->num_rows === 0) {
-    $stmt->close();
-    $_SESSION['error'] = 'Invalid or expired password reset token.';
-    header('Location: /login');
-    exit();
-}
-
-$reset_request = $result->fetch_assoc();
-$stmt->close();
-
-if (strtotime($reset_request['expiry_date']) < time()) {
-    // Clean up expired token
-    $del = $conn->prepare("DELETE FROM password_resets WHERE token = ?");
-    $del->bind_param("s", $token);
-    $del->execute();
-    $del->close();
-
-    $_SESSION['error'] = 'Password reset link has expired. Please request a new one.';
-    header('Location: /forgot-password');
-    exit();
-}
-
-$user_id = $reset_request['user_id'];
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $password = $_POST['password'] ?? '';
-    $confirm_password = $_POST['confirm_password'] ?? '';
-
-    if (empty($password) || strlen($password) < 6) {
-        $_SESSION['error'] = 'Password must be at least 6 characters long.';
-        header('Location: /reset-password.php?token=' . urlencode($token));
-        exit();
-    }
-
-    if ($password !== $confirm_password) {
-        $_SESSION['error'] = 'Passwords do not match.';
-        header('Location: /reset-password.php?token=' . urlencode($token));
-        exit();
-    }
-
-    // Hash new password
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-    // Update user password
-    $update_stmt = $conn->prepare("UPDATE users SET password = ? WHERE id = ?");
-    $update_stmt->bind_param("si", $hashed_password, $user_id);
-
-    if ($update_stmt->execute()) {
-        $update_stmt->close();
-
-        // Delete the used token
-        $del_stmt = $conn->prepare("DELETE FROM password_resets WHERE user_id = ?");
-        $del_stmt->bind_param("i", $user_id);
-        $del_stmt->execute();
-        $del_stmt->close();
-
-        $_SESSION['success'] = 'Your password has been successfully reset. You can now sign in.';
-        header('Location: /login');
-        exit();
-    } else {
-        $update_stmt->close();
-        $_SESSION['error'] = 'Database error occurred. Please try again.';
-        header('Location: /reset-password.php?token=' . urlencode($token));
-        exit();
-    }
+$user_id=(int)$resetRequest['user_id']; $resetCsrf=av_reset_csrf_token();
+if(($_SERVER['REQUEST_METHOD']??'GET')==='POST'){
+ $password=(string)($_POST['password']??''); $confirmPassword=(string)($_POST['confirm_password']??'');
+ if(!av_reset_csrf_valid()){$_SESSION['error']='Your reset session expired. Please reopen the link from your email.';}
+ elseif(strlen($password)<6){$_SESSION['error']='Password must be at least 6 characters long.';}
+ elseif($password!==$confirmPassword){$_SESSION['error']='Passwords do not match.';}
+ else{
+  try{
+   $conn->begin_transaction();
+   $lock=$conn->prepare('SELECT user_id, expiry_date FROM password_resets WHERE token IN (?, ?) FOR UPDATE');$lock->bind_param('ss',$tokenHash,$token);$lock->execute();$locked=$lock->get_result()->fetch_assoc();$lock->close();
+   if(!$locked||(int)$locked['user_id']!==$user_id||strtotime((string)$locked['expiry_date'])<=time())throw new RuntimeException('Reset token is no longer valid.');
+   $hash=password_hash($password,PASSWORD_DEFAULT);$update=$conn->prepare('UPDATE users SET password = ? WHERE id = ?');$update->bind_param('si',$hash,$user_id);$update->execute();
+   if($update->affected_rows!==1){$update->close();throw new RuntimeException('Password update did not affect an account.');}$update->close();
+   $delete=$conn->prepare('DELETE FROM password_resets WHERE user_id = ?');$delete->bind_param('i',$user_id);$delete->execute();$delete->close();$conn->commit();
+   unset($_SESSION['password_reset_csrf']);$_SESSION['success']='Your password has been successfully reset. You can now sign in.';header('Location: /login');exit();
+  }catch(Throwable $e){$conn->rollback();error_log('AvenPay merchant password update failed: '.$e->getMessage());$_SESSION['error']='Unable to reset your password. Please request a new link and try again.';}
+ }
+ header('Location: /reset-password.php?token='.rawurlencode($token));exit();
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -201,6 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php endif; ?>
 
             <form action="/reset-password.php" method="POST">
+<input type="hidden" name="csrf_token" value="<?= htmlspecialchars($resetCsrf, ENT_QUOTES, 'UTF-8') ?>">
                 <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>">
                 
                 <div class="form-group">

@@ -1,91 +1,28 @@
 <?php
-session_start();
-
-$possible_paths = [
-    __DIR__ . '/../database_config/db.php',
-    '../database_config/db.php',
-    '../../database_config/db.php',
-    __DIR__ . '/db.php'
-];
-
-$db_path = null;
-foreach ($possible_paths as $path) {
-    if (file_exists($path)) {
-        $db_path = $path;
-        break;
-    }
-}
-
-if ($db_path) {
-    require_once $db_path;
-} else {
-    die("Database configuration file not found.");
-}
-
-$error = '';
-$success = '';
-$valid_token = false;
-$token = trim($_GET['token'] ?? $_POST['token'] ?? '');
-
-if (!empty($token)) {
-    $stmt = $conn->prepare("SELECT email, expires_at FROM admin_password_resets WHERE token = ?");
-    if ($stmt) {
-        $stmt->bind_param("s", $token);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result && $result->num_rows === 1) {
-            $reset_record = $result->fetch_assoc();
-            if (strtotime($reset_record['expires_at']) > time()) {
-                $valid_token = true;
-            } else {
-                $error = "This password reset link has expired. Please request a new one.";
-            }
-        } else {
-            $error = "Invalid password reset token.";
-        }
-        $stmt->close();
-    }
-} else {
-    $error = "No password reset token provided.";
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $valid_token) {
-    $password = $_POST['password'] ?? '';
-    $confirm_password = $_POST['confirm_password'] ?? '';
-
-    if (empty($password) || empty($confirm_password)) {
-        $error = "Please fill in all password fields.";
-    } elseif ($password !== $confirm_password) {
-        $error = "New passwords do not match.";
-    } elseif (strlen($password) < 6) {
-        $error = "Password must be at least 6 characters long.";
-    } else {
-        $email = $reset_record['email'];
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-        $update_stmt = $conn->prepare("UPDATE admins SET password = ? WHERE email = ?");
-        if ($update_stmt) {
-            $update_stmt->bind_param("ss", $hashed_password, $email);
-            $update_stmt->execute();
-            $update_stmt->close();
-
-            // Delete the used token
-            $del_stmt = $conn->prepare("DELETE FROM admin_password_resets WHERE token = ?");
-            if ($del_stmt) {
-                $del_stmt->bind_param("s", $token);
-                $del_stmt->execute();
-                $del_stmt->close();
-            }
-
-            $success = "Your password has been successfully updated. You can now log in.";
-            $valid_token = false; // Hide form after success
-        } else {
-            $error = "Database update error. Please try again.";
-        }
-    }
+session_start();require_once __DIR__.'/../database_config/db.php';require_once __DIR__.'/../lib/password_reset.php';
+$error='';$success='';$valid_token=false;$token=trim((string)($_GET['token']??$_POST['token']??''));
+$tokenHash=preg_match('/^[a-f0-9]{64}$/i',$token)?av_reset_token_hash($token):'';$reset_record=null;
+if($tokenHash!==''){$stmt=$conn->prepare('SELECT email, expires_at FROM admin_password_resets WHERE token IN (?, ?) LIMIT 1');$stmt->bind_param('ss',$tokenHash,$token);$stmt->execute();$reset_record=$stmt->get_result()->fetch_assoc();$stmt->close();$valid_token=$reset_record&&strtotime((string)$reset_record['expires_at'])>time();}
+if(!$valid_token)$error='This password reset link is invalid or has expired. Please request a new one.';
+$resetCsrf=av_reset_csrf_token();
+if(($_SERVER['REQUEST_METHOD']??'GET')==='POST'&&$valid_token){
+ $password=(string)($_POST['password']??'');$confirmPassword=(string)($_POST['confirm_password']??'');
+ if(!av_reset_csrf_valid())$error='Your reset session expired. Please reopen the link from your email.';
+ elseif(strlen($password)<6)$error='Password must be at least 6 characters long.';
+ elseif($password!==$confirmPassword)$error='New passwords do not match.';
+ else{
+  try{
+   $conn->begin_transaction();$lock=$conn->prepare('SELECT email, expires_at FROM admin_password_resets WHERE token IN (?, ?) FOR UPDATE');$lock->bind_param('ss',$tokenHash,$token);$lock->execute();$locked=$lock->get_result()->fetch_assoc();$lock->close();
+   if(!$locked||strtolower((string)$locked['email'])!==strtolower((string)$reset_record['email'])||strtotime((string)$locked['expires_at'])<=time())throw new RuntimeException('Reset token is no longer valid.');
+   $passwordHash=password_hash($password,PASSWORD_DEFAULT);$update=$conn->prepare('UPDATE admins SET password = ? WHERE email = ?');$update->bind_param('ss',$passwordHash,$locked['email']);$update->execute();
+   if($update->affected_rows!==1){$update->close();throw new RuntimeException('Admin password update did not affect an account.');}$update->close();
+   $delete=$conn->prepare('DELETE FROM admin_password_resets WHERE token IN (?, ?)');$delete->bind_param('ss',$tokenHash,$token);$delete->execute();$delete->close();$conn->commit();
+   unset($_SESSION['password_reset_csrf']);$success='Your password has been successfully updated. You can now log in.';$valid_token=false;
+  }catch(Throwable $e){$conn->rollback();error_log('AvenPay admin password update failed: '.$e->getMessage());$error='Unable to update your password. Please request a new link and try again.';}
+ }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -253,6 +190,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $valid_token) {
 
         <?php if ($valid_token): ?>
             <form action="" method="POST" class="space-y-5">
+<input type="hidden" name="csrf_token" value="<?= htmlspecialchars($resetCsrf, ENT_QUOTES, 'UTF-8') ?>">
                 <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>">
                 
                 <div>
