@@ -2,6 +2,7 @@
 // token.php
 session_start();
 require_once __DIR__ . '/database_config/db.php';
+require_once __DIR__ . '/lib/notifications.php';
 
 // Access Control: Ensure user is logged in
 if (!isset($_SESSION['user_id'])) {
@@ -18,7 +19,7 @@ $csrfToken = $_SESSION['wallet_token_csrf'];
 $message = '';
 $messageType = 'error';
 
-$userQuery = $conn->prepare("SELECT wallet_id FROM users WHERE id = ? LIMIT 1");
+$userQuery = $conn->prepare("SELECT wallet_id, username, email FROM users WHERE id = ? LIMIT 1");
 $userQuery->bind_param("i", $user_id);
 $userQuery->execute();
 $userData = $userQuery->get_result()->fetch_assoc();
@@ -50,6 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $currentWalletId === '') {
                 $currentWalletId = $requestedWalletId;
                 $message = 'Your wallet ID has been created successfully.';
                 $messageType = 'success';
+                av_notify_lifecycle((string)$userData['email'], (string)$userData['username'], 'Your AvenPay wallet ID was created', 'Wallet ID created successfully', 'A wallet ID has been assigned to your AvenPay account.', ['Wallet ID' => $requestedWalletId, 'Date' => date('d M Y H:i:s T')], 'api', 'Open your wallet token page', 'https://avenpay.co.ke/wallet-token');
             } else {
                 $refreshStmt = $conn->prepare("SELECT wallet_id FROM users WHERE id = ? LIMIT 1");
                 $refreshStmt->bind_param("i", $user_id);

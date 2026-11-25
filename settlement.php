@@ -79,6 +79,8 @@ require_once __DIR__ . '/frame/header.php';
 require_once __DIR__ . '/database_config/db.php'; 
 
 $user_id = $_SESSION['user_id'];
+if (empty($_SESSION['api_key_csrf'])) { $_SESSION['api_key_csrf'] = bin2hex(random_bytes(32)); }
+$apiKeyCsrf = (string) $_SESSION['api_key_csrf'];
 $countStmt = $conn->prepare("SELECT COUNT(*) as total FROM settlements WHERE user_id = ?");
 $countStmt->bind_param("i", $user_id);
 $countStmt->execute();
@@ -413,7 +415,12 @@ $totalAccounts = $countStmt->get_result()->fetch_assoc()['total'];
                 `;
             } else if (hasKey) {
                 content.innerHTML = `<p class='text-xs text-slate-500 mb-3'>This account already has an API key. Generating a new one will invalidate the old key.</p>
-                                     <a href='generate_api_key.php?id=${id}' class='block w-full py-2.5 bg-rose-500/10 border border-rose-500/20 text-rose-600 rounded-xl text-center font-bold text-xs hover:bg-rose-500/20 transition'>Generate New Key</a>`;
+                                     <a href='generate_api_key.php?id=${id}' class='block w-full py-2.5 bg-rose-500/10 border border-rose-500/20 text-rose-600 rounded-xl text-center font-bold text-xs hover:bg-rose-500/20 transition mb-2'>Generate New Key</a>
+                                     <form method='POST' action='revoke_api_key.php' onsubmit="return confirm('Revoke this API key? API requests using it will stop working immediately.');">
+                                       <input type='hidden' name='settlement_id' value='${id}'>
+                                       <input type='hidden' name='csrf_token' value='<?= htmlspecialchars($apiKeyCsrf, ENT_QUOTES, 'UTF-8') ?>'>
+                                       <button type='submit' class='w-full py-2.5 bg-rose-600 text-white rounded-xl text-center font-bold text-xs hover:bg-rose-700 transition'>Revoke API Key</button>
+                                     </form>`;
             } else {
                 content.innerHTML = `<p class='text-xs text-slate-400 mb-3'>Generate a new API key for this settlement account.</p>
                                      <a href='generate_api_key.php?id=${id}' class='block w-full py-2.5 bg-teal-500 hover:bg-teal-400 text-slate-950 font-black rounded-xl text-center text-xs transition shadow-lg shadow-teal-500/20'>Generate Key</a>`;

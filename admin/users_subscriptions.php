@@ -11,6 +11,8 @@ if (empty($_SESSION['admin_id'])) {
 error_reporting(E_ALL);
 ini_set('display_errors', '0');
 
+require_once __DIR__ . '/../lib/notifications.php';
+
 // --- ABSOLUTE WEB ROOT DATABASE LINK ---
 $dbPath = $_SERVER['DOCUMENT_ROOT'] . '/database_config/db.php';
 $dbLoaded = false;
@@ -76,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             jsonResponse('error', 'Invalid target settlement account ID.');
         }
 
-        $check = $conn->prepare('SELECT expiry_date FROM settlements WHERE id = ? LIMIT 1');
+        $check = $conn->prepare('SELECT s.expiry_date, u.email, u.username FROM settlements s LEFT JOIN users u ON u.id = s.user_id WHERE s.id = ? LIMIT 1');
         if (!$check) {
             jsonResponse('error', 'Could not verify the settlement account.');
         }
@@ -113,6 +115,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $stmt->bind_param('i', $settlementId);
             $success = $stmt->execute();
             $stmt->close();
+            if ($success && !empty($account['email'])) {
+                av_notify_lifecycle((string)$account['email'], (string)$account['username'], $planAction === 'lifetime' ? 'AvenPay lifetime access granted' : 'AvenPay subscription deactivated', $planAction === 'lifetime' ? 'Lifetime access granted' : 'Subscription deactivated', $planAction === 'lifetime' ? 'An AvenPay administrator has granted lifetime access to your settlement account.' : 'An AvenPay administrator has deactivated the subscription for your settlement account.', ['Settlement account' => '#' . $settlementId, 'Plan action' => ucfirst($planAction), 'Date' => date('d M Y H:i:s T')], 'billing', 'Open AvenPay', 'https://avenpay.co.ke/dashboard');
+            }
 
             jsonResponse(
                 $success ? 'success' : 'error',
@@ -213,6 +218,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
         $success = $stmt->execute();
         $stmt->close();
+        if ($success) {
+            $ownerStmt = $conn->prepare('SELECT u.email, u.username FROM settlements s LEFT JOIN users u ON u.id = s.user_id WHERE s.id = ? LIMIT 1');
+            $ownerStmt->bind_param('i', $settlementId);
+            $ownerStmt->execute();
+            $owner = $ownerStmt->get_result()->fetch_assoc();
+            $ownerStmt->close();
+            if ($owner && !empty($owner['email'])) {
+                av_notify_lifecycle((string)$owner['email'], (string)$owner['username'], 'Your AvenPay subscription was updated', 'Your subscription has been updated', 'An AvenPay administrator has updated the subscription for your settlement account.', ['Settlement account' => '#' . $settlementId, 'New expiry date' => $newExpiry, 'Duration' => $duration . ' ' . $unit], 'billing', 'View your dashboard', 'https://avenpay.co.ke/dashboard');
+            }
+        }
 
         jsonResponse(
             $success ? 'success' : 'error',
@@ -237,6 +252,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             );
         }
 
+        $ownerStmt = $conn->prepare('SELECT u.email, u.username FROM settlements s LEFT JOIN users u ON u.id = s.user_id WHERE s.id = ? LIMIT 1');
+        $ownerStmt->bind_param('i', $deleteId);
+        $ownerStmt->execute();
+        $owner = $ownerStmt->get_result()->fetch_assoc();
+        $ownerStmt->close();
+
         $stmt = $conn->prepare('DELETE FROM settlements WHERE id = ? LIMIT 1');
         if (!$stmt) {
             jsonResponse('error', 'Could not prepare the delete request.');
@@ -253,6 +274,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
         if (!$deleted) {
             jsonResponse('error', 'Settlement account not found.');
+        }
+
+        if ($owner && !empty($owner['email'])) {
+            av_notify_lifecycle((string)$owner['email'], (string)$owner['username'], 'An AvenPay settlement account was deleted', 'Settlement account deleted', 'An administrator deleted a settlement account from your AvenPay profile. Any API key associated with that settlement account is no longer usable.', ['Settlement account' => '#' . $deleteId, 'Date' => date('d M Y H:i:s T')], 'api', 'Review your AvenPay account', 'https://avenpay.co.ke/dashboard');
         }
 
         jsonResponse(
