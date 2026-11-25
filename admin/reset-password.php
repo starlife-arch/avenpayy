@@ -2,7 +2,7 @@
 session_start();require_once __DIR__.'/../database_config/db.php';require_once __DIR__.'/../lib/password_reset.php';
 $error='';$success='';$valid_token=false;$token=trim((string)($_GET['token']??$_POST['token']??''));
 $tokenHash=preg_match('/^[a-f0-9]{64}$/i',$token)?av_reset_token_hash($token):'';$reset_record=null;
-if($tokenHash!==''){$stmt=$conn->prepare('SELECT email, expires_at FROM admin_password_resets WHERE token = ? LIMIT 1');$stmt->bind_param('s',$tokenHash);$stmt->execute();$reset_record=$stmt->get_result()->fetch_assoc();$stmt->close();$valid_token=$reset_record&&strtotime((string)$reset_record['expires_at'])>time();}
+if($tokenHash!==''){$stmt=$conn->prepare('SELECT email, expires_at FROM admin_password_resets WHERE token IN (?, ?) LIMIT 1');$stmt->bind_param('ss',$tokenHash,$token);$stmt->execute();$reset_record=$stmt->get_result()->fetch_assoc();$stmt->close();$valid_token=$reset_record&&strtotime((string)$reset_record['expires_at'])>time();}
 if(!$valid_token)$error='This password reset link is invalid or has expired. Please request a new one.';
 $resetCsrf=av_reset_csrf_token();
 if(($_SERVER['REQUEST_METHOD']??'GET')==='POST'&&$valid_token){
@@ -12,11 +12,11 @@ if(($_SERVER['REQUEST_METHOD']??'GET')==='POST'&&$valid_token){
  elseif($password!==$confirmPassword)$error='New passwords do not match.';
  else{
   try{
-   $conn->begin_transaction();$lock=$conn->prepare('SELECT email, expires_at FROM admin_password_resets WHERE token = ? FOR UPDATE');$lock->bind_param('s',$tokenHash);$lock->execute();$locked=$lock->get_result()->fetch_assoc();$lock->close();
+   $conn->begin_transaction();$lock=$conn->prepare('SELECT email, expires_at FROM admin_password_resets WHERE token IN (?, ?) FOR UPDATE');$lock->bind_param('ss',$tokenHash,$token);$lock->execute();$locked=$lock->get_result()->fetch_assoc();$lock->close();
    if(!$locked||strtolower((string)$locked['email'])!==strtolower((string)$reset_record['email'])||strtotime((string)$locked['expires_at'])<=time())throw new RuntimeException('Reset token is no longer valid.');
    $passwordHash=password_hash($password,PASSWORD_DEFAULT);$update=$conn->prepare('UPDATE admins SET password = ? WHERE email = ?');$update->bind_param('ss',$passwordHash,$locked['email']);$update->execute();
    if($update->affected_rows!==1){$update->close();throw new RuntimeException('Admin password update did not affect an account.');}$update->close();
-   $delete=$conn->prepare('DELETE FROM admin_password_resets WHERE token = ?');$delete->bind_param('s',$tokenHash);$delete->execute();$delete->close();$conn->commit();
+   $delete=$conn->prepare('DELETE FROM admin_password_resets WHERE token IN (?, ?)');$delete->bind_param('ss',$tokenHash,$token);$delete->execute();$delete->close();$conn->commit();
    unset($_SESSION['password_reset_csrf']);$success='Your password has been successfully updated. You can now log in.';$valid_token=false;
   }catch(Throwable $e){$conn->rollback();error_log('AvenPay admin password update failed: '.$e->getMessage());$error='Unable to update your password. Please request a new link and try again.';}
  }
