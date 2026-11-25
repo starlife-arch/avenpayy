@@ -8,7 +8,7 @@ $tokenHash = av_reset_token_hash($token);
 $stmt=$conn->prepare('SELECT user_id, expiry_date FROM password_resets WHERE token IN (?, ?) LIMIT 1');
 $stmt->bind_param('ss',$tokenHash,$token); $stmt->execute(); $resetRequest=$stmt->get_result()->fetch_assoc(); $stmt->close();
 if (!$resetRequest || strtotime((string)$resetRequest['expiry_date'])<=time()) {
- if($resetRequest){$del=$conn->prepare('DELETE FROM password_resets WHERE token = ?');$del->bind_param('ss',$tokenHash,$token);$del->execute();$del->close();}
+ if($resetRequest){$del=$conn->prepare('DELETE FROM password_resets WHERE token IN (?, ?)');$del->bind_param('ss',$tokenHash,$token);$del->execute();$del->close();}
  $_SESSION['error']='Invalid or expired password reset token. Please request a new link.'; header('Location: /forgot-password'); exit();
 }
 $user_id=(int)$resetRequest['user_id']; $resetCsrf=av_reset_csrf_token();
@@ -20,7 +20,7 @@ if(($_SERVER['REQUEST_METHOD']??'GET')==='POST'){
  else{
   try{
    $conn->begin_transaction();
-   $lock=$conn->prepare('SELECT user_id, expiry_date FROM password_resets WHERE token IN (?, ?) FOR UPDATE');$lock->bind_param('s',$tokenHash);$lock->execute();$locked=$lock->get_result()->fetch_assoc();$lock->close();
+   $lock=$conn->prepare('SELECT user_id, expiry_date FROM password_resets WHERE token IN (?, ?) FOR UPDATE');$lock->bind_param('ss',$tokenHash,$token);$lock->execute();$locked=$lock->get_result()->fetch_assoc();$lock->close();
    if(!$locked||(int)$locked['user_id']!==$user_id||strtotime((string)$locked['expiry_date'])<=time())throw new RuntimeException('Reset token is no longer valid.');
    $hash=password_hash($password,PASSWORD_DEFAULT);$update=$conn->prepare('UPDATE users SET password = ? WHERE id = ?');$update->bind_param('si',$hash,$user_id);$update->execute();
    if($update->affected_rows!==1){$update->close();throw new RuntimeException('Password update did not affect an account.');}$update->close();
