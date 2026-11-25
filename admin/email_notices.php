@@ -139,9 +139,9 @@ input,select,textarea{background:#fff!important;color:#0f172a!important}
 function toggleRecipientMode(){const custom=document.querySelector('input[name="recipient_mode"]:checked')?.value==='custom';document.getElementById('selectedRecipients').classList.toggle('hidden',custom);document.getElementById('customRecipient').classList.toggle('hidden',!custom);}
 function toggleAllRecipients(value){document.querySelectorAll('.recipient-check').forEach((el)=>el.checked=value);}
 const emailTemplates={
- service:{subject:'AvenPay service update',message:'Hello,\\n\\nWe are writing to share an important update about AvenPay services.\\n\\n[Add your update here]\\n\\nThank you,\\nAvenPay Support'},
- maintenance:{subject:'AvenPay scheduled maintenance notice',message:'Hello,\\n\\nAvenPay will undergo scheduled maintenance on [date/time]. Some services may be temporarily unavailable during this period.\\n\\nWe apologise for any inconvenience.\\n\\nAvenPay Support'},
- security:{subject:'AvenPay account security notice',message:'Hello,\\n\\nThis is an account security notice from AvenPay. [Add the relevant details here.]\\n\\nIf you need assistance, contact AvenPay Support.'}
+ service:{subject:'AvenPay service update',message:'Hello,\n\nWe are writing to share an important update about AvenPay services.\n\n[Add your update here]\n\nThank you,\nAvenPay Support'},
+ maintenance:{subject:'AvenPay scheduled maintenance notice',message:'Hello,\n\nAvenPay will undergo scheduled maintenance on [date/time]. Some services may be temporarily unavailable during this period.\n\nWe apologise for any inconvenience.\n\nAvenPay Support'},
+ security:{subject:'AvenPay account security notice',message:'Hello,\n\nThis is an account security notice from AvenPay. [Add the relevant details here.]\n\nIf you need assistance, contact AvenPay Support.'}
 };
 function applyEmailTemplate(){const key=document.getElementById('emailTemplate').value;if(!emailTemplates[key])return;document.getElementById('emailSubject').value=emailTemplates[key].subject;document.getElementById('emailMessage').value=emailTemplates[key].message;}
 </script>
