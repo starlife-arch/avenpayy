@@ -4,6 +4,7 @@ require_once __DIR__.'/../database_config/db.php'; require_once __DIR__.'/../lib
 $error='';$success='';
 if(($_SERVER['REQUEST_METHOD']??'GET')==='POST'){
  av_rate_limit_or_die('admin_forgot',5,3600);
+ if(!av_reset_csrf_valid()){$error='Your session expired. Please try again.';} else {
  $success='If an administrator account exists for that email, a password reset link will be sent shortly.';
  $email=trim((string)($_POST['email']??''));
  if(filter_var($email,FILTER_VALIDATE_EMAIL)){
@@ -17,6 +18,7 @@ if(($_SERVER['REQUEST_METHOD']??'GET')==='POST'){
     if(!av_reset_mail($email,(string)($admin['username']??''),$link,true))error_log('AvenPay admin password reset email could not be sent.');
    }
   }catch(Throwable $e){error_log('AvenPay admin password reset request failed: '.$e->getMessage());}
+ }
  }
 }
 $resetCsrf=av_reset_csrf_token();
