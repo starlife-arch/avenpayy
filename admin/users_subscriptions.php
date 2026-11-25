@@ -252,6 +252,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             );
         }
 
+        $ownerStmt = $conn->prepare('SELECT u.email, u.username FROM settlements s LEFT JOIN users u ON u.id = s.user_id WHERE s.id = ? LIMIT 1');
+        $ownerStmt->bind_param('i', $deleteId);
+        $ownerStmt->execute();
+        $owner = $ownerStmt->get_result()->fetch_assoc();
+        $ownerStmt->close();
+
         $stmt = $conn->prepare('DELETE FROM settlements WHERE id = ? LIMIT 1');
         if (!$stmt) {
             jsonResponse('error', 'Could not prepare the delete request.');
@@ -268,6 +274,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
         if (!$deleted) {
             jsonResponse('error', 'Settlement account not found.');
+        }
+
+        if ($owner && !empty($owner['email'])) {
+            av_notify_lifecycle((string)$owner['email'], (string)$owner['username'], 'An AvenPay settlement account was deleted', 'Settlement account deleted', 'An administrator deleted a settlement account from your AvenPay profile. Any API key associated with that settlement account is no longer usable.', ['Settlement account' => '#' . $deleteId, 'Date' => date('d M Y H:i:s T')], 'api', 'Review your AvenPay account', 'https://avenpay.co.ke/dashboard');
         }
 
         jsonResponse(
