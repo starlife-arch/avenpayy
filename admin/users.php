@@ -34,6 +34,8 @@ if (!$dbLoaded || !isset($conn) || $conn->connect_error) {
     exit('Error: Database connection could not be established.');
 }
 
+require_once __DIR__ . '/../lib/notifications.php';
+
 // Unique name avoids collisions with functions declared by admin frames.
 if (!function_exists('adminUsersEscape')) {
     function adminUsersEscape($value): string
@@ -93,6 +95,19 @@ if (
         exit();
     }
 
+    $targetStmt = $conn->prepare("SELECT username, email, status FROM users WHERE id = ? LIMIT 1");
+    $targetStmt->bind_param('i', $userId);
+    $targetStmt->execute();
+    $targetUser = $targetStmt->get_result()->fetch_assoc();
+    $targetStmt->close();
+
+    if (!$targetUser) {
+        http_response_code(404);
+        echo json_encode(['status' => 'error', 'message' => 'User account not found.']);
+        exit();
+    }
+    $newStatus = strtolower((string)$targetUser['status']) === 'active' ? 'suspended' : 'active';
+
     $updateStmt = $conn->prepare("
         UPDATE users
         SET status = CASE
@@ -118,6 +133,7 @@ if (
     $updateStmt->close();
 
     if ($updated && $changedRows > 0) {
+        av_notify_lifecycle((string)$targetUser['email'], (string)$targetUser['username'], $newStatus === 'suspended' ? 'Your AvenPay account has been suspended' : 'Your AvenPay account has been reactivated', $newStatus === 'suspended' ? 'Account suspended' : 'Account reactivated', $newStatus === 'suspended' ? 'An administrator has suspended access to your AvenPay account. Please contact support if you need assistance.' : 'An administrator has restored access to your AvenPay account.', ['Account status' => ucfirst($newStatus), 'Date' => date('d M Y H:i:s T')], 'security', 'Contact AvenPay Support', 'https://avenpay.co.ke/contact');
         echo json_encode([
             'status' => 'success',
             'message' => 'User status updated.',

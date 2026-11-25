@@ -2,6 +2,7 @@
 session_start();
 require_once __DIR__ . '/../database_config/db.php';
 require_once __DIR__ . '/../lib/security.php';
+require_once __DIR__ . '/../lib/notifications.php';
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') { av_rate_limit_or_die('register', 10, 3600); } 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -49,6 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("ssss", $name, $email, $phone, $hashed_password);
     
     if ($stmt->execute()) {
+        av_notify_lifecycle($email, $name, 'Welcome to AvenPay', 'Welcome to AvenPay, ' . $name, 'Your merchant account has been created. AvenPay helps you collect payments with C2B and STK Push, make B2C payouts and B2B payments, manage merchant wallets, track transactions, configure webhooks and test integrations in sandbox mode.', ['Next step' => 'Sign in and complete your merchant setup'], 'hello', 'Sign in to AvenPay', 'https://avenpay.co.ke/login');
         $_SESSION['success'] = "Account created successfully!";
         header("Location: /login"); // Absolute path
         exit;

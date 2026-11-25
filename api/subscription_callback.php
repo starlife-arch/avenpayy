@@ -12,6 +12,7 @@ if (!is_file($dbPath)) {
 }
 require_once $dbPath;
 require_once __DIR__ . '/../lib/subscription_payment.php';
+require_once __DIR__ . '/../lib/notifications.php';
 
 $data = json_decode(file_get_contents('php://input'), true);
 if (!isset($data['Body']['stkCallback']) || !is_array($data['Body']['stkCallback'])) {
@@ -38,6 +39,12 @@ foreach (($callback['CallbackMetadata']['Item'] ?? []) as $item) {
 }
 
 try {
+    $txLookup = $conn->prepare("SELECT user_id, settlement_id, amount FROM mpesa_transactions WHERE checkout_request_id = ? LIMIT 1");
+    $txLookup->bind_param('s', $checkoutRequestId);
+    $txLookup->execute();
+    $subscriptionTx = $txLookup->get_result()->fetch_assoc();
+    $txLookup->close();
+
     $result = av_finalize_subscription_payment(
         $conn,
         $checkoutRequestId,
@@ -45,6 +52,26 @@ try {
         $receiptNumber,
         $resultDesc
     );
+    if (!$result['already_processed'] && $result['status'] === 'FAILED' && $subscriptionTx) {
+        $ownerStmt = $conn->prepare("SELECT email, username FROM users WHERE id = ? LIMIT 1");
+        $ownerStmt->bind_param('i', $subscriptionTx['user_id']);
+        $ownerStmt->execute();
+        $owner = $ownerStmt->get_result()->fetch_assoc();
+        $ownerStmt->close();
+        if ($owner) {
+            av_notify_lifecycle((string)$owner['email'], (string)$owner['username'], 'AvenPay subscription payment was not completed', 'Subscription payment unsuccessful', 'Safaricom reported that your subscription payment did not complete. Your subscription has not been extended. You can try again from your AvenPay dashboard.', ['Amount attempted' => 'KES ' . number_format((float)$subscriptionTx['amount'], 2), 'Result' => $resultDesc], 'billing', 'Review subscription', 'https://avenpay.co.ke/dashboard');
+        }
+    }
+    if (!$result['already_processed'] && $result['status'] === 'SUCCESS' && $subscriptionTx) {
+        $ownerStmt = $conn->prepare("SELECT u.email, u.username, s.expiry_date FROM users u JOIN settlements s ON s.user_id = u.id WHERE u.id = ? AND s.id = ? LIMIT 1");
+        $ownerStmt->bind_param('ii', $subscriptionTx['user_id'], $subscriptionTx['settlement_id']);
+        $ownerStmt->execute();
+        $owner = $ownerStmt->get_result()->fetch_assoc();
+        $ownerStmt->close();
+        if ($owner) {
+            av_notify_lifecycle((string)$owner['email'], (string)$owner['username'], 'AvenPay subscription payment successful', 'Your subscription is active', 'Your subscription payment was confirmed and your settlement account access has been updated.', ['Amount paid' => 'KES ' . number_format((float)$subscriptionTx['amount'], 2), 'M-Pesa receipt' => $receiptNumber !== '' ? $receiptNumber : 'Confirmed', 'Expiry date' => (string)($owner['expiry_date'] ?? 'Lifetime / not set')], 'billing', 'View your dashboard', 'https://avenpay.co.ke/dashboard');
+        }
+    }
     echo json_encode([
         'status' => 'success',
         'message' => $result['already_processed']
