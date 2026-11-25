@@ -95,6 +95,19 @@ if (
         exit();
     }
 
+    $targetStmt = $conn->prepare("SELECT username, email, status FROM users WHERE id = ? LIMIT 1");
+    $targetStmt->bind_param('i', $userId);
+    $targetStmt->execute();
+    $targetUser = $targetStmt->get_result()->fetch_assoc();
+    $targetStmt->close();
+
+    if (!$targetUser) {
+        http_response_code(404);
+        echo json_encode(['status' => 'error', 'message' => 'User account not found.']);
+        exit();
+    }
+    $newStatus = strtolower((string)$targetUser['status']) === 'active' ? 'suspended' : 'active';
+
     $updateStmt = $conn->prepare("
         UPDATE users
         SET status = CASE
