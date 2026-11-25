@@ -5,7 +5,9 @@ require_once __DIR__ . '/../vendor/PHPMailer/src/PHPMailer.php';
 require_once __DIR__ . '/../vendor/PHPMailer/src/SMTP.php';
 
 /** Send an HTML email through the SMTP account configured in avenpay.env. Returns true on success. */
-function av_send_mail(string $toEmail, string $toName, string $subject, string $html): bool {
+function av_send_mail(string $toEmail, string $toName, string $subject, string $html, ?string &$error = null): bool {
+    $error = null;
+    $m = null;
     try {
         $host = parse_url((string) av_env('APP_URL', 'https://avenpay.co.ke'), PHP_URL_HOST) ?: 'avenpay.co.ke';
         $from = av_env('MAIL_FROM', 'no-reply@' . $host);
@@ -31,7 +33,9 @@ function av_send_mail(string $toEmail, string $toName, string $subject, string $
         $m->send();
         return true;
     } catch (Throwable $e) {
-        error_log('AvenPay mail failed: ' . $e->getMessage());
+        $mailError = ($m instanceof PHPMailer\\PHPMailer\\PHPMailer && $m->ErrorInfo !== '') ? $m->ErrorInfo : $e->getMessage();
+        $error = substr(preg_replace('/[\\r\\n\\t]+/', ' ', (string) $mailError), 0, 1000);
+        error_log('AvenPay mail failed: ' . $error);
         return false;
     }
 }
