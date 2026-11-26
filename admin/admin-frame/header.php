@@ -248,6 +248,7 @@ function renderNavLink($href, $icon, $label, $showIcon = true)
                 <?php
                 renderNavLink('b2c_settings', '', 'B2C Settings', false);
                 renderNavLink('b2c', '', 'B2C Payouts', false);
+                renderNavLink('b2c_wallets', '', 'B2C Wallets', false);
                 ?>
             </div>
         </div>
@@ -394,6 +395,7 @@ function renderNavLink($href, $icon, $label, $showIcon = true)
                 <?php
                 renderNavLink('b2c_settings', '', 'B2C Settings', false);
                 renderNavLink('b2c', '', 'B2C Payouts', false);
+                renderNavLink('b2c_wallets', '', 'B2C Wallets', false);
                 ?>
             </div>
         </div>
@@ -616,7 +618,7 @@ document.addEventListener('DOMContentLoaded', function () {
             menu: ['c2bSubMenu', 'c2bChevron']
         },
         {
-            routes: ['/admin/b2c_settings', '/admin/b2c'],
+            routes: ['/admin/b2c_settings', '/admin/b2c', '/admin/b2c_wallets'],
             menu: ['b2cSubMenu', 'b2cChevron']
         }
     ];
