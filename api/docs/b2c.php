@@ -144,7 +144,7 @@ if (file_exists($header_path)) {
                         <td class="p-3.5 font-sans font-bold text-slate-900">Check Top-Up Status</td>
                         <td class="p-3.5"><span class="bg-emerald-950 text-emerald-600 px-2 py-0.5 rounded-sm border border-emerald-800 font-bold">GET</span></td>
                         <td class="p-3.5 text-teal-700 domain-sensed-endpoint" data-path="/b2c/topup/check_status?checkout_id=">...</td>
-                        <td class="p-3.5 font-sans text-slate-500">Poll live status of wallet top-up</td>
+                        <td class="p-3.5 font-sans text-slate-500">Retrieve the latest top-up status recorded by AvenPay after the Safaricom callback.</td>
                     </tr>
                     <tr class="hover:bg-white/50">
                         <td class="p-3.5 font-sans font-bold text-slate-900">Disbursement Payout</td>
@@ -156,7 +156,7 @@ if (file_exists($header_path)) {
                         <td class="p-3.5 font-sans font-bold text-slate-900">Check Payout Status</td>
                         <td class="p-3.5"><span class="bg-emerald-950 text-emerald-600 px-2 py-0.5 rounded-sm border border-emerald-800 font-bold">POST</span></td>
                         <td class="p-3.5 text-teal-700 domain-sensed-endpoint" data-path="/b2c/payout/status">...</td>
-                        <td class="p-3.5 font-sans text-slate-500">Poll live status of processing disbursement</td>
+                        <td class="p-3.5 font-sans text-slate-500">Retrieve the latest payout status recorded by AvenPay after the Safaricom result callback.</td>
                     </tr>
                     <tr class="hover:bg-white/50">
                         <td class="p-3.5 font-sans font-bold text-slate-900">Safaricom result callback (internal)</td>
@@ -237,7 +237,7 @@ if (file_exists($header_path)) {
                     <div class="overflow-x-auto w-full">
                         <pre class="text-xs text-rose-600 whitespace-pre">{
   "status": "error",
-  "message": "Invalid Wallet ID or Security Credential"
+  "message": "Unauthorized: Incorrect Security Credential."
 }</pre>
                     </div>
                 </div>
