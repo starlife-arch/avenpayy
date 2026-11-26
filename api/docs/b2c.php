@@ -564,7 +564,7 @@ if (file_exists($header_path)) {
 </main>
 
 <script>
-const currentDomain = 'https://api.avenpay.co.ke';
+const currentDomain = 'https://www.avenpay.co.ke';
 
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('endpoint-bal').value = currentDomain + "/b2c/walletbalance";
