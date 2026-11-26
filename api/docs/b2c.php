@@ -100,7 +100,7 @@ if (file_exists($header_path)) {
             <i class="iclass fa-solid fa-circle-info text-teal-600"></i> Integration Overview
         </h2>
         <p class="text-xs text-slate-600 leading-relaxed">
-            Integrate AvenPay Business-to-Customer (B2C) operations to manage live wallet balance checks, receiver name lookups from past successful transaction histories, insufficient balance validation, instant wallet top-ups via M-Pesa STK Push, automated disbursement payouts, asynchronous status polling, and real-time webhook callback notifications.
+            Integrate AvenPay Business-to-Customer (B2C) operations to manage live wallet balance checks, receiver name lookups from past successful transaction histories, insufficient balance validation, instant wallet top-ups via M-Pesa STK Push, automated disbursement payouts, internal Safaricom result callbacks, and status polling through AvenPay.
         </p>
     </div>
 
@@ -144,7 +144,7 @@ if (file_exists($header_path)) {
                         <td class="p-3.5 font-sans font-bold text-slate-900">Check Top-Up Status</td>
                         <td class="p-3.5"><span class="bg-emerald-950 text-emerald-600 px-2 py-0.5 rounded-sm border border-emerald-800 font-bold">GET</span></td>
                         <td class="p-3.5 text-teal-700 domain-sensed-endpoint" data-path="/b2c/topup/check_status?checkout_id=">...</td>
-                        <td class="p-3.5 font-sans text-slate-500">Poll live status of wallet top-up</td>
+                        <td class="p-3.5 font-sans text-slate-500">Retrieve the latest top-up status recorded by AvenPay after the Safaricom callback.</td>
                     </tr>
                     <tr class="hover:bg-white/50">
                         <td class="p-3.5 font-sans font-bold text-slate-900">Disbursement Payout</td>
@@ -156,7 +156,7 @@ if (file_exists($header_path)) {
                         <td class="p-3.5 font-sans font-bold text-slate-900">Check Payout Status</td>
                         <td class="p-3.5"><span class="bg-emerald-950 text-emerald-600 px-2 py-0.5 rounded-sm border border-emerald-800 font-bold">POST</span></td>
                         <td class="p-3.5 text-teal-700 domain-sensed-endpoint" data-path="/b2c/payout/status">...</td>
-                        <td class="p-3.5 font-sans text-slate-500">Poll live status of processing disbursement</td>
+                        <td class="p-3.5 font-sans text-slate-500">Retrieve the latest payout status recorded by AvenPay after the Safaricom result callback.</td>
                     </tr>
                     <tr class="hover:bg-white/50">
                         <td class="p-3.5 font-sans font-bold text-slate-900">Safaricom result callback (internal)</td>
@@ -237,7 +237,7 @@ if (file_exists($header_path)) {
                     <div class="overflow-x-auto w-full">
                         <pre class="text-xs text-rose-600 whitespace-pre">{
   "status": "error",
-  "message": "Invalid Wallet ID or Security Credential"
+  "message": "Unauthorized: Incorrect Security Credential."
 }</pre>
                     </div>
                 </div>
@@ -552,19 +552,16 @@ if (file_exists($header_path)) {
         <p class="text-xs text-slate-500 leading-relaxed">
             This is AvenPay’s server-to-server callback receiver used by Safaricom to report B2C payout results. Do not register this URL as your merchant webhook and do not send requests to it yourself. It is protected by AvenPay callback authentication.
         </p>
-        <div class="space-y-1">
-            <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">Internal Safaricom callback receiver (reference only)</label>
-            <div class="flex items-center gap-2">
-                <input type="text" id="endpoint-result" readonly class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-sm text-xs font-mono text-teal-700 select-all">
-                <button onclick="copyInput('endpoint-result', 'Internal callback URL copied!')" class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-2 rounded-sm text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shrink-0">Copy</button>
-            </div>
+        <div class="rounded-sm border border-teal-200 bg-teal-50 p-4 text-xs text-teal-800">
+            <strong>Internal route:</strong> <code>/b2c/payout/result.php</code>.
+            AvenPay generates the protected Safaricom callback URL, including its authentication token, automatically when a payout is submitted. Do not copy, register, or call this internal route yourself. It is not your merchant webhook.
         </div>
     </div>
 
 </main>
 
 <script>
-const currentDomain = 'https://api.avenpay.co.ke';
+const currentDomain = 'https://www.avenpay.co.ke';
 
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('endpoint-bal').value = currentDomain + "/b2c/walletbalance";
@@ -573,7 +570,6 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('endpoint-top-status').value = currentDomain + "/b2c/topup/check_status?checkout_id=ws_CO_221020261200000001";
     document.getElementById('endpoint-pay').value = currentDomain + "/b2c/payout/withdraw";
     document.getElementById('endpoint-status').value = currentDomain + "/b2c/payout/status";
-    document.getElementById('endpoint-result').value = currentDomain + "/b2c/payout/result";
 
     document.querySelectorAll('.domain-sensed-endpoint').forEach(el => {
         const path = el.getAttribute('data-path');

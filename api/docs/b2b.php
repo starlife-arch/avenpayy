@@ -86,12 +86,12 @@ if (file_exists($header_path)) {
 <div class="text-[11px] font-mono"><span class="px-2 py-0.5 bg-teal-600 text-white rounded-sm font-bold">POST</span> <span class="text-slate-700">/b2c/payout/b2b_pay</span></div>
 <p class="text-xs text-slate-500">JSON or form-encoded body.</p>
 <table class="w-full text-xs"><thead class="text-slate-500 text-left"><tr><th class="p-2">Field</th><th class="p-2">Type</th><th class="p-2">Required</th><th class="p-2">Notes</th></tr></thead><tbody><tr class="border-t border-slate-200"><td class="p-2 font-mono text-amber-700">command_id</td><td class="p-2 text-slate-500">string</td><td class="p-2 text-slate-600">Yes</td><td class="p-2 text-slate-600">BusinessPayBill (to a Paybill) or BusinessBuyGoods (to a Till). Default: BusinessPayBill.</td></tr><tr class="border-t border-slate-200"><td class="p-2 font-mono text-amber-700">party_b</td><td class="p-2 text-slate-500">string</td><td class="p-2 text-slate-600">Yes</td><td class="p-2 text-slate-600">The Paybill or Till number: 5 to 7 digits.</td></tr><tr class="border-t border-slate-200"><td class="p-2 font-mono text-amber-700">account_reference</td><td class="p-2 text-slate-500">string</td><td class="p-2 text-slate-600">Paybill only</td><td class="p-2 text-slate-600">Account number or reference at the Paybill. Max 20 characters.</td></tr><tr class="border-t border-slate-200"><td class="p-2 font-mono text-amber-700">amount</td><td class="p-2 text-slate-500">integer</td><td class="p-2 text-slate-600">Yes</td><td class="p-2 text-slate-600">Whole KES. API minimum: 10.</td></tr><tr class="border-t border-slate-200"><td class="p-2 font-mono text-amber-700">remarks</td><td class="p-2 text-slate-500">string</td><td class="p-2 text-slate-600">No</td><td class="p-2 text-slate-600">Free text note. Max 100 characters.</td></tr></tbody></table>
-<div class="space-y-1.5"><div class="text-[10px] font-bold uppercase tracking-wider text-slate-500">cURL</div><pre class="bg-[#05080f] border border-slate-200 rounded-sm p-3 text-[11px] text-slate-700 overflow-x-auto"><code>curl -X POST "https://api.avenpay.co.ke/b2c/payout/b2b_pay" \
+<div class="space-y-1.5"><div class="text-[10px] font-bold uppercase tracking-wider text-slate-500">cURL</div><pre class="bg-[#05080f] border border-slate-200 rounded-sm p-3 text-[11px] text-slate-700 overflow-x-auto"><code>curl -X POST "https://www.avenpay.co.ke/b2c/payout/b2b_pay" \
   -H "X-Wallet-ID: WALLET_XYZ123" \
   -H "X-Security-Credential: your_security_credential" \
   -H "Idempotency-Key: inv-2026-0042" \
   -H "Content-Type: application/json" \
-  -d '{"command_id":"BusinessPayBill","party_b":"247247","account_reference":"INV-0042","amount":2500}'</code></pre></div><div class="space-y-1.5"><div class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Node.js</div><pre class="bg-[#05080f] border border-slate-200 rounded-sm p-3 text-[11px] text-slate-700 overflow-x-auto"><code>const res = await fetch("https://api.avenpay.co.ke/b2c/payout/b2b_pay", {
+  -d '{"command_id":"BusinessPayBill","party_b":"247247","account_reference":"INV-0042","amount":2500}'</code></pre></div><div class="space-y-1.5"><div class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Node.js</div><pre class="bg-[#05080f] border border-slate-200 rounded-sm p-3 text-[11px] text-slate-700 overflow-x-auto"><code>const res = await fetch("https://www.avenpay.co.ke/b2c/payout/b2b_pay", {
   method: "POST",
   headers: {
     "X-Wallet-ID": process.env.AVENPAY_WALLET_ID,
@@ -102,7 +102,7 @@ if (file_exists($header_path)) {
   body: JSON.stringify({ command_id: "BusinessBuyGoods", party_b: "5123456", amount: 1200 })
 });
 console.log(await res.json());</code></pre></div><div class="space-y-1.5"><div class="text-[10px] font-bold uppercase tracking-wider text-slate-500">PHP</div><pre class="bg-[#05080f] border border-slate-200 rounded-sm p-3 text-[11px] text-slate-700 overflow-x-auto"><code>&lt;?php
-$ch = curl_init("https://api.avenpay.co.ke/b2c/payout/b2b_pay");
+$ch = curl_init("https://www.avenpay.co.ke/b2c/payout/b2b_pay");
 curl_setopt_array($ch, [
   CURLOPT_POST =&gt; true, CURLOPT_RETURNTRANSFER =&gt; true,
   CURLOPT_HTTPHEADER =&gt; ["X-Wallet-ID: WALLET_XYZ123", "X-Security-Credential: your_security_credential", "Idempotency-Key: inv-2026-0042", "Content-Type: application/json"],
@@ -115,7 +115,7 @@ echo curl_exec($ch);</code></pre></div><div class="space-y-1.5"><div class="text
 <div class="bg-[rgba(15,23,42,0.95)] border border-[rgba(255,255,255,0.08)] p-6 rounded-sm shadow-xl space-y-4"><h2 class="text-sm font-black text-slate-900 uppercase tracking-wider">Check a payment</h2>
 <div class="text-[11px] font-mono"><span class="px-2 py-0.5 bg-slate-200 text-slate-900 rounded-sm font-bold">GET</span> <span class="text-slate-700">/b2c/payout/b2b_status?conversation_id=... or ?idempotency_key=...</span></div>
 <p class="text-xs text-slate-500"><code class="text-amber-700">state</code> is <b>pending</b>, <b>completed</b> or <b>failed</b>. Poll every few seconds for up to a minute; do not poll faster than twice a second.</p>
-<div class="space-y-1.5"><div class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Request and response</div><pre class="bg-[#05080f] border border-slate-200 rounded-sm p-3 text-[11px] text-slate-700 overflow-x-auto"><code>curl "https://api.avenpay.co.ke/b2c/payout/b2b_status?idempotency_key=inv-2026-0042" \
+<div class="space-y-1.5"><div class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Request and response</div><pre class="bg-[#05080f] border border-slate-200 rounded-sm p-3 text-[11px] text-slate-700 overflow-x-auto"><code>curl "https://www.avenpay.co.ke/b2c/payout/b2b_status?idempotency_key=inv-2026-0042" \
   -H "X-Wallet-ID: WALLET_XYZ123" -H "X-Security-Credential: your_security_credential"
 
 { "status": "success",

@@ -3,31 +3,8 @@ if (file_exists(__DIR__ . '/database_config/db.php')) {
     require_once __DIR__ . '/database_config/db.php';
 }
 
-/*
- * Detect the request's scheme and hostname.
- * If behind a reverse proxy, configure trusted HTTPS handling server-side.
- */
-$isHttps = (
-    (!empty($_SERVER['HTTPS']) && strtolower((string) $_SERVER['HTTPS']) !== 'off')
-    || (isset($_SERVER['SERVER_PORT']) && (int) $_SERVER['SERVER_PORT'] === 443)
-);
-
-$protocol = $isHttps ? 'https://' : 'http://';
-$host = 'api.avenpay.co.ke';
-$parsedHost = parse_url($protocol . $host, PHP_URL_HOST);
-
-if (
-    !$parsedHost
-    || !preg_match('/^[a-zA-Z0-9.-]+$/', $parsedHost)
-    || strpos($parsedHost, '..') !== false
-) {
-    http_response_code(400);
-    exit('Invalid request hostname.');
-}
-
-$port = parse_url($protocol . $host, PHP_URL_PORT);
-$authority = $parsedHost . ($port ? ':' . $port : '');
-$currentGatewayUrl = $protocol . $authority . '/api/';
+// Canonical public API origin. AvenPay does not require an api. subdomain.
+$currentGatewayUrl = 'https://www.avenpay.co.ke/api/';
 
 include $_SERVER['DOCUMENT_ROOT'] . '/frame/header.php';
 ?>
@@ -660,10 +637,10 @@ include $_SERVER['DOCUMENT_ROOT'] . '/frame/header.php';
                                     <td>Check a transaction's status.</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Callback</strong></td>
+                                    <td><strong>Merchant webhook</strong></td>
                                     <td><span class="method method-post">POST</span></td>
-                                    <td><code class="inline" data-endpoint="callback"></code></td>
-                                    <td>Receive payment notifications.</td>
+                                    <td><code class="inline">Your HTTPS webhook URL configured in AvenPay</code></td>
+                                    <td>AvenPay sends the verified payment result to your server.</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -972,11 +949,11 @@ print(response.json())</code></pre>
                                 Successful payment
                             </div>
 <pre><code>{
-  "id": "241",
+  "checkout_id": "ws_CO_070720261234567890",
   "status": "SUCCESS",
-  "phone_number": "254712345678",
-  "amount": "10.00",
-  "mpesa_receipt_number": "TGR7XYZ890"
+  "mpesa_receipt": "TGR7XYZ890",
+  "amount": 10,
+  "result_code": 0
 }</code></pre>
                         </div>
 
@@ -986,11 +963,10 @@ print(response.json())</code></pre>
                                 Pending payment
                             </div>
 <pre><code>{
-  "id": "241",
+  "checkout_id": "ws_CO_070720261234567890",
   "status": "PENDING",
-  "phone_number": "254712345678",
-  "amount": "10.00",
-  "mpesa_receipt_number": null
+  "mpesa_receipt": "N/A",
+  "amount": 10
 }</code></pre>
                         </div>
                     </div>
@@ -1008,17 +984,15 @@ print(response.json())</code></pre>
                     </div>
 
                     <p class="section-intro">
-                        Safaricom sends its STK callback to AvenPay at <code class="inline">https://api.avenpay.co.ke/api/callback.php</code>. This is an internal receiver protected by AvenPay callback authentication; merchants must not register it as their own callback endpoint. Set your own HTTPS webhook URL in the merchant settlement settings. AvenPay sends your server a POST with the JSON payload shown below and an <code class="inline">X-AvenPay-Signature</code> header.
+                        Safaricom sends its STK callback to AvenPay's internal <code class="inline">POST /api/callback.php</code> receiver. AvenPay generates the protected callback URL automatically; merchants must not register or call this internal endpoint. Configure your own HTTPS webhook URL in your merchant settlement settings. After AvenPay verifies and records the Safaricom result, it sends your server a POST with the JSON payload shown below and an <code class="inline">X-AvenPay-Signature</code> header.
                     </p>
 
-                    <div class="endpoint-bar">
-                        <span class="method method-post">POST</span>
-                        <code>Safaricom → AvenPay: /api/callback.php (internal)</code>
-                        <button
-                            type="button"
-                            class="copy-button"
-                            onclick="copyText(this.previousElementSibling.innerText, this)"
-                        >Copy URL</button>
+                    <div class="notice">
+                        <i class="fa-solid fa-lock" aria-hidden="true"></i>
+                        <span>
+                            Internal Safaricom receiver: <code class="inline">POST /api/callback.php</code>.
+                            AvenPay generates and registers its protected callback URL automatically. This is not your merchant webhook URL.
+                        </span>
                     </div>
 
                     <div class="code-box">
@@ -1038,7 +1012,7 @@ print(response.json())</code></pre>
                     <div class="notice">
                         <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
                         <span>
-                            Verify the <code class="inline">X-AvenPay-Signature</code> header using HMAC-SHA256 over <code class="inline">timestamp + "." + raw request body</code> and your settlement webhook secret. Reject stale timestamps, validate amount and receipt, and process each checkout ID idempotently before fulfilling an order. Keep the webhook secret private.
+                            The signature header format is <code class="inline">t=&lt;unix_timestamp&gt;,v1=&lt;hex_digest&gt;</code>. Split out <code class="inline">t</code> and <code class="inline">v1</code>, then calculate HMAC-SHA256 with your settlement webhook secret over the exact bytes <code class="inline">t + "." + raw_request_body</code>. Compare the hex digest using a constant-time comparison (for example, <code class="inline">hash_equals</code> in PHP). Reject stale timestamps and invalid signatures. Validate amount and receipt, and process each checkout ID idempotently before fulfilling an order. Keep the webhook secret private.
                         </span>
                     </div>
                 </section>
