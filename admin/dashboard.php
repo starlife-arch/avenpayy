@@ -434,6 +434,10 @@ include 'admin-frame/header.php';
                     KES <?php echo number_format($admin_b2c_balance, 0); ?>
                 </div>
                 <p class="text-[9px] font-medium text-slate-500 dark:text-slate-400">B2C Disbursal Funds</p>
+                <div class="mt-2 flex flex-col items-start gap-1">
+                    <button type="button" id="refreshAdminBalances" onclick="refreshAdminBalances()" class="rounded-md bg-teal-700 px-3 py-1.5 text-[10px] font-bold text-white hover:bg-teal-800 disabled:opacity-60">Refresh Safaricom Balances</button>
+                    <span id="adminBalanceRefreshStatus" class="text-[9px] text-slate-500 dark:text-slate-400" role="status" aria-live="polite"></span>
+                </div>
             </div>
             <div class="w-9 h-9 rounded-sm bg-teal-600 text-white shadow-xs flex items-center justify-center shrink-0">
                 <i class="iclass fa-solid fa-landmark text-xs"></i>
@@ -590,15 +594,29 @@ include 'admin-frame/header.php';
     }
 
     // Silent background polling stream for ALL dashboard cards every 1 second
+    async function refreshAdminBalances() {
+        const button = document.getElementById('refreshAdminBalances');
+        const status = document.getElementById('adminBalanceRefreshStatus');
+        if (button) { button.disabled = true; button.textContent = 'Requesting...'; }
+        if (status) status.textContent = 'Requesting latest Safaricom balances...';
+        try {
+            const response = await fetch('/admin/fetch_admin_balance.php?action=sync', {
+                method: 'GET', cache: 'no-store', credentials: 'same-origin'
+            });
+            const result = await response.json();
+            if (!response.ok || result.sync_error || !result.sync_dispatched) {
+                throw new Error(result.sync_error || result.message || 'Safaricom balance request could not be sent.');
+            }
+            if (status) status.textContent = 'Request accepted. Waiting for Safaricom callback; balances update when it arrives.';
+        } catch (error) {
+            if (status) status.textContent = 'Balance refresh failed: ' + (error.message || 'Unknown error');
+        } finally {
+            if (button) { button.disabled = false; button.textContent = 'Refresh Safaricom Balances'; }
+        }
+    }
+
+    // Only poll stored data. Do not send Account Balance requests automatically.
     function startSilentGlobalStream() {
-        const triggerSync = () => {
-            fetch('/admin/fetch_admin_balance.php?action=sync').catch(() => {});
-        };
-
-        // 1. Fire live Daraja sync request once on load and every 15s safely
-        triggerSync();
-        setInterval(triggerSync, 15000);
-
         // 2. Poll every 1 second (1000ms) to update ALL cards silently without page reloads
         setInterval(() => {
             // Update Multi-Wallet Balances

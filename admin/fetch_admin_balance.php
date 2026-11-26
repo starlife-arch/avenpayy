@@ -82,44 +82,44 @@ if (!class_exists('SecureVault')) {
 // --------------------------------------------------
 function getProductionDarajaConfig($conn)
 {
-    $stmt = $conn->prepare("SELECT shortcode, initiator_name, consumer_key, consumer_secret, initiator_password FROM daraja_b2c_settings ORDER BY id ASC LIMIT 1");
+    // Reuse the exact gateway credentials used by the working B2C Paybill pull.
+    // daraja_gateways stores gateway credentials in plaintext.
+    $b2cResult = $conn->query("SELECT shortcode FROM daraja_b2c_settings ORDER BY id ASC LIMIT 1");
+    $b2cRow = $b2cResult ? $b2cResult->fetch_assoc() : null;
+    $shortcode = trim((string)($b2cRow['shortcode'] ?? ''));
+    if ($shortcode === '') {
+        throw new Exception('B2C shortcode is missing from daraja_b2c_settings.');
+    }
+
+    $stmt = $conn->prepare(
+        "SELECT shortcode, initiator_username, consumer_key, consumer_secret, initiator_password
+         FROM daraja_gateways WHERE shortcode = ? ORDER BY id ASC LIMIT 1"
+    );
+    if (!$stmt) {
+        throw new Exception('Unable to prepare Daraja gateway configuration lookup.');
+    }
+    $stmt->bind_param('s', $shortcode);
     $stmt->execute();
-    $b2cConfig = $stmt->get_result()->fetch_assoc();
+    $gateway = $stmt->get_result()->fetch_assoc();
     $stmt->close();
 
-    if (!$b2cConfig) {
-        throw new Exception('Daraja B2C settings are missing from daraja_b2c_settings.');
+    if (!$gateway) {
+        throw new Exception('No matching Daraja gateway was found for the configured B2C shortcode.');
     }
 
-    $settings = array(
-        'paybill'             => trim($b2cConfig['shortcode']),
-        'initiator_username'  => trim($b2cConfig['initiator_name']),
-        'consumer_key'        => trim($b2cConfig['consumer_key']),
-        'consumer_secret'     => trim($b2cConfig['consumer_secret']),
-        'initiator_password'  => trim($b2cConfig['initiator_password'])
-    );
+    $settings = [
+        'paybill' => trim((string)$gateway['shortcode']),
+        'initiator_username' => trim((string)$gateway['initiator_username']),
+        'consumer_key' => trim((string)$gateway['consumer_key']),
+        'consumer_secret' => trim((string)$gateway['consumer_secret']),
+        'initiator_password' => trim((string)$gateway['initiator_password'])
+    ];
 
-    // Decrypt credentials if stored encrypted
-    $settings['consumer_key']       = SecureVault::decrypt($settings['consumer_key']) ?: $settings['consumer_key'];
-    $settings['consumer_secret']    = SecureVault::decrypt($settings['consumer_secret']) ?: $settings['consumer_secret'];
-    $settings['initiator_password'] = SecureVault::decrypt($settings['initiator_password']) ?: $settings['initiator_password'];
-
-    $requiredKeys = array(
-        'consumer_key',
-        'consumer_secret',
-        'initiator_username',
-        'initiator_password',
-        'paybill'
-    );
-
-    foreach ($requiredKeys as $key) {
-        if (empty($settings[$key])) {
-            throw new Exception(
-                'Missing or undecryptable Daraja configuration in daraja_b2c_settings: ' . $key
-            );
+    foreach (['paybill', 'initiator_username', 'consumer_key', 'consumer_secret', 'initiator_password'] as $key) {
+        if ($settings[$key] === '') {
+            throw new Exception('Missing Daraja gateway configuration: ' . $key);
         }
     }
-
     return $settings;
 }
 
