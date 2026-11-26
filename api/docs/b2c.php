@@ -100,7 +100,7 @@ if (file_exists($header_path)) {
             <i class="iclass fa-solid fa-circle-info text-teal-600"></i> Integration Overview
         </h2>
         <p class="text-xs text-slate-600 leading-relaxed">
-            Integrate AvenPay Business-to-Customer (B2C) operations to manage live wallet balance checks, receiver name lookups from past successful transaction histories, insufficient balance validation, instant wallet top-ups via M-Pesa STK Push, automated disbursement payouts, asynchronous status polling, and real-time webhook callback notifications.
+            Integrate AvenPay Business-to-Customer (B2C) operations to manage live wallet balance checks, receiver name lookups from past successful transaction histories, insufficient balance validation, instant wallet top-ups via M-Pesa STK Push, automated disbursement payouts, internal Safaricom result callbacks, and status polling through AvenPay.
         </p>
     </div>
 
