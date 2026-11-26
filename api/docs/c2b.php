@@ -987,14 +987,12 @@ print(response.json())</code></pre>
                         Safaricom sends its STK callback to AvenPay's internal <code class="inline">POST /api/callback.php</code> receiver. AvenPay generates the protected callback URL automatically; merchants must not register or call this internal endpoint. Configure your own HTTPS webhook URL in your merchant settlement settings. After AvenPay verifies and records the Safaricom result, it sends your server a POST with the JSON payload shown below and an <code class="inline">X-AvenPay-Signature</code> header.
                     </p>
 
-                    <div class="endpoint-bar">
-                        <span class="method method-post">POST</span>
-                        <code>Safaricom → AvenPay: /api/callback.php (internal)</code>
-                        <button
-                            type="button"
-                            class="copy-button"
-                            onclick="copyText(this.previousElementSibling.innerText, this)"
-                        >Copy URL</button>
+                    <div class="notice">
+                        <i class="fa-solid fa-lock" aria-hidden="true"></i>
+                        <span>
+                            Internal Safaricom receiver: <code class="inline">POST /api/callback.php</code>.
+                            AvenPay generates and registers its protected callback URL automatically. This is not your merchant webhook URL.
+                        </span>
                     </div>
 
                     <div class="code-box">
@@ -1014,7 +1012,7 @@ print(response.json())</code></pre>
                     <div class="notice">
                         <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
                         <span>
-                            Verify the <code class="inline">X-AvenPay-Signature</code> header using HMAC-SHA256 over <code class="inline">timestamp + "." + raw request body</code> and your settlement webhook secret. Reject stale timestamps, validate amount and receipt, and process each checkout ID idempotently before fulfilling an order. Keep the webhook secret private.
+                            The signature header format is <code class="inline">t=&lt;unix_timestamp&gt;,v1=&lt;hex_digest&gt;</code>. Split out <code class="inline">t</code> and <code class="inline">v1</code>, then calculate HMAC-SHA256 with your settlement webhook secret over the exact bytes <code class="inline">t + "." + raw_request_body</code>. Compare the hex digest using a constant-time comparison (for example, <code class="inline">hash_equals</code> in PHP). Reject stale timestamps and invalid signatures. Validate amount and receipt, and process each checkout ID idempotently before fulfilling an order. Keep the webhook secret private.
                         </span>
                     </div>
                 </section>
