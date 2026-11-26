@@ -26,8 +26,9 @@ function av_wallet_apply(mysqli $conn, int $userId, float $delta, string $entryT
         $heldAfter = round((float)($row['on_hold_amount'] ?? 0), 2);
         if ($new < 0) { if ($manageTx) $conn->rollback(); $why = 'insufficient'; return false; }
 
-        $ins = $conn->prepare("INSERT INTO wallet_ledger (user_id, admin_id, entry_type, amount, balance_after, held_after, ref_type, ref_id, note) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $ins->bind_param("iisdddsss", $userId, $adminId, $entryType, $delta, $new, $heldAfter, $refType, $refId, $note);
+        $adminOperationKey = $adminId !== null ? $refId : null;
+        $ins = $conn->prepare("INSERT INTO wallet_ledger (user_id, admin_id, admin_operation_key, entry_type, amount, balance_after, held_after, ref_type, ref_id, note) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $ins->bind_param("iissdddsss", $userId, $adminId, $adminOperationKey, $entryType, $delta, $new, $heldAfter, $refType, $refId, $note);
         try {
             $ins->execute();
         } catch (mysqli_sql_exception $e) {
@@ -97,8 +98,9 @@ function av_wallet_hold_apply(mysqli $conn, int $userId, float $amount, string $
         $newBalance = round($balance + $delta, 2);
         $newHeld = round($held - $delta, 2);
         $refType = 'admin_hold';
-        $ins = $conn->prepare("INSERT INTO wallet_ledger (user_id, admin_id, entry_type, amount, balance_after, held_after, ref_type, ref_id, note) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $ins->bind_param("iisdddsss", $userId, $adminId, $entryType, $delta, $newBalance, $newHeld, $refType, $refId, $note);
+        $adminOperationKey = $refId;
+        $ins = $conn->prepare("INSERT INTO wallet_ledger (user_id, admin_id, admin_operation_key, entry_type, amount, balance_after, held_after, ref_type, ref_id, note) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $ins->bind_param("iissdddsss", $userId, $adminId, $adminOperationKey, $entryType, $delta, $newBalance, $newHeld, $refType, $refId, $note);
         try {
             $ins->execute();
         } catch (mysqli_sql_exception $e) {
