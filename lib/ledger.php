@@ -1,9 +1,8 @@
 <?php
 /**
- * Wallet ledger. EVERY change to users.b2c_wallet_balance must go through av_wallet_apply():
- * it locks the wallet row, checks funds, writes an immutable ledger line and updates the balance
- * in one step. The UNIQUE (entry_type, ref_type, ref_id) key makes each movement idempotent:
- * the same payout can never be refunded twice and the same top-up can never be credited twice.
+ * B2C wallet ledger. Balance adjustments use av_wallet_apply(); held-fund transfers use
+ * av_wallet_hold_apply(). Both lock the wallet row and commit the wallet state with an
+ * immutable ledger row. Admin operations also carry a globally unique operation key and actor ID.
  *
  * @param float  $delta      signed amount (+ credit, - debit)
  * @param bool   $manageTx   true  = function opens/commits its own transaction
