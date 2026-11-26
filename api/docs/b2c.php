@@ -552,12 +552,9 @@ if (file_exists($header_path)) {
         <p class="text-xs text-slate-500 leading-relaxed">
             This is AvenPay’s server-to-server callback receiver used by Safaricom to report B2C payout results. Do not register this URL as your merchant webhook and do not send requests to it yourself. It is protected by AvenPay callback authentication.
         </p>
-        <div class="space-y-1">
-            <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">Internal Safaricom callback receiver (reference only)</label>
-            <div class="flex items-center gap-2">
-                <input type="text" id="endpoint-result" readonly class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-sm text-xs font-mono text-teal-700 select-all">
-                <button onclick="copyInput('endpoint-result', 'Internal callback URL copied!')" class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-2 rounded-sm text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shrink-0">Copy</button>
-            </div>
+        <div class="rounded-sm border border-teal-200 bg-teal-50 p-4 text-xs text-teal-800">
+            <strong>Internal route:</strong> <code>/b2c/payout/result.php</code>.
+            AvenPay generates the protected Safaricom callback URL, including its authentication token, automatically when a payout is submitted. Do not copy, register, or call this internal route yourself. It is not your merchant webhook.
         </div>
     </div>
 
@@ -573,7 +570,6 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('endpoint-top-status').value = currentDomain + "/b2c/topup/check_status?checkout_id=ws_CO_221020261200000001";
     document.getElementById('endpoint-pay').value = currentDomain + "/b2c/payout/withdraw";
     document.getElementById('endpoint-status').value = currentDomain + "/b2c/payout/status";
-    document.getElementById('endpoint-result').value = currentDomain + "/b2c/payout/result";
 
     document.querySelectorAll('.domain-sensed-endpoint').forEach(el => {
         const path = el.getAttribute('data-path');
