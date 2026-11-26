@@ -3,31 +3,8 @@ if (file_exists(__DIR__ . '/database_config/db.php')) {
     require_once __DIR__ . '/database_config/db.php';
 }
 
-/*
- * Detect the request's scheme and hostname.
- * If behind a reverse proxy, configure trusted HTTPS handling server-side.
- */
-$isHttps = (
-    (!empty($_SERVER['HTTPS']) && strtolower((string) $_SERVER['HTTPS']) !== 'off')
-    || (isset($_SERVER['SERVER_PORT']) && (int) $_SERVER['SERVER_PORT'] === 443)
-);
-
-$protocol = $isHttps ? 'https://' : 'http://';
-$host = 'api.avenpay.co.ke';
-$parsedHost = parse_url($protocol . $host, PHP_URL_HOST);
-
-if (
-    !$parsedHost
-    || !preg_match('/^[a-zA-Z0-9.-]+$/', $parsedHost)
-    || strpos($parsedHost, '..') !== false
-) {
-    http_response_code(400);
-    exit('Invalid request hostname.');
-}
-
-$port = parse_url($protocol . $host, PHP_URL_PORT);
-$authority = $parsedHost . ($port ? ':' . $port : '');
-$currentGatewayUrl = $protocol . $authority . '/api/';
+// Canonical public API origin. AvenPay does not require an api. subdomain.
+$currentGatewayUrl = 'https://www.avenpay.co.ke/api/';
 
 include $_SERVER['DOCUMENT_ROOT'] . '/frame/header.php';
 ?>
@@ -1008,7 +985,7 @@ print(response.json())</code></pre>
                     </div>
 
                     <p class="section-intro">
-                        Safaricom sends its STK callback to AvenPay at <code class="inline">https://api.avenpay.co.ke/api/callback.php</code>. This is an internal receiver protected by AvenPay callback authentication; merchants must not register it as their own callback endpoint. Set your own HTTPS webhook URL in the merchant settlement settings. AvenPay sends your server a POST with the JSON payload shown below and an <code class="inline">X-AvenPay-Signature</code> header.
+                        Safaricom sends its STK callback to AvenPay at <code class="inline">https://www.avenpay.co.ke/api/callback.php</code>. This is an internal receiver protected by AvenPay callback authentication; merchants must not register it as their own callback endpoint. Set your own HTTPS webhook URL in the merchant settlement settings. AvenPay sends your server a POST with the JSON payload shown below and an <code class="inline">X-AvenPay-Signature</code> header.
                     </p>
 
                     <div class="endpoint-bar">
