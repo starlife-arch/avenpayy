@@ -637,10 +637,10 @@ include $_SERVER['DOCUMENT_ROOT'] . '/frame/header.php';
                                     <td>Check a transaction's status.</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Callback</strong></td>
+                                    <td><strong>Merchant webhook</strong></td>
                                     <td><span class="method method-post">POST</span></td>
-                                    <td><code class="inline" data-endpoint="callback"></code></td>
-                                    <td>Receive payment notifications.</td>
+                                    <td><code class="inline">Your HTTPS webhook URL configured in AvenPay</code></td>
+                                    <td>AvenPay sends the verified payment result to your server.</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -949,11 +949,11 @@ print(response.json())</code></pre>
                                 Successful payment
                             </div>
 <pre><code>{
-  "id": "241",
+  "checkout_id": "ws_CO_070720261234567890",
   "status": "SUCCESS",
-  "phone_number": "254712345678",
-  "amount": "10.00",
-  "mpesa_receipt_number": "TGR7XYZ890"
+  "mpesa_receipt": "TGR7XYZ890",
+  "amount": 10,
+  "result_code": 0
 }</code></pre>
                         </div>
 
@@ -963,11 +963,10 @@ print(response.json())</code></pre>
                                 Pending payment
                             </div>
 <pre><code>{
-  "id": "241",
+  "checkout_id": "ws_CO_070720261234567890",
   "status": "PENDING",
-  "phone_number": "254712345678",
-  "amount": "10.00",
-  "mpesa_receipt_number": null
+  "mpesa_receipt": "N/A",
+  "amount": 10
 }</code></pre>
                         </div>
                     </div>
@@ -985,7 +984,7 @@ print(response.json())</code></pre>
                     </div>
 
                     <p class="section-intro">
-                        Safaricom sends its STK callback to AvenPay at <code class="inline">https://www.avenpay.co.ke/api/callback.php</code>. This is an internal receiver protected by AvenPay callback authentication; merchants must not register it as their own callback endpoint. Set your own HTTPS webhook URL in the merchant settlement settings. AvenPay sends your server a POST with the JSON payload shown below and an <code class="inline">X-AvenPay-Signature</code> header.
+                        Safaricom sends its STK callback to AvenPay's internal <code class="inline">POST /api/callback.php</code> receiver. AvenPay generates the protected callback URL automatically; merchants must not register or call this internal endpoint. Configure your own HTTPS webhook URL in your merchant settlement settings. After AvenPay verifies and records the Safaricom result, it sends your server a POST with the JSON payload shown below and an <code class="inline">X-AvenPay-Signature</code> header.
                     </p>
 
                     <div class="endpoint-bar">
