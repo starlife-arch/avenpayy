@@ -395,6 +395,7 @@ function renderNavLink($href, $icon, $label, $showIcon = true)
                 <?php
                 renderNavLink('b2c_settings', '', 'B2C Settings', false);
                 renderNavLink('b2c', '', 'B2C Payouts', false);
+                renderNavLink('b2c_wallets', '', 'B2C Wallets', false);
                 ?>
             </div>
         </div>
