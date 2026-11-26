@@ -213,10 +213,10 @@ include 'admin-frame/header.php';
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <!-- Dashboard Main View -->
-<div class="space-y-4">
+<div class="w-full min-w-0 space-y-6">
     <!-- Welcome Banner Card -->
     <div class="p-4 sm:p-5 rounded-md bg-gradient-to-br from-teal-500/10 via-white to-white border border-teal-300/80 dark:bg-[#0f172a] dark:border-teal-500/30 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-        <div class="space-y-0.5">
+        <div class="min-w-0 flex-1 space-y-1">
             <h1 class="text-lg font-bold tracking-tight text-slate-800 dark:text-slate-100 flex flex-wrap items-center">
                 <span class="text-black dark:font-black dark:tracking-widest dark:text-teal-400">Welcome back,&nbsp;</span>
                 <span class="text-black dark:font-black dark:tracking-widest dark:text-teal-400"><?php echo htmlspecialchars($_SESSION['admin_username'] ?? 'Admin', ENT_QUOTES, 'UTF-8'); ?>! 👋</span>
@@ -241,75 +241,75 @@ include 'admin-frame/header.php';
     </div>
 
     <!-- Quick Stats Grid (C2B Collections) -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 items-stretch">
         <!-- Today Payins -->
-        <div class="p-4 rounded-md bg-gradient-to-br from-teal-500/10 via-white to-white border border-teal-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-center justify-between gap-4">
-            <div class="space-y-0.5">
-                <span class="text-[11px] font-bold uppercase tracking-wider text-teal-900 dark:text-teal-300 block">Today's Payins</span>
-                <div id="valDailyPayins" class="text-xl font-black text-teal-950 dark:text-slate-100">KES <?php echo number_format($daily_volume, 0); ?></div>
+        <div class="p-4 min-w-0 h-full rounded-md bg-gradient-to-br from-teal-500/10 via-white to-white border border-teal-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-start justify-between gap-3 min-w-0">
+            <div class="min-w-0 flex-1 space-y-1">
+                <span class="text-[11px] leading-snug font-bold uppercase tracking-wide text-teal-900 dark:text-teal-300 block">Today's Payins</span>
+                <div id="valDailyPayins" class="text-xl leading-tight font-black tabular-nums break-words text-teal-950 dark:text-slate-100">KES <?php echo number_format($daily_volume, 0); ?></div>
                 <p class="text-[10px] font-medium text-slate-500 dark:text-slate-400">Successful daily sum</p>
             </div>
-            <div class="w-10 h-10 rounded-sm bg-teal-600 text-white shadow-xs flex items-center justify-center shrink-0">
+            <div class="w-10 h-10 rounded-lg bg-teal-600 text-white shadow-xs flex items-center justify-center shrink-0">
                 <i class="iclass fa-solid fa-coins text-xs"></i>
             </div>
         </div>
 
         <!-- Monthly Payins -->
-        <div class="p-4 rounded-md bg-gradient-to-br from-amber-500/10 via-white to-white border border-amber-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-center justify-between gap-4">
-            <div class="space-y-0.5">
-                <span class="text-[11px] font-bold uppercase tracking-wider text-amber-900 dark:text-amber-300 block">This Month Payins</span>
-                <div id="valMonthlyPayins" class="text-xl font-black text-amber-950 dark:text-slate-100">KES <?php echo number_format($monthly_volume, 0); ?></div>
+        <div class="p-4 min-w-0 h-full rounded-md bg-gradient-to-br from-amber-500/10 via-white to-white border border-amber-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-start justify-between gap-3 min-w-0">
+            <div class="min-w-0 flex-1 space-y-1">
+                <span class="text-[11px] leading-snug font-bold uppercase tracking-wide text-amber-900 dark:text-amber-300 block">This Month Payins</span>
+                <div id="valMonthlyPayins" class="text-xl leading-tight font-black tabular-nums break-words text-amber-950 dark:text-slate-100">KES <?php echo number_format($monthly_volume, 0); ?></div>
                 <p class="text-[10px] font-medium text-slate-500 dark:text-slate-400">Successful monthly sum</p>
             </div>
-            <div class="w-10 h-10 rounded-sm bg-amber-600 text-white shadow-xs flex items-center justify-center shrink-0">
+            <div class="w-10 h-10 rounded-lg bg-amber-600 text-white shadow-xs flex items-center justify-center shrink-0">
                 <i class="iclass fa-solid fa-wallet text-xs"></i>
             </div>
         </div>
 
         <!-- Total Volume -->
-        <div class="p-4 rounded-md bg-gradient-to-br from-emerald-500/10 via-white to-white border border-emerald-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-center justify-between gap-4">
-            <div class="space-y-0.5">
-                <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-900 dark:text-emerald-300 block">Total Volume</span>
-                <div id="valTotalVolume" class="text-xl font-black text-emerald-950 dark:text-slate-100">KES <?php echo number_format($total_successful_amount, 0); ?></div>
+        <div class="p-4 min-w-0 h-full rounded-md bg-gradient-to-br from-emerald-500/10 via-white to-white border border-emerald-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-start justify-between gap-3 min-w-0">
+            <div class="min-w-0 flex-1 space-y-1">
+                <span class="text-[11px] leading-snug font-bold uppercase tracking-wide text-emerald-900 dark:text-emerald-300 block">Total Volume</span>
+                <div id="valTotalVolume" class="text-xl leading-tight font-black tabular-nums break-words text-emerald-950 dark:text-slate-100">KES <?php echo number_format($total_successful_amount, 0); ?></div>
                 <p class="text-[10px] font-medium text-slate-500 dark:text-slate-400">All-time successful sum</p>
             </div>
-            <div class="w-10 h-10 rounded-sm bg-emerald-600 text-white shadow-xs flex items-center justify-center shrink-0">
+            <div class="w-10 h-10 rounded-lg bg-emerald-600 text-white shadow-xs flex items-center justify-center shrink-0">
                 <i class="iclass fa-solid fa-vault text-xs"></i>
             </div>
         </div>
 
         <!-- Registered Users -->
-        <div class="p-4 rounded-md bg-gradient-to-br from-teal-500/10 via-white to-white border border-teal-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-center justify-between gap-4">
-            <div class="space-y-0.5">
-                <span class="text-[11px] font-bold uppercase tracking-wider text-teal-900 dark:text-teal-300 block">Users</span>
-                <div id="valUsers" class="text-xl font-black text-teal-950 dark:text-slate-100"><?php echo number_format($total_registered_users, 0); ?></div>
+        <div class="p-4 min-w-0 h-full rounded-md bg-gradient-to-br from-teal-500/10 via-white to-white border border-teal-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-start justify-between gap-3 min-w-0">
+            <div class="min-w-0 flex-1 space-y-1">
+                <span class="text-[11px] leading-snug font-bold uppercase tracking-wide text-teal-900 dark:text-teal-300 block">Users</span>
+                <div id="valUsers" class="text-xl leading-tight font-black tabular-nums break-words text-teal-950 dark:text-slate-100"><?php echo number_format($total_registered_users, 0); ?></div>
                 <p class="text-[10px] font-medium text-slate-500 dark:text-slate-400">Total accounts created</p>
             </div>
-            <div class="w-10 h-10 rounded-sm bg-teal-600 text-white shadow-xs flex items-center justify-center shrink-0">
+            <div class="w-10 h-10 rounded-lg bg-teal-600 text-white shadow-xs flex items-center justify-center shrink-0">
                 <i class="iclass fa-solid fa-users text-xs"></i>
             </div>
         </div>
 
         <!-- Webhooks Sent -->
-        <div class="p-4 rounded-md bg-gradient-to-br from-teal-500/10 via-white to-white border border-teal-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-center justify-between gap-4">
-            <div class="space-y-0.5">
-                <span class="text-[11px] font-bold uppercase tracking-wider text-teal-900 dark:text-teal-300 block">Webhooks Sent</span>
-                <div id="valWebhooks" class="text-xl font-black text-teal-950 dark:text-slate-100"><?php echo number_format($total_webhooks_sent, 0); ?></div>
+        <div class="p-4 min-w-0 h-full rounded-md bg-gradient-to-br from-teal-500/10 via-white to-white border border-teal-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-start justify-between gap-3 min-w-0">
+            <div class="min-w-0 flex-1 space-y-1">
+                <span class="text-[11px] leading-snug font-bold uppercase tracking-wide text-teal-900 dark:text-teal-300 block">Webhooks Sent</span>
+                <div id="valWebhooks" class="text-xl leading-tight font-black tabular-nums break-words text-teal-950 dark:text-slate-100"><?php echo number_format($total_webhooks_sent, 0); ?></div>
                 <p class="text-[10px] font-medium text-slate-500 dark:text-slate-400">Users Callbacks</p>
             </div>
-            <div class="w-10 h-10 rounded-sm bg-teal-600 text-white shadow-xs flex items-center justify-center shrink-0">
+            <div class="w-10 h-10 rounded-lg bg-teal-600 text-white shadow-xs flex items-center justify-center shrink-0">
                 <i class="iclass fa-solid fa-paper-plane text-xs"></i>
             </div>
         </div>
 
         <!-- Active Settlements -->
-        <div class="p-4 rounded-md bg-gradient-to-br from-rose-500/10 via-white to-white border border-rose-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-center justify-between gap-4">
-            <div class="space-y-0.5">
-                <span class="text-[11px] font-bold uppercase tracking-wider text-rose-900 dark:text-rose-300 block">Active Settlements</span>
-                <div id="valSettlements" class="text-xl font-black text-rose-950 dark:text-slate-100"><?php echo number_format($total_active_settlements, 0); ?></div>
+        <div class="p-4 min-w-0 h-full rounded-md bg-gradient-to-br from-rose-500/10 via-white to-white border border-rose-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-start justify-between gap-3 min-w-0">
+            <div class="min-w-0 flex-1 space-y-1">
+                <span class="text-[11px] leading-snug font-bold uppercase tracking-wide text-rose-900 dark:text-rose-300 block">Active Settlements</span>
+                <div id="valSettlements" class="text-xl leading-tight font-black tabular-nums break-words text-rose-950 dark:text-slate-100"><?php echo number_format($total_active_settlements, 0); ?></div>
                 <p class="text-[10px] font-medium text-slate-500 dark:text-slate-400">Non-expired accounts</p>
             </div>
-            <div class="w-10 h-10 rounded-sm bg-rose-600 text-white shadow-xs flex items-center justify-center shrink-0">
+            <div class="w-10 h-10 rounded-lg bg-rose-600 text-white shadow-xs flex items-center justify-center shrink-0">
                 <i class="iclass fa-solid fa-building-columns text-xs"></i>
             </div>
         </div>
@@ -323,39 +323,39 @@ include 'admin-frame/header.php';
     </div>
 
     <!-- Revenue Metrics Grid (3 Fee Revenue Cards) -->
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 items-stretch">
         <!-- Top-up Fees Collected -->
-        <div class="p-4 rounded-md bg-gradient-to-br from-amber-500/10 via-white to-white border border-amber-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-center justify-between gap-4">
-            <div class="space-y-0.5">
-                <span class="text-[11px] font-bold uppercase tracking-wider text-amber-900 dark:text-amber-300 block">Top-up Fees Revenue</span>
-                <div id="valTopupFees" class="text-xl font-black text-amber-950 dark:text-slate-100">KES <?php echo number_format($total_topup_fees, 0); ?></div>
+        <div class="p-4 min-w-0 h-full rounded-md bg-gradient-to-br from-amber-500/10 via-white to-white border border-amber-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-start justify-between gap-3 min-w-0">
+            <div class="min-w-0 flex-1 space-y-1">
+                <span class="text-[11px] leading-snug font-bold uppercase tracking-wide text-amber-900 dark:text-amber-300 block">Top-up Fees Revenue</span>
+                <div id="valTopupFees" class="text-xl leading-tight font-black tabular-nums break-words text-amber-950 dark:text-slate-100">KES <?php echo number_format($total_topup_fees, 0); ?></div>
                 <p class="text-[10px] font-medium text-slate-500 dark:text-slate-400">Deducted from successful C2B top-ups</p>
             </div>
-            <div class="w-10 h-10 rounded-sm bg-amber-600 text-white shadow-xs flex items-center justify-center shrink-0">
+            <div class="w-10 h-10 rounded-lg bg-amber-600 text-white shadow-xs flex items-center justify-center shrink-0">
                 <i class="iclass fa-solid fa-coins text-xs"></i>
             </div>
         </div>
 
         <!-- Withdrawal Fees Collected -->
-        <div class="p-4 rounded-md bg-gradient-to-br from-orange-500/10 via-white to-white border border-orange-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-center justify-between gap-4">
-            <div class="space-y-0.5">
-                <span class="text-[11px] font-bold uppercase tracking-wider text-orange-900 dark:text-orange-300 block">Withdrawal Fees Revenue</span>
-                <div id="valPayoutFees" class="text-xl font-black text-orange-950 dark:text-slate-100">KES <?php echo number_format($total_payout_fees, 0); ?></div>
+        <div class="p-4 min-w-0 h-full rounded-md bg-gradient-to-br from-orange-500/10 via-white to-white border border-orange-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-start justify-between gap-3 min-w-0">
+            <div class="min-w-0 flex-1 space-y-1">
+                <span class="text-[11px] leading-snug font-bold uppercase tracking-wide text-orange-900 dark:text-orange-300 block">Withdrawal Fees Revenue</span>
+                <div id="valPayoutFees" class="text-xl leading-tight font-black tabular-nums break-words text-orange-950 dark:text-slate-100">KES <?php echo number_format($total_payout_fees, 0); ?></div>
                 <p class="text-[10px] font-medium text-slate-500 dark:text-slate-400">Deducted from successful B2C payouts</p>
             </div>
-            <div class="w-10 h-10 rounded-sm bg-orange-600 text-white shadow-xs flex items-center justify-center shrink-0">
+            <div class="w-10 h-10 rounded-lg bg-orange-600 text-white shadow-xs flex items-center justify-center shrink-0">
                 <i class="iclass fa-solid fa-file-invoice-dollar text-xs"></i>
             </div>
         </div>
 
         <!-- Total Revenue Fees Earned -->
-        <div class="p-4 rounded-md bg-gradient-to-br from-teal-500/10 via-white to-white border border-teal-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-center justify-between gap-4">
-            <div class="space-y-0.5">
-                <span class="text-[11px] font-bold uppercase tracking-wider text-teal-900 dark:text-teal-300 block">Total Fees Revenue</span>
-                <div id="valTotalRevenueFees" class="text-xl font-black text-teal-950 dark:text-slate-100">KES <?php echo number_format($total_revenue_fees, 0); ?></div>
+        <div class="p-4 min-w-0 h-full rounded-md bg-gradient-to-br from-teal-500/10 via-white to-white border border-teal-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-start justify-between gap-3 min-w-0">
+            <div class="min-w-0 flex-1 space-y-1">
+                <span class="text-[11px] leading-snug font-bold uppercase tracking-wide text-teal-900 dark:text-teal-300 block">Total Fees Revenue</span>
+                <div id="valTotalRevenueFees" class="text-xl leading-tight font-black tabular-nums break-words text-teal-950 dark:text-slate-100">KES <?php echo number_format($total_revenue_fees, 0); ?></div>
                 <p class="text-[10px] font-medium text-slate-500 dark:text-slate-400">Combined tariff fees earned</p>
             </div>
-            <div class="w-10 h-10 rounded-sm bg-teal-600 text-white shadow-xs flex items-center justify-center shrink-0">
+            <div class="w-10 h-10 rounded-lg bg-teal-600 text-white shadow-xs flex items-center justify-center shrink-0">
                 <i class="iclass fa-solid fa-chart-line text-xs"></i>
             </div>
         </div>
@@ -369,68 +369,68 @@ include 'admin-frame/header.php';
     </div>
 
     <!-- B2C Metrics Grid (8 Cards) -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-8 gap-3">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 items-stretch">
         <!-- Today Topups -->
-        <div class="p-3.5 rounded-md bg-gradient-to-br from-lime-500/10 via-white to-white border border-lime-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-center justify-between gap-3">
-            <div class="space-y-0.5">
-                <span class="text-[10px] font-bold uppercase tracking-wider text-lime-900 dark:text-lime-300 block">Today Topups</span>
-                <div id="valTodayTopups" class="text-lg font-black text-lime-950 dark:text-slate-100">
+        <div class="p-4 min-w-0 h-full rounded-md bg-gradient-to-br from-lime-500/10 via-white to-white border border-lime-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-start justify-between gap-3 min-w-0">
+            <div class="min-w-0 flex-1 space-y-1">
+                <span class="text-[10px] leading-snug font-bold uppercase tracking-wide text-lime-900 dark:text-lime-300 block">Today Topups</span>
+                <div id="valTodayTopups" class="text-xl leading-tight font-black tabular-nums break-words text-lime-950 dark:text-slate-100">
                     KES <?php echo number_format($today_b2c_topups, 0); ?>
                 </div>
                 <p class="text-[9px] font-medium text-slate-500 dark:text-slate-400">Deposited today</p>
             </div>
-            <div class="w-9 h-9 rounded-sm bg-lime-600 text-white shadow-xs flex items-center justify-center shrink-0">
+            <div class="w-9 h-9 rounded-lg bg-lime-600 text-white shadow-xs flex items-center justify-center shrink-0">
                 <i class="iclass fa-solid fa-circle-arrow-down text-xs"></i>
             </div>
         </div>
 
         <!-- Total Topups -->
-        <div class="p-3.5 rounded-md bg-gradient-to-br from-green-500/10 via-white to-white border border-green-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-center justify-between gap-3">
-            <div class="space-y-0.5">
-                <span class="text-[10px] font-bold uppercase tracking-wider text-green-900 dark:text-green-300 block">Total Topups</span>
-                <div id="valTotalTopups" class="text-lg font-black text-green-950 dark:text-slate-100">
+        <div class="p-4 min-w-0 h-full rounded-md bg-gradient-to-br from-green-500/10 via-white to-white border border-green-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-start justify-between gap-3 min-w-0">
+            <div class="min-w-0 flex-1 space-y-1">
+                <span class="text-[10px] leading-snug font-bold uppercase tracking-wide text-green-900 dark:text-green-300 block">Total Topups</span>
+                <div id="valTotalTopups" class="text-xl leading-tight font-black tabular-nums break-words text-green-950 dark:text-slate-100">
                     KES <?php echo number_format($total_b2c_topups, 0); ?>
                 </div>
                 <p class="text-[9px] font-medium text-slate-500 dark:text-slate-400">All-time topups</p>
             </div>
-            <div class="w-9 h-9 rounded-sm bg-green-600 text-white shadow-xs flex items-center justify-center shrink-0">
+            <div class="w-9 h-9 rounded-lg bg-green-600 text-white shadow-xs flex items-center justify-center shrink-0">
                 <i class="iclass fa-solid fa-piggy-bank text-xs"></i>
             </div>
         </div>
 
         <!-- Today Processed Payouts -->
-        <div class="p-3.5 rounded-md bg-gradient-to-br from-emerald-500/10 via-white to-white border border-emerald-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-center justify-between gap-3">
-            <div class="space-y-0.5">
-                <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-900 dark:text-emerald-300 block">Today Payouts</span>
-                <div id="valTodayPayouts" class="text-lg font-black text-emerald-950 dark:text-slate-100">
+        <div class="p-4 min-w-0 h-full rounded-md bg-gradient-to-br from-emerald-500/10 via-white to-white border border-emerald-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-start justify-between gap-3 min-w-0">
+            <div class="min-w-0 flex-1 space-y-1">
+                <span class="text-[10px] leading-snug font-bold uppercase tracking-wide text-emerald-900 dark:text-emerald-300 block">Today Payouts</span>
+                <div id="valTodayPayouts" class="text-xl leading-tight font-black tabular-nums break-words text-emerald-950 dark:text-slate-100">
                     KES <?php echo number_format($today_b2c_payouts, 0); ?>
                 </div>
                 <p class="text-[9px] font-medium text-slate-500 dark:text-slate-400">Disbursed today</p>
             </div>
-            <div class="w-9 h-9 rounded-sm bg-emerald-600 text-white shadow-xs flex items-center justify-center shrink-0">
+            <div class="w-9 h-9 rounded-lg bg-emerald-600 text-white shadow-xs flex items-center justify-center shrink-0">
                 <i class="iclass fa-solid fa-calendar-day text-xs"></i>
             </div>
         </div>
 
         <!-- Total Processed Payouts -->
-        <div class="p-3.5 rounded-md bg-gradient-to-br from-teal-500/10 via-white to-white border border-teal-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-center justify-between gap-3">
-            <div class="space-y-0.5">
-                <span class="text-[10px] font-bold uppercase tracking-wider text-teal-900 dark:text-teal-300 block">Total Payouts</span>
-                <div id="valTotalPayouts" class="text-lg font-black text-teal-950 dark:text-slate-100">
+        <div class="p-4 min-w-0 h-full rounded-md bg-gradient-to-br from-teal-500/10 via-white to-white border border-teal-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-start justify-between gap-3 min-w-0">
+            <div class="min-w-0 flex-1 space-y-1">
+                <span class="text-[10px] leading-snug font-bold uppercase tracking-wide text-teal-900 dark:text-teal-300 block">Total Payouts</span>
+                <div id="valTotalPayouts" class="text-xl leading-tight font-black tabular-nums break-words text-teal-950 dark:text-slate-100">
                     KES <?php echo number_format($total_b2c_payouts, 0); ?>
                 </div>
                 <p class="text-[9px] font-medium text-slate-500 dark:text-slate-400">All-time payouts</p>
             </div>
-            <div class="w-9 h-9 rounded-sm bg-teal-600 text-white shadow-xs flex items-center justify-center shrink-0">
+            <div class="w-9 h-9 rounded-lg bg-teal-600 text-white shadow-xs flex items-center justify-center shrink-0">
                 <i class="iclass fa-solid fa-paper-plane text-xs"></i>
             </div>
         </div>
 
         <!-- Admin Utility Balance -->
-        <div class="p-3.5 rounded-md bg-gradient-to-br from-teal-500/10 via-white to-white border border-teal-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-center justify-between gap-3">
-            <div class="space-y-0.5">
-                <span class="text-[10px] font-bold uppercase tracking-wider text-teal-900 dark:text-teal-300 block">Utility A/C</span>
-                <div id="valUtility" class="text-lg font-black text-teal-950 dark:text-slate-100">
+        <div class="p-4 min-w-0 h-full rounded-md bg-gradient-to-br from-teal-500/10 via-white to-white border border-teal-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-start justify-between gap-3 min-w-0">
+            <div class="min-w-0 flex-1 space-y-1">
+                <span class="text-[10px] leading-snug font-bold uppercase tracking-wide text-teal-900 dark:text-teal-300 block">Utility A/C</span>
+                <div id="valUtility" class="text-xl leading-tight font-black tabular-nums break-words text-teal-950 dark:text-slate-100">
                     KES <?php echo number_format($admin_b2c_balance, 0); ?>
                 </div>
                 <p class="text-[9px] font-medium text-slate-500 dark:text-slate-400">B2C Disbursal Funds</p>
@@ -439,49 +439,49 @@ include 'admin-frame/header.php';
                     <span id="adminBalanceRefreshStatus" class="text-[9px] text-slate-500 dark:text-slate-400" role="status" aria-live="polite"></span>
                 </div>
             </div>
-            <div class="w-9 h-9 rounded-sm bg-teal-600 text-white shadow-xs flex items-center justify-center shrink-0">
+            <div class="w-9 h-9 rounded-lg bg-teal-600 text-white shadow-xs flex items-center justify-center shrink-0">
                 <i class="iclass fa-solid fa-landmark text-xs"></i>
             </div>
         </div>
 
         <!-- Working Account Balance -->
-        <div class="p-3.5 rounded-md bg-gradient-to-br from-teal-500/10 via-white to-white border border-teal-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-center justify-between gap-3">
-            <div class="space-y-0.5">
-                <span class="text-[10px] font-bold uppercase tracking-wider text-teal-900 dark:text-teal-300 block">Working A/C</span>
-                <div id="valWorking" class="text-lg font-black text-teal-950 dark:text-slate-100">
+        <div class="p-4 min-w-0 h-full rounded-md bg-gradient-to-br from-teal-500/10 via-white to-white border border-teal-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-start justify-between gap-3 min-w-0">
+            <div class="min-w-0 flex-1 space-y-1">
+                <span class="text-[10px] leading-snug font-bold uppercase tracking-wide text-teal-900 dark:text-teal-300 block">Working A/C</span>
+                <div id="valWorking" class="text-xl leading-tight font-black tabular-nums break-words text-teal-950 dark:text-slate-100">
                     KES <?php echo number_format($working_balance, 0); ?>
                 </div>
                 <p class="text-[9px] font-medium text-slate-500 dark:text-slate-400">Settlement Wallet</p>
             </div>
-            <div class="w-9 h-9 rounded-sm bg-teal-600 text-white shadow-xs flex items-center justify-center shrink-0">
+            <div class="w-9 h-9 rounded-lg bg-teal-600 text-white shadow-xs flex items-center justify-center shrink-0">
                 <i class="iclass fa-solid fa-briefcase text-xs"></i>
             </div>
         </div>
 
         <!-- Charges Account Balance -->
-        <div class="p-3.5 rounded-md bg-gradient-to-br from-teal-500/10 via-white to-white border border-teal-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-center justify-between gap-3">
-            <div class="space-y-0.5">
-                <span class="text-[10px] font-bold uppercase tracking-wider text-teal-900 dark:text-teal-300 block">Charges A/C</span>
-                <div id="valCharges" class="text-lg font-black text-teal-950 dark:text-slate-100">
+        <div class="p-4 min-w-0 h-full rounded-md bg-gradient-to-br from-teal-500/10 via-white to-white border border-teal-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-start justify-between gap-3 min-w-0">
+            <div class="min-w-0 flex-1 space-y-1">
+                <span class="text-[10px] leading-snug font-bold uppercase tracking-wide text-teal-900 dark:text-teal-300 block">Charges A/C</span>
+                <div id="valCharges" class="text-xl leading-tight font-black tabular-nums break-words text-teal-950 dark:text-slate-100">
                     KES <?php echo number_format($charges_balance, 0); ?>
                 </div>
                 <p class="text-[9px] font-medium text-slate-500 dark:text-slate-400">Tariff Fee Balance</p>
             </div>
-            <div class="w-9 h-9 rounded-sm bg-teal-600 text-white shadow-xs flex items-center justify-center shrink-0">
+            <div class="w-9 h-9 rounded-lg bg-teal-600 text-white shadow-xs flex items-center justify-center shrink-0">
                 <i class="iclass fa-solid fa-receipt text-xs"></i>
             </div>
         </div>
 
         <!-- Total Users B2C Wallet Balances -->
-        <div class="p-3.5 rounded-md bg-gradient-to-br from-teal-500/10 via-white to-white border border-teal-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-center justify-between gap-3">
-            <div class="space-y-0.5">
-                <span class="text-[10px] font-bold uppercase tracking-wider text-teal-900 dark:text-teal-300 block">Users B2C Bal</span>
-                <div id="valUsersB2C" class="text-lg font-black text-teal-950 dark:text-slate-100">
+        <div class="p-4 min-w-0 h-full rounded-md bg-gradient-to-br from-teal-500/10 via-white to-white border border-teal-300/80 dark:bg-[#0f172a] dark:border-white/10 shadow-xs flex items-start justify-between gap-3 min-w-0">
+            <div class="min-w-0 flex-1 space-y-1">
+                <span class="text-[10px] leading-snug font-bold uppercase tracking-wide text-teal-900 dark:text-teal-300 block">Users B2C Bal</span>
+                <div id="valUsersB2C" class="text-xl leading-tight font-black tabular-nums break-words text-teal-950 dark:text-slate-100">
                     KES <?php echo number_format($total_users_b2c_balance, 0); ?>
                 </div>
                 <p class="text-[9px] font-medium text-slate-500 dark:text-slate-400">Aggregated wallets</p>
             </div>
-            <div class="w-9 h-9 rounded-sm bg-teal-600 text-white shadow-xs flex items-center justify-center shrink-0">
+            <div class="w-9 h-9 rounded-lg bg-teal-600 text-white shadow-xs flex items-center justify-center shrink-0">
                 <i class="iclass fa-solid fa-wallet text-xs"></i>
             </div>
         </div>
