@@ -131,7 +131,7 @@ include_once __DIR__ . '/admin-frame/header.php';
             <i class="iclass fa-solid fa-percent text-teal-600"></i>
             <span>Transaction Fee Tiers</span>
         </h1>
-        <p class="text-[11px] text-slate-500 mt-0.5">Configure transaction fee brackets for B2C Withdrawals and C2B Top-Ups</p>
+        <p class="text-[11px] text-slate-500 mt-0.5">Configure transaction fee brackets for B2C Withdrawals, C2B Top-Ups and B2B Payments</p>
     </div>
 
     <!-- SERVICE TOGGLE SWITCH -->
@@ -146,7 +146,7 @@ include_once __DIR__ . '/admin-frame/header.php';
         </a>
         <a href="/admin/fees_manager.php?view=b2b" class="px-3 py-1.5 rounded-sm text-xs font-bold transition flex items-center gap-2 <?= $current_view === 'b2b' ? 'bg-teal-600 text-white shadow-md' : 'text-slate-600 hover:text-slate-900' ?>">
             <i class="iclass fa-solid fa-arrow-down-long text-[11px]"></i>
-            <span>B2B Top-Up</span>
+            <span>B2B Payment</span>
         </a>
     </div>
 </div>
@@ -228,8 +228,8 @@ include_once __DIR__ . '/admin-frame/header.php';
     <div class="lg:col-span-2 dash-card rounded-sm shadow-xl overflow-hidden">
         <div class="p-4 border-b border-inherit flex items-center justify-between">
             <h2 class="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-2">
-                <i class="iclass fa-solid <?= $current_view === 'c2b' ? 'fa-arrow-down-long' : 'fa-arrow-up-from-bracket' ?> text-teal-600"></i> 
-                <span><?= $current_view === 'c2b' ? 'C2B Top-Up' : 'B2C Withdrawal' ?> Fee Brackets</span>
+                <i class="iclass fa-solid <?= $current_view === 'c2b' ? 'fa-arrow-down-long' : ($current_view === 'b2b' ? 'fa-right-left' : 'fa-arrow-up-from-bracket') ?> text-teal-600"></i> 
+                <span><?= $current_view === 'c2b' ? 'C2B Top-Up' : ($current_view === 'b2b' ? 'B2B Payment' : 'B2C Withdrawal') ?> Fee Brackets</span>
             </h2>
             <span class="text-[10px] bg-teal-500/10 border border-teal-500/20 text-teal-600 px-2 py-0.5 rounded-sm font-mono uppercase">
                 <?= count($fees) ?> Active Tiers
@@ -251,7 +251,7 @@ include_once __DIR__ . '/admin-frame/header.php';
                         <tr>
                             <td colspan="4" class="p-8 text-center text-slate-500 text-xs">
                                 <i class="iclass fa-solid fa-folder-open text-3xl text-slate-400 mb-2 block"></i>
-                                No fee tiers registered for <?= $current_view === 'c2b' ? 'C2B Top-Up' : 'B2C Withdrawal' ?> yet.
+                                No fee tiers registered for <?= $current_view === 'c2b' ? 'C2B Top-Up' : ($current_view === 'b2b' ? 'B2B Payment' : 'B2C Withdrawal') ?> yet.
                             </td>
                         </tr>
                     <?php else: ?>
